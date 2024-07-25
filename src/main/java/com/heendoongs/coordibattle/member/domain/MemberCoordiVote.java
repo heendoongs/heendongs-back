@@ -18,6 +18,6 @@ public class MemberCoordiVote {
     @JoinColumn(name = "COORDI_ID")
     private Coordi coordi;
 
-    @Column(name = "LIKE")
-    private Boolean like;
+    @Column(name = "LIKED")
+    private Boolean liked;
 }
