@@ -2,12 +2,16 @@ package com.heendoongs.coordibattle.battle.domain;
 
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
 import jakarta.persistence.*;
-
+import lombok.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Battle {
 
     @Id @GeneratedValue

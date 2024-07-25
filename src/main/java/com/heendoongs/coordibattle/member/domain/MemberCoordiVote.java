@@ -2,8 +2,16 @@ package com.heendoongs.coordibattle.member.domain;
 
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MemberCoordiVote {
 
     @Id @GeneratedValue

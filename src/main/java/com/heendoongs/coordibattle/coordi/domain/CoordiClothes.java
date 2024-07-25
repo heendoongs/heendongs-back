@@ -2,8 +2,16 @@ package com.heendoongs.coordibattle.coordi.domain;
 
 import com.heendoongs.coordibattle.clothes.domain.Clothes;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CoordiClothes {
 
     @Id @GeneratedValue

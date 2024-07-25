@@ -3,11 +3,19 @@ package com.heendoongs.coordibattle.clothes.domain;
 import com.heendoongs.coordibattle.battle.domain.BattleClothes;
 import com.heendoongs.coordibattle.coordi.domain.CoordiClothes;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Clothes {
 
     @Id @GeneratedValue
