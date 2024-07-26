@@ -19,19 +19,19 @@ import java.util.List;
 public class Member {
 
     @Id @GeneratedValue
-    @Column(name = "MEMBER_ID")
+    @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "LOGIN_ID")
+    @Column(name = "login_id")
     private String loginId;
 
-    @Column(name = "PASSWORD")
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "NICKNAME")
+    @Column(name = "nickname")
     private String nickname;
 
-    @Column(name = "CREATED_DATE")
+    @Column(name = "created_date")
     private LocalDate createdDate;
 
     @OneToMany(mappedBy = "member")

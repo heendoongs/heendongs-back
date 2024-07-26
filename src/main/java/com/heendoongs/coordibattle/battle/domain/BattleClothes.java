@@ -15,14 +15,14 @@ import lombok.NoArgsConstructor;
 public class BattleClothes {
 
     @Id @GeneratedValue
-    @Column(name = "BATTLE_CLOTHES_ID")
+    @Column(name = "battle_clothes_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BATTLE_ID")
+    @JoinColumn(name = "battle_id")
     private Battle battle;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CLOTHES_ID")
+    @JoinColumn(name = "clothes_id")
     private Clothes clothes;
 }

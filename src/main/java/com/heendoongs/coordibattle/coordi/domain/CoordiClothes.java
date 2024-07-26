@@ -15,14 +15,14 @@ import lombok.NoArgsConstructor;
 public class CoordiClothes {
 
     @Id @GeneratedValue
-    @Column(name = "COORDI_CLOTHES_ID")
+    @Column(name = "coordi_clothes_id")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "COORDI_ID")
+    @JoinColumn(name = "coordi_id")
     private Coordi coordi;
 
     @ManyToOne
-    @JoinColumn(name = "CLOTHES_ID")
+    @JoinColumn(name = "clothes_id")
     private Clothes clothes;
 }

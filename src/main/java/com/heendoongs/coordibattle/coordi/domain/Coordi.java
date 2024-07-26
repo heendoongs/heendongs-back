@@ -21,24 +21,25 @@ import java.util.List;
 public class Coordi {
 
     @Id @GeneratedValue
-    @Column(name = "COORDI_ID")
+    @Column(name = "coordi_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MEMBER_ID")
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BATTLE_ID")
+    @JoinColumn(name = "battle_id")
     private Battle battle;
 
-    @Column(name = "TITLE")
+    @Column(name = "title")
     private String title;
 
-    @Column(name = "COORDI_IMAGE")
+    @Lob
+    @Column(name = "coordi_image")
     private byte[] coordiImage;
 
-    @Column(name = "CREATED_DATE")
+    @Column(name = "created_date")
     private LocalDate createdDate;
 
     @OneToMany(mappedBy = "coordi")

@@ -15,22 +15,22 @@ import java.util.List;
 public class Battle {
 
     @Id @GeneratedValue
-    @Column(name = "BATTLE_ID")
+    @Column(name = "battle_id")
     private Long id;
 
-    @Column(name = "BANNER_IMAGE_URL")
+    @Column(name = "banner_image_url")
     private String bannerImageURL;
 
-    @Column(name = "VOTE_START_DATE")
+    @Column(name = "vote_start_date")
     private LocalDate voteStartDate;
 
-    @Column(name = "VOTE_END_DATE")
+    @Column(name = "vote_end_date")
     private LocalDate voteEndDate;
 
-    @Column(name = "COORDI_START_DATE")
+    @Column(name = "coordi_start_date")
     private LocalDate coordiStartDate;
 
-    @Column(name = "COORDI_END_DATE")
+    @Column(name = "coordi_end_date")
     private LocalDate coordiEndDate;
 
     @OneToMany(mappedBy = "battle")

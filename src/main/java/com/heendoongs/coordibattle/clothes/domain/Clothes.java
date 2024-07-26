@@ -19,25 +19,25 @@ import java.util.List;
 public class Clothes {
 
     @Id @GeneratedValue
-    @Column(name = "CLOTH_ID")
+    @Column(name = "cloth_id")
     private Long id;
 
-    @Column(name = "TYPE")
+    @Column(name = "type")
     private String Type;
 
-    @Column(name = "PRODUCT_NAME")
+    @Column(name = "product_name")
     private String productName;
 
-    @Column(name = "BRAND")
+    @Column(name = "brand")
     private String brand;
 
-    @Column(name = "PRICE")
+    @Column(name = "price")
     private Integer price;
 
-    @Column(name = "CLOTH_IMAGE_URL")
+    @Column(name = "cloth_image_url")
     private String clothImageURL;
 
-    @Column(name = "PRODUCT_URL")
+    @Column(name = "product_url")
     private String productURL;
 
     @OneToMany(mappedBy = "clothes")
