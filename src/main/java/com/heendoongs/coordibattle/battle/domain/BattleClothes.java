@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "battle_clothes", schema = "COORDIBATTLE")
 public class BattleClothes {
 
     @Id @GeneratedValue

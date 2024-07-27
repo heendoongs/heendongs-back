@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "clothes", schema = "COORDIBATTLE")
 public class Clothes {
 
     @Id @GeneratedValue

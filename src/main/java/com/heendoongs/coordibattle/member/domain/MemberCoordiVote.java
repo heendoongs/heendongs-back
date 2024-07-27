@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "member_coordi_vote", schema = "COORDIBATTLE")
 public class MemberCoordiVote {
 
     @Id @GeneratedValue

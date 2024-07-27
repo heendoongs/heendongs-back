@@ -12,11 +12,15 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "battle", schema = "COORDIBATTLE")
 public class Battle {
 
     @Id @GeneratedValue
     @Column(name = "battle_id")
     private Long id;
+
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "banner_image_url")
     private String bannerImageURL;
