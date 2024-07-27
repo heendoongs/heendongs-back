@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name = "member", schema = "COORDIBATTLE")
+@EntityListeners(AuditingEntityListener.class)
 public class Member {
 
     @Id @GeneratedValue
@@ -33,6 +36,7 @@ public class Member {
     private String nickname;
 
     @Column(name = "create_date")
+    @CreatedDate
     private LocalDate createDate;
 
     @OneToMany(mappedBy = "member")

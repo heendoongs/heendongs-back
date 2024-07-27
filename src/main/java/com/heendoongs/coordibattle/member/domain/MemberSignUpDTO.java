@@ -1,0 +1,44 @@
+package com.heendoongs.coordibattle.member.domain;
+
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
+
+/**
+ * 회원가입 DTO
+ * @author 조희정
+ * @since 2024.07.27
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.27  	조희정       최초 생성
+ * </pre>
+ */
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class MemberSignUpDTO {
+
+    @NotBlank(message = "아이디를 입력해주세요.")
+    private String loginId;
+
+    @NotBlank(message = "비밀번호를 입력해주세요.")
+    private String password;
+
+    private String checkedPassword;
+
+    @NotBlank(message = "닉네임을 입력해주세요.")
+    @Size(max=3, message = "닉네임은 최대 3자까지 가능합니다.")
+    private String nickname;
+
+    public Member toEntity() {
+        return Member.builder().loginId(loginId).password(password).nickname(nickname).build();
+    }
+
+}
