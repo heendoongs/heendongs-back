@@ -24,6 +24,6 @@ public class CoordiClothes {
     private Coordi coordi;
 
     @ManyToOne
-    @JoinColumn(name = "clothes_id")
+    @JoinColumn(name = "cloth_id")
     private Clothes clothes;
 }

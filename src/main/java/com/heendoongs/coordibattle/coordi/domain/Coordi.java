@@ -40,8 +40,8 @@ public class Coordi {
     @Column(name = "coordi_image")
     private byte[] coordiImage;
 
-    @Column(name = "created_date")
-    private LocalDate createdDate;
+    @Column(name = "create_date")
+    private LocalDate createDate;
 
     @OneToMany(mappedBy = "coordi")
     List<MemberCoordiVote> memberCoordiVotes = new ArrayList<>();

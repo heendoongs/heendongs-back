@@ -24,6 +24,6 @@ public class BattleClothes {
     private Battle battle;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "clothes_id")
+    @JoinColumn(name = "cloth_id")
     private Clothes clothes;
 }

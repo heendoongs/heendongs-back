@@ -32,8 +32,8 @@ public class Member {
     @Column(name = "nickname")
     private String nickname;
 
-    @Column(name = "created_date")
-    private LocalDate createdDate;
+    @Column(name = "create_date")
+    private LocalDate createDate;
 
     @OneToMany(mappedBy = "member")
     List<Coordi> coordies = new ArrayList<>();
