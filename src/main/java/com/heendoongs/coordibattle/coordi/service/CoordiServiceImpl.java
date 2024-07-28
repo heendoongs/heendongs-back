@@ -4,10 +4,16 @@ import com.heendoongs.coordibattle.clothes.domain.ClothDetailsResponseDto;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
 import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsResponseDto;
 import com.heendoongs.coordibattle.coordi.repository.CoordiRepository;
+import com.heendoongs.coordibattle.member.domain.Member;
+import com.heendoongs.coordibattle.member.domain.MemberCoordiVote;
+import com.heendoongs.coordibattle.member.repository.MemberCoordiVoteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -21,6 +27,7 @@ import java.util.stream.Collectors;
  * ----------  --------    ---------------------------
  * 2024.07.26  	임원정       최초 생성
  * 2024.07.28   남진수       getCoordiDetails 메소드 추가
+ * 2024.07.28   남진수       likeCoordi 메소드 추가
  * </pre>
  */
 
@@ -29,6 +36,7 @@ import java.util.stream.Collectors;
 public class CoordiServiceImpl implements CoordiService {
 
     private final CoordiRepository coordiRepository;
+    private final MemberCoordiVoteRepository memberCoordiVoteRepository;
 
     public CoordiDetailsResponseDto getCoordiDetails(Long coordiId) {
 
@@ -66,7 +74,25 @@ public class CoordiServiceImpl implements CoordiService {
                 .build();
     }
 
-    //좋아요, 좋아요 취소 기능
-    //MemberCoordiVotes에 없다면 새로 추가해주는것까지.
+    @Transactional
+    public CoordiDetailsResponseDto likeCoordi(Long memberId, Long coordiId) {
+        Optional<MemberCoordiVote> existingVote = memberCoordiVoteRepository.findByMemberIdAndCoordiId(memberId, coordiId);
 
+        MemberCoordiVote memberCoordiVote;
+        if (existingVote.isPresent()) {
+            memberCoordiVote = existingVote.get();
+            memberCoordiVote = memberCoordiVote.toBuilder()
+                    .liked(memberCoordiVote.getLiked() == 'Y' ? 'N' : 'Y')
+                    .build();
+        } else {
+            memberCoordiVote = MemberCoordiVote.builder()
+                    .member(new Member(memberId))
+                    .coordi(new Coordi(coordiId))
+                    .liked('Y')
+                    .build();
+        }
+
+        memberCoordiVoteRepository.save(memberCoordiVote);
+        return getCoordiDetails(coordiId);
+    }
 }
