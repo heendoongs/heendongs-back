@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberCoordiVoteResponseDto {
+public class MemberCoordiVoteResponseDTO {
     private Long memberId;
     private Long coordiId;
     private Character liked;

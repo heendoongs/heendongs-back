@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class BattleResponseDto {
+public class BattleResponseDTO {
     private Long coordiId;
     private String coordiTitle;
     private String coordiImage;

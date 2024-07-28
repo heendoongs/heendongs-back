@@ -1,7 +1,7 @@
 package com.heendoongs.coordibattle.coordi.service;
 
-import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsRequestDto;
-import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsResponseDto;
+import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsRequestDTO;
+import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsResponseDTO;
 
 /**
  * 코디 서비스
@@ -21,8 +21,8 @@ import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsResponseDto;
  */
 
 public interface CoordiService {
-    CoordiDetailsResponseDto getCoordiDetails(Long coordiId);
-    CoordiDetailsResponseDto likeCoordi(Long memberId, Long coordiId);
-    CoordiDetailsResponseDto updateCoordi(Long memberId, Long coordiId, CoordiDetailsRequestDto requestDto);
+    CoordiDetailsResponseDTO getCoordiDetails(Long coordiId);
+    CoordiDetailsResponseDTO likeCoordi(Long memberId, Long coordiId);
+    CoordiDetailsResponseDTO updateCoordi(Long memberId, Long coordiId, CoordiDetailsRequestDTO requestDTO);
     void deleteCoordi(Long memberId, Long coordiId);
 }

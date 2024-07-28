@@ -1,12 +1,12 @@
 package com.heendoongs.coordibattle.battle.service;
 
-import com.heendoongs.coordibattle.battle.domain.BattleResponseDto;
+import com.heendoongs.coordibattle.battle.domain.BattleResponseDTO;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
 import com.heendoongs.coordibattle.coordi.repository.CoordiRepository;
 import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.domain.MemberCoordiVote;
-import com.heendoongs.coordibattle.member.domain.MemberCoordiVoteRequestDto;
-import com.heendoongs.coordibattle.member.domain.MemberCoordiVoteResponseDto;
+import com.heendoongs.coordibattle.member.domain.MemberCoordiVoteRequestDTO;
+import com.heendoongs.coordibattle.member.domain.MemberCoordiVoteResponseDTO;
 import com.heendoongs.coordibattle.member.repository.MemberCoordiVoteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ public class BattleServiceImpl implements BattleService{
     private final CoordiRepository coordiRepository;
     private final MemberCoordiVoteRepository memberCoordiVoteRepository;
 
-    public List<BattleResponseDto> getBattleCoordies(Long battleId, Long memberId) {
+    public List<BattleResponseDTO> getBattleCoordies(Long battleId, Long memberId) {
 
         List<Coordi> unvotedCoordies = coordiRepository.findUnvotedCoordies(battleId, memberId);
         Collections.shuffle(unvotedCoordies);
@@ -51,30 +51,30 @@ public class BattleServiceImpl implements BattleService{
     }
 
     @Transactional
-    public BattleResponseDto postBattleResult(MemberCoordiVoteRequestDto memberCoordiVoteRequestDto) {
+    public BattleResponseDTO postBattleResult(MemberCoordiVoteRequestDTO memberCoordiVoteRequestDTO) {
 
-        Long memberId = memberCoordiVoteRequestDto.getMemberId();
-        Long winnerCoordiId = memberCoordiVoteRequestDto.getWinnerCoordiId();
-        Long loserCoordiId = memberCoordiVoteRequestDto.getLoserCoordiId();
+        Long memberId = memberCoordiVoteRequestDTO.getMemberId();
+        Long winnerCoordiId = memberCoordiVoteRequestDTO.getWinnerCoordiId();
+        Long loserCoordiId = memberCoordiVoteRequestDTO.getLoserCoordiId();
 
-        MemberCoordiVoteResponseDto winnerVoteDto = MemberCoordiVoteResponseDto.builder()
+        MemberCoordiVoteResponseDTO winnerVoteDTO = MemberCoordiVoteResponseDTO.builder()
                 .memberId(memberId)
                 .coordiId(winnerCoordiId)
                 .liked('Y')
                 .build();
-        saveMemberCoordiVote(winnerVoteDto);
+        saveMemberCoordiVote(winnerVoteDTO);
 
-        MemberCoordiVoteResponseDto loserVoteDto = MemberCoordiVoteResponseDto.builder()
+        MemberCoordiVoteResponseDTO loserVoteDTO = MemberCoordiVoteResponseDTO.builder()
                 .memberId(memberId)
                 .coordiId(loserCoordiId)
                 .liked('N')
                 .build();
-        saveMemberCoordiVote(loserVoteDto);
+        saveMemberCoordiVote(loserVoteDTO);
 
         Coordi winnerCoordi = coordiRepository.findById(winnerCoordiId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid winnerCoordiId"));
 
-        return BattleResponseDto.builder()
+        return BattleResponseDTO.builder()
                 .coordiId(winnerCoordi.getId())
                 .coordiTitle(winnerCoordi.getTitle())
                 .coordiImage(new String(winnerCoordi.getCoordiImage()))
@@ -82,17 +82,17 @@ public class BattleServiceImpl implements BattleService{
                 .build();
     }
 
-    private void saveMemberCoordiVote(MemberCoordiVoteResponseDto dto) {
+    private void saveMemberCoordiVote(MemberCoordiVoteResponseDTO memberCoordiVoteResponseDTO) {
         MemberCoordiVote memberCoordiVote = MemberCoordiVote.builder()
-                .member(new Member(dto.getMemberId()))
-                .coordi(new Coordi(dto.getCoordiId()))
-                .liked(dto.getLiked())
+                .member(new Member(memberCoordiVoteResponseDTO.getMemberId()))
+                .coordi(new Coordi(memberCoordiVoteResponseDTO.getCoordiId()))
+                .liked(memberCoordiVoteResponseDTO.getLiked())
                 .build();
         memberCoordiVoteRepository.save(memberCoordiVote);
     }
 
-    private BattleResponseDto convertToResponseDto(Coordi coordi) {
-        return BattleResponseDto.builder()
+    private BattleResponseDTO convertToResponseDto(Coordi coordi) {
+        return BattleResponseDTO.builder()
                 .coordiId(coordi.getId())
                 .coordiTitle(coordi.getTitle())
                 .coordiImage(new String(coordi.getCoordiImage()))

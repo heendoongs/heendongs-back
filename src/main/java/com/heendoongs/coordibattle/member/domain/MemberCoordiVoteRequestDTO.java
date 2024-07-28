@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberCoordiVoteRequestDto {
+public class MemberCoordiVoteRequestDTO {
     private Long memberId;
     private Long winnerCoordiId;
     private Long loserCoordiId;

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CoordiDetailsRequestDto {
+public class CoordiDetailsRequestDTO {
     private Long memberId;
     private Long battleId;
     private String coordiTitle;

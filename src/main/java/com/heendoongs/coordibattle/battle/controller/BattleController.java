@@ -1,8 +1,8 @@
 package com.heendoongs.coordibattle.battle.controller;
 
-import com.heendoongs.coordibattle.battle.domain.BattleResponseDto;
+import com.heendoongs.coordibattle.battle.domain.BattleResponseDTO;
 import com.heendoongs.coordibattle.battle.service.BattleService;
-import com.heendoongs.coordibattle.member.domain.MemberCoordiVoteRequestDto;
+import com.heendoongs.coordibattle.member.domain.MemberCoordiVoteRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,15 +30,15 @@ public class BattleController {
     private final BattleService battleService;
 
     @GetMapping("/battle")
-    public ResponseEntity<List<BattleResponseDto>> getBattleCoordies(@RequestParam Long battleId, @RequestParam Long memberId) {
-        List<BattleResponseDto> responseDtos = battleService.getBattleCoordies(battleId, memberId);
-        return ResponseEntity.ok(responseDtos);
+    public ResponseEntity<List<BattleResponseDTO>> getBattleCoordies(@RequestParam Long battleId, @RequestParam Long memberId) {
+        List<BattleResponseDTO> responseDTOs = battleService.getBattleCoordies(battleId, memberId);
+        return ResponseEntity.ok(responseDTOs);
     }
 
     @PostMapping("/battle")
-    public ResponseEntity<BattleResponseDto> postBattleResult(@RequestBody MemberCoordiVoteRequestDto memberCoordiVoteRequestDto) {
-        BattleResponseDto battleResponseDto = battleService.postBattleResult(memberCoordiVoteRequestDto);
-        return ResponseEntity.ok(battleResponseDto);
+    public ResponseEntity<BattleResponseDTO> postBattleResult(@RequestBody MemberCoordiVoteRequestDTO memberCoordiVoteRequestDTO) {
+        BattleResponseDTO battleResponseDTO = battleService.postBattleResult(memberCoordiVoteRequestDTO);
+        return ResponseEntity.ok(battleResponseDTO);
     }
 
 }

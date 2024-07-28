@@ -1,6 +1,6 @@
 package com.heendoongs.coordibattle.coordi.domain;
 
-import com.heendoongs.coordibattle.clothes.domain.ClothDetailsResponseDto;
+import com.heendoongs.coordibattle.clothes.domain.ClothDetailsResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,12 +12,12 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CoordiDetailsResponseDto {
+public class CoordiDetailsResponseDTO {
     private Long memberId;
     private String nickname;
     private LocalDate createDate;
     private String coordiImage;
     private String coordiTitle;
-    private List<ClothDetailsResponseDto> clothesList;
+    private List<ClothDetailsResponseDTO> clothesList;
     private Integer voteCount;
 }

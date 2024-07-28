@@ -1,9 +1,9 @@
 package com.heendoongs.coordibattle.coordi.service;
 
-import com.heendoongs.coordibattle.clothes.domain.ClothDetailsResponseDto;
+import com.heendoongs.coordibattle.clothes.domain.ClothDetailsResponseDTO;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
-import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsRequestDto;
-import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsResponseDto;
+import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsRequestDTO;
+import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsResponseDTO;
 import com.heendoongs.coordibattle.coordi.repository.CoordiRepository;
 import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.domain.MemberCoordiVote;
@@ -41,7 +41,7 @@ public class CoordiServiceImpl implements CoordiService {
     private final CoordiRepository coordiRepository;
     private final MemberCoordiVoteRepository memberCoordiVoteRepository;
 
-    public CoordiDetailsResponseDto getCoordiDetails(Long coordiId) {
+    public CoordiDetailsResponseDTO getCoordiDetails(Long coordiId) {
 
         Coordi coordi = coordiRepository.findById(coordiId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid coordiId"));
@@ -52,8 +52,8 @@ public class CoordiServiceImpl implements CoordiService {
         String coordiImage = new String(coordi.getCoordiImage());
         String coordiTitle = coordi.getTitle();
 
-        List<ClothDetailsResponseDto> clothesList = coordi.getCoordiClothes().stream()
-                .map(coordiClothes -> new ClothDetailsResponseDto(
+        List<ClothDetailsResponseDTO> clothesList = coordi.getCoordiClothes().stream()
+                .map(coordiClothes -> new ClothDetailsResponseDTO(
                         coordiClothes.getClothes().getId(),
                         coordiClothes.getClothes().getBrand(),
                         coordiClothes.getClothes().getProductName(),
@@ -66,7 +66,7 @@ public class CoordiServiceImpl implements CoordiService {
                 .filter(vote -> vote.getLiked() != null && vote.getLiked() == 'Y')
                 .count();
 
-        return CoordiDetailsResponseDto.builder()
+        return CoordiDetailsResponseDTO.builder()
                 .memberId(memberId)
                 .nickname(nickname)
                 .createDate(createDate)
@@ -78,7 +78,7 @@ public class CoordiServiceImpl implements CoordiService {
     }
 
     @Transactional
-    public CoordiDetailsResponseDto likeCoordi(Long memberId, Long coordiId) {
+    public CoordiDetailsResponseDTO likeCoordi(Long memberId, Long coordiId) {
         Optional<MemberCoordiVote> existingVote = memberCoordiVoteRepository.findByMemberIdAndCoordiId(memberId, coordiId);
 
         MemberCoordiVote memberCoordiVote;
@@ -100,7 +100,7 @@ public class CoordiServiceImpl implements CoordiService {
     }
 
     @Transactional
-    public CoordiDetailsResponseDto updateCoordi(Long memberId, Long coordiId, CoordiDetailsRequestDto requestDto) {
+    public CoordiDetailsResponseDTO updateCoordi(Long memberId, Long coordiId, CoordiDetailsRequestDTO requestDTO) {
         Coordi coordi = coordiRepository.findById(coordiId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid coordiId"));
 
@@ -109,7 +109,7 @@ public class CoordiServiceImpl implements CoordiService {
         }
 
         coordi = coordi.toBuilder()
-                .title(requestDto.getCoordiTitle())
+                .title(requestDTO.getCoordiTitle())
                 .build();
 
         if (!isCoordiPeriod(coordiId)) {

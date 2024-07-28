@@ -1,7 +1,7 @@
 package com.heendoongs.coordibattle.coordi.controller;
 
-import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsRequestDto;
-import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsResponseDto;
+import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsRequestDTO;
+import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsResponseDTO;
 import com.heendoongs.coordibattle.coordi.service.CoordiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,21 +32,21 @@ public class CoordiController {
     private final CoordiService coordiService;
 
     @GetMapping("/details")
-    public ResponseEntity<CoordiDetailsResponseDto> getCoordiDetails(@RequestParam Long coordiId) {
-        CoordiDetailsResponseDto coordiDetailsResponseDto = coordiService.getCoordiDetails(coordiId);
-        return ResponseEntity.ok(coordiDetailsResponseDto);
+    public ResponseEntity<CoordiDetailsResponseDTO> getCoordiDetails(@RequestParam Long coordiId) {
+        CoordiDetailsResponseDTO coordiDetailsResponseDTO = coordiService.getCoordiDetails(coordiId);
+        return ResponseEntity.ok(coordiDetailsResponseDTO);
     }
 
     @GetMapping("/like")
-    public ResponseEntity<CoordiDetailsResponseDto> likeCoordi(@RequestParam Long memberId, @RequestParam Long coordiId) {
-        CoordiDetailsResponseDto coordiDetailsResponseDto = coordiService.likeCoordi(memberId, coordiId);
-        return ResponseEntity.ok(coordiDetailsResponseDto);
+    public ResponseEntity<CoordiDetailsResponseDTO> likeCoordi(@RequestParam Long memberId, @RequestParam Long coordiId) {
+        CoordiDetailsResponseDTO coordiDetailsResponseDTO = coordiService.likeCoordi(memberId, coordiId);
+        return ResponseEntity.ok(coordiDetailsResponseDTO);
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<CoordiDetailsResponseDto> updateCoordi(@RequestParam Long memberId, @RequestParam Long coordiId, @RequestBody CoordiDetailsRequestDto requestDto) {
-        CoordiDetailsResponseDto coordiDetailsResponseDto = coordiService.updateCoordi(memberId, coordiId, requestDto);
-        return ResponseEntity.ok(coordiDetailsResponseDto);
+    public ResponseEntity<CoordiDetailsResponseDTO> updateCoordi(@RequestParam Long memberId, @RequestParam Long coordiId, @RequestBody CoordiDetailsRequestDTO requestDTO) {
+        CoordiDetailsResponseDTO coordiDetailsResponseDTO = coordiService.updateCoordi(memberId, coordiId, requestDTO);
+        return ResponseEntity.ok(coordiDetailsResponseDTO);
     }
 
     @DeleteMapping("/delete")
