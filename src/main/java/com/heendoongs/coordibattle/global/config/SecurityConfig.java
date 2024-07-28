@@ -1,12 +1,19 @@
 package com.heendoongs.coordibattle.global.config;
 
+import com.heendoongs.coordibattle.global.jwt.JWTFilter;
+import com.heendoongs.coordibattle.global.jwt.JWTUtil;
+import com.heendoongs.coordibattle.global.jwt.LoginFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * 스프링 시큐리티 설정
@@ -18,19 +25,25 @@ import org.springframework.security.web.SecurityFilterChain;
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.07.27  	조희정       최초 생성
+ * 2024.07.27  	조희정       filterChain 메소드 생성
+ * 2024.07.27  	조희정       filterChain 메소드에 JWTFilter 추가
  * </pre>
  */
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-    /**
-     * 비밀번호 암호화
-     * @return
-     */
+    private final AuthenticationConfiguration authenticationConfiguration;
+    private final JWTUtil jwtUtil;
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
+    }
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
-
         return new BCryptPasswordEncoder();
     }
 
@@ -56,6 +69,10 @@ public class SecurityConfig {
         http.authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/", "/login", "/signup").permitAll()
                         .anyRequest().authenticated());
+
+        // 필터 추가
+        http.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
+        http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         // 세션 설정
         http.sessionManagement((session) -> session

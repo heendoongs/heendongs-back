@@ -44,4 +44,5 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     List<MemberCoordiVote> memberCoordiVotes = new ArrayList<>();
+
 }

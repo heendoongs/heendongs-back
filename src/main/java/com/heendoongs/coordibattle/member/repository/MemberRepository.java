@@ -2,6 +2,7 @@ package com.heendoongs.coordibattle.member.repository;
 
 import com.heendoongs.coordibattle.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * 멤버 레포지토리
@@ -14,10 +15,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * ----------  --------    ---------------------------
  * 2024.07.27  	조희정       최초 생성
  * 2024.07.27  	조희정       existsByLoginId, existsByNickname 메소드 추가
+ * 2024.07.28  	조희정       findByLoginId 메소드 추가
  *
  * </pre>
  */
 
+@Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     /**
@@ -33,4 +36,11 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      * @return
      */
     Boolean existsByNickname(String nickname);
+
+    /**
+     * 로그인 아이디로 검색
+     * @param username
+     * @return
+     */
+    Member findByLoginId(String username);
 }

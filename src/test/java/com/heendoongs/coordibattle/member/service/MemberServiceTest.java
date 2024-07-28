@@ -1,7 +1,7 @@
 package com.heendoongs.coordibattle.member.service;
 
 import com.heendoongs.coordibattle.member.domain.Member;
-import com.heendoongs.coordibattle.member.domain.MemberSignUpDTO;
+import com.heendoongs.coordibattle.member.domain.MemberSignUpRequestDTO;
 import com.heendoongs.coordibattle.member.repository.MemberRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -37,8 +37,8 @@ class MemberServiceTest {
         em.clear();
     }
 
-    private MemberSignUpDTO makeMemberSignUpDTO() {
-        return MemberSignUpDTO.builder()
+    private MemberSignUpRequestDTO makeMemberSignUpDTO() {
+        return MemberSignUpRequestDTO.builder()
                 .loginId("memberId")
                 .password(PASSWORD)
                 .nickname("name")
@@ -59,54 +59,54 @@ class MemberServiceTest {
     @Test
     public void 회원가입_성공() throws Exception {
         //given
-        MemberSignUpDTO memberSignUpDTO = makeMemberSignUpDTO();
+        MemberSignUpRequestDTO memberSignUpRequestDTO = makeMemberSignUpDTO();
 
         //when
-        memberService.signUp(memberSignUpDTO);
+        memberService.signUp(memberSignUpRequestDTO);
         clear();
 
         //then  TODO : 여기 MEMBEREXCEPTION으로 고치기
         Member member = memberRepository.findById(104L).orElseThrow(() -> new Exception("회원이 없습니다"));
         assertThat(member.getId()).isNotNull();
-        assertThat(member.getLoginId()).isEqualTo(memberSignUpDTO.getLoginId());
-        assertThat(member.getNickname()).isEqualTo(memberSignUpDTO.getNickname());
+        assertThat(member.getLoginId()).isEqualTo(memberSignUpRequestDTO.getLoginId());
+        assertThat(member.getNickname()).isEqualTo(memberSignUpRequestDTO.getNickname());
     }
 
     @Test
     public void 회원가입_실패_원인_아이디_닉네임_중복() throws Exception {
         //given
-        MemberSignUpDTO MemberSignUpDTO = makeMemberSignUpDTO();
-        memberService.signUp(MemberSignUpDTO);
+        MemberSignUpRequestDTO MemberSignUpRequestDTO = makeMemberSignUpDTO();
+        memberService.signUp(MemberSignUpRequestDTO);
         clear();
 
         //when, then TODO : MemberException으로 고쳐야 함
-        assertThat(assertThrows(Exception.class, () -> memberService.signUp(MemberSignUpDTO)).getMessage()).isEqualTo("이미 존재하는 아이디입니다.");
-        assertThat(assertThrows(Exception.class, () -> memberService.signUp(MemberSignUpDTO)).getMessage()).isEqualTo("이미 존재하는 닉네임입니다.");
+        assertThat(assertThrows(Exception.class, () -> memberService.signUp(MemberSignUpRequestDTO)).getMessage()).isEqualTo("이미 존재하는 아이디입니다.");
+        assertThat(assertThrows(Exception.class, () -> memberService.signUp(MemberSignUpRequestDTO)).getMessage()).isEqualTo("이미 존재하는 닉네임입니다.");
     }
 
 
     @Test
     public void 회원가입_실패_입력하지않은_필드가있으면_오류() throws Exception {
         //given
-        MemberSignUpDTO MemberSignUpDTO1 = MemberSignUpDTO.builder()
+        MemberSignUpRequestDTO memberSignUpRequestDTO1 = MemberSignUpRequestDTO.builder()
                 .loginId(null)
                 .password(PASSWORD)
                 .nickname("name")
                 .build();
-        MemberSignUpDTO MemberSignUpDTO2 = MemberSignUpDTO.builder()
+        MemberSignUpRequestDTO memberSignUpRequestDTO2 = MemberSignUpRequestDTO.builder()
                 .loginId("memberId")
                 .password(null)
                 .nickname("name")
                 .build();
-        MemberSignUpDTO MemberSignUpDTO3 = MemberSignUpDTO.builder()
+        MemberSignUpRequestDTO memberSignUpRequestDTO3 = MemberSignUpRequestDTO.builder()
                 .loginId("memberId")
                 .password(PASSWORD)
                 .nickname(null)
                 .build();
 
         //when, then
-        assertThrows(Exception.class, () -> memberService.signUp(MemberSignUpDTO1));
-        assertThrows(Exception.class, () -> memberService.signUp(MemberSignUpDTO2));
-        assertThrows(Exception.class, () -> memberService.signUp(MemberSignUpDTO3));
+        assertThrows(Exception.class, () -> memberService.signUp(memberSignUpRequestDTO1));
+        assertThrows(Exception.class, () -> memberService.signUp(memberSignUpRequestDTO2));
+        assertThrows(Exception.class, () -> memberService.signUp(memberSignUpRequestDTO3));
     }
 }

@@ -1,6 +1,6 @@
 package com.heendoongs.coordibattle.member.controller;
 
-import com.heendoongs.coordibattle.member.domain.MemberSignUpDTO;
+import com.heendoongs.coordibattle.member.domain.MemberSignUpRequestDTO;
 import com.heendoongs.coordibattle.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,19 @@ public class MemberController {
 
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
-    private void signUp(@Valid @RequestBody MemberSignUpDTO memberSignUpDTO) throws Exception {
-        memberService.signUp(memberSignUpDTO);
+    private void signUp(@Valid @RequestBody MemberSignUpRequestDTO memberSignUpRequestDTO) throws Exception {
+        memberService.signUp(memberSignUpRequestDTO);
+    }
+
+    @GetMapping("/test")
+    @ResponseStatus(HttpStatus.OK)
+    private String testPage () {
+        return "test page입니다";
+    }
+
+    @GetMapping("/")
+    @ResponseStatus(HttpStatus.OK)
+    private String homePage () {
+        return "기본 페이지 입니다";
     }
 }

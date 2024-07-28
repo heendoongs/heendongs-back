@@ -1,6 +1,6 @@
 package com.heendoongs.coordibattle.member.service;
 
-import com.heendoongs.coordibattle.member.domain.MemberSignUpDTO;
+import com.heendoongs.coordibattle.member.domain.MemberSignUpRequestDTO;
 
 /**
  * 멤버 서비스 인터페이스
@@ -20,9 +20,9 @@ public interface MemberService {
 
     /**
      * 회원가입
-     * @param memberSignUpDto
+     * @param memberSignUpRequestDto
      * @throws Exception
      */
-    void signUp(MemberSignUpDTO memberSignUpDto) throws Exception;
+    void signUp(MemberSignUpRequestDTO memberSignUpRequestDto) throws Exception;
 
 }

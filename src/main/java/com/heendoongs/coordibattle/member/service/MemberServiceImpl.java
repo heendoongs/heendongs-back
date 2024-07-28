@@ -1,7 +1,7 @@
 package com.heendoongs.coordibattle.member.service;
 
 import com.heendoongs.coordibattle.member.domain.Member;
-import com.heendoongs.coordibattle.member.domain.MemberSignUpDTO;
+import com.heendoongs.coordibattle.member.domain.MemberSignUpRequestDTO;
 import com.heendoongs.coordibattle.member.exception.MemberException;
 import com.heendoongs.coordibattle.member.exception.MemberExceptionType;
 import com.heendoongs.coordibattle.member.repository.MemberRepository;
@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
- * 멤버 서비스
+ * 멤버 서비스 구현체
  * @author 조희정
  * @since 2024.07.27
  * @version 1.0
@@ -33,15 +33,15 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 회원가입
-     * @param memberSignUpDTO
+     * @param memberSignUpRequestDTO
      * @throws Exception
      */
     @Override
-    public void signUp(MemberSignUpDTO memberSignUpDTO) throws Exception {
+    public void signUp(MemberSignUpRequestDTO memberSignUpRequestDTO) throws Exception {
 
-        String loginId = memberSignUpDTO.getLoginId();
-        String password = memberSignUpDTO.getPassword();
-        String nickname = memberSignUpDTO.getNickname();
+        String loginId = memberSignUpRequestDTO.getLoginId();
+        String password = memberSignUpRequestDTO.getPassword();
+        String nickname = memberSignUpRequestDTO.getNickname();
 
         // 아이디, 닉네임 중복 여부 확인
         if (memberRepository.existsByLoginId(loginId)) {

@@ -23,7 +23,7 @@ import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBl
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberSignUpDTO {
+public class MemberSignUpRequestDTO {
 
     @NotBlank(message = "아이디를 입력해주세요.")
     private String loginId;
@@ -31,14 +31,7 @@ public class MemberSignUpDTO {
     @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password;
 
-    private String checkedPassword;
-
     @NotBlank(message = "닉네임을 입력해주세요.")
     @Size(max=3, message = "닉네임은 최대 3자까지 가능합니다.")
     private String nickname;
-
-    public Member toEntity() {
-        return Member.builder().loginId(loginId).password(password).nickname(nickname).build();
-    }
-
 }
