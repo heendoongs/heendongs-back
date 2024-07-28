@@ -2,6 +2,7 @@ package com.heendoongs.coordibattle.coordi.service;
 
 import com.heendoongs.coordibattle.clothes.domain.ClothDetailsResponseDto;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
+import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsRequestDto;
 import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsResponseDto;
 import com.heendoongs.coordibattle.coordi.repository.CoordiRepository;
 import com.heendoongs.coordibattle.member.domain.Member;
@@ -10,7 +11,6 @@ import com.heendoongs.coordibattle.member.repository.MemberCoordiVoteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
  * 2024.07.26  	임원정       최초 생성
  * 2024.07.28   남진수       getCoordiDetails 메소드 추가
  * 2024.07.28   남진수       likeCoordi 메소드 추가
+ * 2024.07.28   남진수       updateCoordi 메소드 추가
  * </pre>
  */
 
@@ -93,6 +94,23 @@ public class CoordiServiceImpl implements CoordiService {
         }
 
         memberCoordiVoteRepository.save(memberCoordiVote);
+        return getCoordiDetails(coordiId);
+    }
+
+    @Transactional
+    public CoordiDetailsResponseDto updateCoordi(Long memberId, Long coordiId, CoordiDetailsRequestDto requestDto) {
+        Coordi coordi = coordiRepository.findById(coordiId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid coordiId"));
+
+        if (coordi.getMember().getId() != memberId) {
+            throw new IllegalArgumentException("Invalid memberId");
+        }
+
+        coordi = coordi.toBuilder()
+                .title(requestDto.getCoordiTitle())
+                .build();
+
+        coordiRepository.save(coordi);
         return getCoordiDetails(coordiId);
     }
 }

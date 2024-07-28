@@ -1,5 +1,6 @@
 package com.heendoongs.coordibattle.coordi.controller;
 
+import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsRequestDto;
 import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsResponseDto;
 import com.heendoongs.coordibattle.coordi.service.CoordiService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
  * 2024.07.26  	임원정       최초 생성
  * 2024.07.28   남진수       getCoordiDetails 메소드 추가
  * 2024.07.28   남진수       likeCoordi 메소드 추가
+ * 2024.07.28   남진수       updateCoordi 메소드 추가
  * </pre>
  */
 
@@ -35,8 +37,14 @@ public class CoordiController {
     }
 
     @GetMapping("/like")
-    public ResponseEntity<CoordiDetailsResponseDto> likeCoordi(@RequestParam Long memberId , @RequestParam Long coordiId) {
+    public ResponseEntity<CoordiDetailsResponseDto> likeCoordi(@RequestParam Long memberId, @RequestParam Long coordiId) {
         CoordiDetailsResponseDto coordiDetailsResponseDto = coordiService.likeCoordi(memberId, coordiId);
+        return ResponseEntity.ok(coordiDetailsResponseDto);
+    }
+
+    @PatchMapping("/update")
+    public ResponseEntity<CoordiDetailsResponseDto> updateCoordi(@RequestParam Long memberId, @RequestParam Long coordiId, @RequestBody CoordiDetailsRequestDto requestDto) {
+        CoordiDetailsResponseDto coordiDetailsResponseDto = coordiService.updateCoordi(memberId, coordiId, requestDto);
         return ResponseEntity.ok(coordiDetailsResponseDto);
     }
 }
