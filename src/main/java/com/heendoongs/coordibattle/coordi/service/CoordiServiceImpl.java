@@ -29,6 +29,8 @@ import java.util.stream.Collectors;
  * 2024.07.28   남진수       getCoordiDetails 메소드 추가
  * 2024.07.28   남진수       likeCoordi 메소드 추가
  * 2024.07.28   남진수       updateCoordi 메소드 추가
+ * 2024.07.28   남진수       deleteCoordi 메소드 추가
+ * 2024.07.28   남진수       isCoordiPeriod 메소드 추가
  * </pre>
  */
 
@@ -110,7 +112,37 @@ public class CoordiServiceImpl implements CoordiService {
                 .title(requestDto.getCoordiTitle())
                 .build();
 
+        if (!isCoordiPeriod(coordiId)) {
+            throw new IllegalArgumentException("cannot update coordi after period");
+        }
+
         coordiRepository.save(coordi);
         return getCoordiDetails(coordiId);
+    }
+
+    @Transactional
+    public void deleteCoordi(Long memberId, Long coordiId) {
+
+        Coordi coordi = coordiRepository.findById(coordiId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid coordiId"));
+
+        if (coordi.getMember().getId() != memberId) {
+            throw new IllegalArgumentException("Invalid memberId");
+        }
+
+        if (!isCoordiPeriod(coordiId)) {
+            throw new IllegalArgumentException("cannot delete coordi after period");
+        }
+
+        coordiRepository.deleteById(coordiId);
+    }
+
+    private boolean isCoordiPeriod(Long coordiId) {
+        LocalDate now = LocalDate.now();
+        Coordi coordi = coordiRepository.findById(coordiId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid coordiId"));
+        LocalDate startDate = coordi.getBattle().getCoordiStartDate();
+        LocalDate endDate = coordi.getBattle().getCoordiEndDate();
+        return now.isAfter(startDate) && now.isBefore(endDate);
     }
 }
