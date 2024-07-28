@@ -40,4 +40,8 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     List<MemberCoordiVote> memberCoordiVotes = new ArrayList<>();
+
+    public Member(Long memberId) {
+        this.id = memberId;
+    }
 }

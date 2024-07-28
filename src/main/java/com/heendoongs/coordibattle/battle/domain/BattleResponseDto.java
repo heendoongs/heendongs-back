@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class BattleResponseDto {
+    private Long coordiId;
     private String coordiTitle;
     private String coordiImage;
     private String nickname;

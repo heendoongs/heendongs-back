@@ -48,4 +48,8 @@ public class Coordi {
 
     @OneToMany(mappedBy = "coordi")
     List<CoordiClothes> coordiClothes = new ArrayList<>();
+
+    public Coordi(Long coordiId) {
+        this.id = coordiId;
+    }
 }
