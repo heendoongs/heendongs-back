@@ -39,7 +39,6 @@ public class BattleServiceImpl implements BattleService{
     private final CoordiRepository coordiRepository;
     private final MemberCoordiVoteRepository memberCoordiVoteRepository;
 
-    @Override
     public List<BattleResponseDto> getBattleCoordies(Long battleId, Long memberId) {
 
         List<Coordi> unvotedCoordies = coordiRepository.findUnvotedCoordies(battleId, memberId);
@@ -51,7 +50,6 @@ public class BattleServiceImpl implements BattleService{
                 .collect(Collectors.toList());
     }
 
-    @Override
     @Transactional
     public BattleResponseDto postBattleResult(MemberCoordiVoteRequestDto memberCoordiVoteRequestDto) {
 

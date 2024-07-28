@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
  * 2024.07.28   남진수       getCoordiDetails 메소드 추가
  * 2024.07.28   남진수       likeCoordi 메소드 추가
  * 2024.07.28   남진수       updateCoordi 메소드 추가
+ * 2024.07.28   남진수       deleteCoordi 메소드 추가
  * </pre>
  */
 
@@ -46,5 +47,11 @@ public class CoordiController {
     public ResponseEntity<CoordiDetailsResponseDto> updateCoordi(@RequestParam Long memberId, @RequestParam Long coordiId, @RequestBody CoordiDetailsRequestDto requestDto) {
         CoordiDetailsResponseDto coordiDetailsResponseDto = coordiService.updateCoordi(memberId, coordiId, requestDto);
         return ResponseEntity.ok(coordiDetailsResponseDto);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteCoordi(@RequestParam Long memberId, @RequestParam Long coordiId) {
+        coordiService.deleteCoordi(memberId, coordiId);
+        return ResponseEntity.ok("코디가 삭제되었습니다.");
     }
 }
