@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 @Table(name = "member_coordi_vote", schema = "COORDIBATTLE")
 public class MemberCoordiVote {
 
@@ -28,5 +28,5 @@ public class MemberCoordiVote {
     private Coordi coordi;
 
     @Column(name = "liked")
-    private Boolean liked;
+    private Character liked;
 }

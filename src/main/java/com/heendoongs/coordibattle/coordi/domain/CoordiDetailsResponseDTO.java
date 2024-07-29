@@ -1,0 +1,23 @@
+package com.heendoongs.coordibattle.coordi.domain;
+
+import com.heendoongs.coordibattle.clothes.domain.ClothDetailsResponseDTO;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import java.time.LocalDate;
+import java.util.List;
+
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class CoordiDetailsResponseDTO {
+    private Long memberId;
+    private String nickname;
+    private LocalDate createDate;
+    private String coordiImage;
+    private String coordiTitle;
+    private List<ClothDetailsResponseDTO> clothesList;
+    private Integer voteCount;
+}

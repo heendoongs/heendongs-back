@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 @Table(name = "coordi", schema = "COORDIBATTLE")
 public class Coordi {
 
@@ -48,4 +48,8 @@ public class Coordi {
 
     @OneToMany(mappedBy = "coordi")
     List<CoordiClothes> coordiClothes = new ArrayList<>();
+
+    public Coordi(Long coordiId) {
+        this.id = coordiId;
+    }
 }
