@@ -1,6 +1,7 @@
 package com.heendoongs.coordibattle.member.service;
 
 import com.heendoongs.coordibattle.member.domain.MemberSignUpRequestDTO;
+import com.heendoongs.coordibattle.member.domain.MemberUpdateDTO;
 
 /**
  * 멤버 서비스 인터페이스
@@ -25,4 +26,7 @@ public interface MemberService {
      */
     void signUp(MemberSignUpRequestDTO memberSignUpRequestDto) throws Exception;
 
+    void updateAccount(MemberUpdateDTO memberUpdateDTO, String loginId) throws Exception;
+
+    void deleteAccount(String loginId) throws Exception;
 }

@@ -1,10 +1,12 @@
 package com.heendoongs.coordibattle.member.controller;
 
 import com.heendoongs.coordibattle.member.domain.MemberSignUpRequestDTO;
+import com.heendoongs.coordibattle.member.domain.MemberUpdateDTO;
 import com.heendoongs.coordibattle.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -26,10 +28,33 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    /**
+     * 회원가입
+     * @param memberSignUpRequestDTO
+     * @throws Exception
+     */
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
     private void signUp(@Valid @RequestBody MemberSignUpRequestDTO memberSignUpRequestDTO) throws Exception {
         memberService.signUp(memberSignUpRequestDTO);
+    }
+
+    /**
+     * 회원정보수정
+     */
+    @PutMapping("/updateAccount")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateAccount(@Valid @RequestBody MemberUpdateDTO memberUpdateDTO) throws Exception {
+        memberService.updateAccount(memberUpdateDTO, SecurityContextHolder.getContext().getAuthentication().getName());
+    }
+
+    /**
+     * 회원탈퇴
+     */
+    @DeleteMapping("/deleteAccount")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteAccount() throws Exception {
+        memberService.deleteAccount(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     @GetMapping("/test")

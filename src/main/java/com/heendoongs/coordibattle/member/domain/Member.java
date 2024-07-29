@@ -45,4 +45,13 @@ public class Member {
     @OneToMany(mappedBy = "member")
     List<MemberCoordiVote> memberCoordiVotes = new ArrayList<>();
 
+    // 회원 정보 수정
+    public void updatePassword(String newPassword) {
+        this.password = newPassword;
+    }
+
+    public void updateNickname(String newNickname) {
+        this.nickname = newNickname;
+    }
+
 }

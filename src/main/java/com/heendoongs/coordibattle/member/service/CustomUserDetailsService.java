@@ -25,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         // 멤버 정보를 찾을 수 없으면 UsernameNotFoundException 예외 발생
         if (memberData == null) {
-            throw new UsernameNotFoundException("User not found with loginId: " + loginId);
+            throw new UsernameNotFoundException("회원 정보가 없습니다: " + loginId);
         }
 
         MemberLoginRequestDTO memberLoginRequestDTO = MemberLoginRequestDTO.builder()

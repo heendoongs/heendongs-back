@@ -2,11 +2,13 @@ package com.heendoongs.coordibattle.member.service;
 
 import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.domain.MemberSignUpRequestDTO;
+import com.heendoongs.coordibattle.member.domain.MemberUpdateDTO;
 import com.heendoongs.coordibattle.member.exception.MemberException;
 import com.heendoongs.coordibattle.member.exception.MemberExceptionType;
 import com.heendoongs.coordibattle.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -61,4 +63,32 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
     }
 
+    @Override
+    public void updateAccount(MemberUpdateDTO memberUpdateDTO, String loginId) throws Exception {
+        Member member = memberRepository.findByLoginId(loginId);
+
+        if (member == null) {
+            throw new MemberException(MemberExceptionType.NOT_FOUND_MEMBER);
+        }
+
+        if (memberUpdateDTO.getPassword() != null) {
+            String encodedPassword = bCryptPasswordEncoder.encode(memberUpdateDTO.getPassword());
+            member.updatePassword(encodedPassword);
+        }
+        if (memberUpdateDTO.getNickname() != null) {
+            member.updateNickname(memberUpdateDTO.getNickname());
+        }
+    }
+
+    @Override
+    public void deleteAccount(String loginId) throws Exception {
+
+        Member member = memberRepository.findByLoginId(loginId);
+
+        if (member == null) {
+            throw new MemberException(MemberExceptionType.NOT_FOUND_MEMBER);
+        }
+
+        memberRepository.delete(member);
+    }
 }

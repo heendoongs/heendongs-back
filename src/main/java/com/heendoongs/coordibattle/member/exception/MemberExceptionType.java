@@ -16,11 +16,11 @@ import org.springframework.http.HttpStatus;
  * </pre>
  */
 public enum MemberExceptionType implements BaseExceptionType {
-    // 회원가입 에러코드
+    // 멤버 관련 에러코드
     ALREADY_EXIST_LOGIN_ID(600, HttpStatus.CONFLICT, "이미 존재하는 아이디입니다."),
-    ALREADY_EXIST_NICKNAME(600, HttpStatus.CONFLICT, "이미 존재하는 닉네임입니다.");
-//    WRONG_PASSWORD(601,HttpStatus.BAD_REQUEST, "비밀번호가 잘못되었습니다."),
-//    NOT_FOUND_MEMBER(602, HttpStatus.NOT_FOUND, "회원 정보가 없습니다.");
+    ALREADY_EXIST_NICKNAME(600, HttpStatus.CONFLICT, "이미 존재하는 닉네임입니다."),
+    WRONG_PASSWORD(601,HttpStatus.BAD_REQUEST, "비밀번호가 잘못되었습니다."),
+    NOT_FOUND_MEMBER(602, HttpStatus.NOT_FOUND, "회원 정보가 없습니다.");
 
     private int errorCode;
     private HttpStatus httpStatus;
