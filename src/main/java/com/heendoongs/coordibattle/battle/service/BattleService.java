@@ -17,10 +17,11 @@ import java.util.List;
  * 2024.07.27  	남진수       최초 생성
  * 2024.07.27   남진수       getBattleCoordies 메소드 추가
  * 2024.07.28   남진수       postBattleResult 메소드 추가
+ * 2024.07.29   남진수       getBattleCoordies 서비스에서 battleId 받아오도록 수정
  * </pre>
  */
 
 public interface BattleService {
-    List<BattleResponseDTO> getBattleCoordies(Long battleId, Long memberId);
+    List<BattleResponseDTO> getBattleCoordies(Long memberId);
     BattleResponseDTO postBattleResult(MemberCoordiVoteRequestDTO memberCoordiVoteRequestDTO);
 }

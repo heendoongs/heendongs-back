@@ -1,6 +1,7 @@
 package com.heendoongs.coordibattle.battle.service;
 
 import com.heendoongs.coordibattle.battle.domain.BattleResponseDTO;
+import com.heendoongs.coordibattle.battle.repository.BattleRepository;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
 import com.heendoongs.coordibattle.coordi.repository.CoordiRepository;
 import com.heendoongs.coordibattle.member.domain.Member;
@@ -11,6 +12,7 @@ import com.heendoongs.coordibattle.member.repository.MemberCoordiVoteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +31,7 @@ import java.util.stream.Collectors;
  * 2024.07.27   남진수       convertToResponseDto 메소드 추가
  * 2024.07.28   남진수       postBattleResult 메소드 추가
  * 2024.07.28   남진수       saveMemberCoordiVote 메소드 추가
+ * 2024.07.29   남진수       getVotingBattleId 메소드 추가, getBattleCoordies에서 battleId 받아오도록 수정
  * </pre>
  */
 
@@ -38,8 +41,12 @@ public class BattleServiceImpl implements BattleService{
 
     private final CoordiRepository coordiRepository;
     private final MemberCoordiVoteRepository memberCoordiVoteRepository;
+    private final BattleRepository battleRepository;
 
-    public List<BattleResponseDTO> getBattleCoordies(Long battleId, Long memberId) {
+    public List<BattleResponseDTO> getBattleCoordies(Long memberId) {
+
+        Long battleId = getVotingBattleId();
+        System.out.println(battleId);
 
         List<Coordi> unvotedCoordies = coordiRepository.findUnvotedCoordies(battleId, memberId);
         Collections.shuffle(unvotedCoordies);
@@ -98,5 +105,10 @@ public class BattleServiceImpl implements BattleService{
                 .coordiImage(new String(coordi.getCoordiImage()))
                 .nickname(coordi.getMember().getNickname())
                 .build();
+    }
+
+    public Long getVotingBattleId() {
+        LocalDate now = LocalDate.now();
+        return battleRepository.findBattleIdByDate(now);
     }
 }
