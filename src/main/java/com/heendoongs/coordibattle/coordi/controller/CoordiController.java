@@ -7,6 +7,7 @@ import com.heendoongs.coordibattle.coordi.dto.RankingOrderCoordiListResponseDTO;
 import com.heendoongs.coordibattle.coordi.repository.CoordiRepository;
 import com.heendoongs.coordibattle.coordi.service.CoordiService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,7 @@ import java.util.List;
  * 2024.07.28   남진수       likeCoordi 메소드 추가
  * 2024.07.28   남진수       updateCoordi 메소드 추가
  * 2024.07.28   남진수       deleteCoordi 메소드 추가
+ * 2024.07.30   임원정       getCoordiList 메소드 추가
  * </pre>
  */
 
@@ -61,9 +63,18 @@ public class CoordiController {
         return ResponseEntity.ok("코디가 삭제되었습니다.");
     }
 
-//    @GetMapping("/list/")
-//    public ResponseEntity<RankingOrderCoordiListResponseDTO> getCoordiList() {
-//        //RankingOrderCoordiListResponseDTO rankingOrderCoordiListResponseDTO = coordiService.getCoordiList();
-//        return ResponseEntity.ok(rankingOrderCoordiListResponseDTO);
-//    }
+    /**
+     * 코디 리스트 조회(기본)
+     * @param page
+     * @param size
+     * @return
+     */
+    @GetMapping("/list")
+    public ResponseEntity<Page<RankingOrderCoordiListResponseDTO>> getCoordiList(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size
+    ) {
+        Page<RankingOrderCoordiListResponseDTO> coordiList = coordiService.getCoordiListSortedByLikes(page, size);
+        return ResponseEntity.ok(coordiList);
+    }
 }
