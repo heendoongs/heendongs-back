@@ -1,5 +1,6 @@
 package com.heendoongs.coordibattle.battle.service;
 
+import com.heendoongs.coordibattle.battle.dto.BannerResponseDTO;
 import com.heendoongs.coordibattle.battle.dto.BattleResponseDTO;
 import com.heendoongs.coordibattle.member.domain.MemberCoordiVoteRequestDTO;
 
@@ -24,4 +25,5 @@ import java.util.List;
 public interface BattleService {
     List<BattleResponseDTO> getBattleCoordies(Long memberId);
     BattleResponseDTO postBattleResult(MemberCoordiVoteRequestDTO memberCoordiVoteRequestDTO);
+    List<BannerResponseDTO> getAllBattles();
 }

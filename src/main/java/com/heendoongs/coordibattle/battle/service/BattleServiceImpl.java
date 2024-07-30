@@ -1,5 +1,7 @@
 package com.heendoongs.coordibattle.battle.service;
 
+import com.heendoongs.coordibattle.battle.domain.Battle;
+import com.heendoongs.coordibattle.battle.dto.BannerResponseDTO;
 import com.heendoongs.coordibattle.battle.dto.BattleResponseDTO;
 import com.heendoongs.coordibattle.battle.repository.BattleRepository;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
@@ -32,6 +34,7 @@ import java.util.stream.Collectors;
  * 2024.07.28   남진수       postBattleResult 메소드 추가
  * 2024.07.28   남진수       saveMemberCoordiVote 메소드 추가
  * 2024.07.29   남진수       getVotingBattleId 메소드 추가, getBattleCoordies에서 battleId 받아오도록 수정
+ * 2024.07.30   임원정       getAllBattles 메소드 추가
  * </pre>
  */
 
@@ -110,5 +113,32 @@ public class BattleServiceImpl implements BattleService{
     public Long getVotingBattleId() {
         LocalDate now = LocalDate.now();
         return battleRepository.findBattleIdByDate(now);
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public List<BannerResponseDTO> getAllBattles() {
+        LocalDate now = LocalDate.now();
+
+        return battleRepository.findAllBattles().stream()
+                .map(battle -> {
+                    boolean isVotePeriod = !now.isBefore(battle.getVoteStartDate()) && !now.isAfter(battle.getVoteEndDate());
+                    boolean isCordiPeriod = !now.isBefore(battle.getCoordiStartDate()) && !now.isAfter(battle.getCoordiEndDate());
+
+                    return BannerResponseDTO.builder()
+                            .id(battle.getId())
+                            .bannerTitle(battle.getTitle())
+                            .bannerImageUrl(battle.getBannerImageURL())
+                            .voteStartDate(battle.getVoteStartDate())
+                            .voteEndDate(battle.getVoteEndDate())
+                            .coordiStartDate(battle.getCoordiStartDate())
+                            .coordiEndDate(battle.getCoordiEndDate())
+                            .isVotePeriod(isVotePeriod)
+                            .isCordiPeriod(isCordiPeriod)
+                            .build();
+                })
+                .collect(Collectors.toList());
     }
 }

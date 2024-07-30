@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 코디 리스트 Response DTO (모든 배틀,
+ * 코디 리스트 Response DTO (모든 배틀)
  * @author 임원정
  * @since 2024.07.26
  * @version 1.0

@@ -171,8 +171,4 @@ public class CoordiServiceImpl implements CoordiService {
                         .build());
     }
 
-//    @Transactional(readOnly = true)
-//    public Page<RankingOrderCoordiListResponseDTO> getCoordiListSortedByLikes(int page, int size) {
-//        return coordiRepository.findAllByLikesDesc(PageRequest.of(page, size));
-//    }
 }
