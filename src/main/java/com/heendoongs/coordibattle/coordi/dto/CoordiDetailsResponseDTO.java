@@ -1,6 +1,6 @@
-package com.heendoongs.coordibattle.coordi.domain;
+package com.heendoongs.coordibattle.coordi.dto;
 
-import com.heendoongs.coordibattle.clothes.domain.ClothDetailsResponseDTO;
+import com.heendoongs.coordibattle.clothes.dto.ClothDetailsResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

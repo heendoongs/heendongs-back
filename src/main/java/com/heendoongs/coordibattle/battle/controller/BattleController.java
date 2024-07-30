@@ -1,6 +1,6 @@
 package com.heendoongs.coordibattle.battle.controller;
 
-import com.heendoongs.coordibattle.battle.domain.BattleResponseDTO;
+import com.heendoongs.coordibattle.battle.dto.BattleResponseDTO;
 import com.heendoongs.coordibattle.battle.service.BattleService;
 import com.heendoongs.coordibattle.member.domain.MemberCoordiVoteRequestDTO;
 import lombok.RequiredArgsConstructor;

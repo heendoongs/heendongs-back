@@ -1,9 +1,9 @@
 package com.heendoongs.coordibattle.coordi.service;
 
-import com.heendoongs.coordibattle.clothes.domain.ClothDetailsResponseDTO;
+import com.heendoongs.coordibattle.clothes.dto.ClothDetailsResponseDTO;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
-import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsRequestDTO;
-import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsResponseDTO;
+import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsRequestDTO;
+import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsResponseDTO;
 import com.heendoongs.coordibattle.coordi.repository.CoordiRepository;
 import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.domain.MemberCoordiVote;
@@ -144,5 +144,10 @@ public class CoordiServiceImpl implements CoordiService {
         LocalDate startDate = coordi.getBattle().getCoordiStartDate();
         LocalDate endDate = coordi.getBattle().getCoordiEndDate();
         return now.isAfter(startDate) && now.isBefore(endDate);
+    }
+
+    @Override
+    public List<Coordi> getCoordiList() {
+        return coordiRepository.findAll();
     }
 }

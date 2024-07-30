@@ -1,6 +1,6 @@
 package com.heendoongs.coordibattle.battle.service;
 
-import com.heendoongs.coordibattle.battle.domain.BattleResponseDTO;
+import com.heendoongs.coordibattle.battle.dto.BattleResponseDTO;
 import com.heendoongs.coordibattle.battle.repository.BattleRepository;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
 import com.heendoongs.coordibattle.coordi.repository.CoordiRepository;

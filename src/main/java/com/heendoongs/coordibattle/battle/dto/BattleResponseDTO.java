@@ -1,4 +1,4 @@
-package com.heendoongs.coordibattle.battle.domain;
+package com.heendoongs.coordibattle.battle.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

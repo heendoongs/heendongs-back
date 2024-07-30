@@ -1,11 +1,16 @@
 package com.heendoongs.coordibattle.coordi.controller;
 
-import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsRequestDTO;
-import com.heendoongs.coordibattle.coordi.domain.CoordiDetailsResponseDTO;
+import com.heendoongs.coordibattle.coordi.domain.Coordi;
+import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsRequestDTO;
+import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsResponseDTO;
+import com.heendoongs.coordibattle.coordi.dto.RankingOrderCoordiListResponseDTO;
+import com.heendoongs.coordibattle.coordi.repository.CoordiRepository;
 import com.heendoongs.coordibattle.coordi.service.CoordiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 코디 컨트롤러
@@ -30,6 +35,7 @@ import org.springframework.web.bind.annotation.*;
 public class CoordiController {
 
     private final CoordiService coordiService;
+    private final CoordiRepository coordiRepository;
 
     @GetMapping("/details")
     public ResponseEntity<CoordiDetailsResponseDTO> getCoordiDetails(@RequestParam Long coordiId) {
@@ -54,4 +60,10 @@ public class CoordiController {
         coordiService.deleteCoordi(memberId, coordiId);
         return ResponseEntity.ok("코디가 삭제되었습니다.");
     }
+
+//    @GetMapping("/list/")
+//    public ResponseEntity<RankingOrderCoordiListResponseDTO> getCoordiList() {
+//        //RankingOrderCoordiListResponseDTO rankingOrderCoordiListResponseDTO = coordiService.getCoordiList();
+//        return ResponseEntity.ok(rankingOrderCoordiListResponseDTO);
+//    }
 }
