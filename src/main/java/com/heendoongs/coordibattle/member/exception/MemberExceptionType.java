@@ -13,14 +13,22 @@ import org.springframework.http.HttpStatus;
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.07.27  	조희정       최초 생성
+ * 2024.07.27  	조희정       회원가입 에러 추가
+ * 2024.07.27  	조희정       로그인, 토큰 에러 추가
+ *
  * </pre>
  */
 public enum MemberExceptionType implements BaseExceptionType {
-    // 멤버 관련 에러코드
+    // 회원가입 에러
     ALREADY_EXIST_LOGIN_ID(600, HttpStatus.CONFLICT, "이미 존재하는 아이디입니다."),
     ALREADY_EXIST_NICKNAME(600, HttpStatus.CONFLICT, "이미 존재하는 닉네임입니다."),
-    WRONG_PASSWORD(601,HttpStatus.BAD_REQUEST, "비밀번호가 잘못되었습니다."),
-    NOT_FOUND_MEMBER(602, HttpStatus.NOT_FOUND, "회원 정보가 없습니다.");
+
+    // 로그인 에러
+    NOT_FOUND_MEMBER(602, HttpStatus.NOT_FOUND, "회원 정보가 없습니다."),
+
+    // 토큰 에러
+    EXPIRED_TOKEN(700, HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
+    INVALID_TOKEN(701, HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.");
 
     private int errorCode;
     private HttpStatus httpStatus;

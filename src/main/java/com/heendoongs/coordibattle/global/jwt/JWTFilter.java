@@ -3,6 +3,8 @@ package com.heendoongs.coordibattle.global.jwt;
 import com.heendoongs.coordibattle.member.domain.CustomUserDetails;
 import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.domain.MemberLoginRequestDTO;
+import com.heendoongs.coordibattle.member.exception.MemberException;
+import com.heendoongs.coordibattle.member.exception.MemberExceptionType;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -65,14 +67,10 @@ public class JWTFilter extends OncePerRequestFilter {
 
         } catch (ExpiredJwtException e) {
             // 토큰이 소멸된 경우
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Unauthorized: Token expired");
-            return;
+            throw new MemberException(MemberExceptionType.EXPIRED_TOKEN);
         } catch (Exception e) {
             // 올바르지 않은 토큰일 경우
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Unauthorized: Invalid token");
-            return;
+            throw new MemberException(MemberExceptionType.INVALID_TOKEN);
         }
 
         filterChain.doFilter(request, response);
@@ -88,5 +86,6 @@ public class JWTFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
         return path.equals("/") || path.equals("/login") || path.equals("/signup");
+//        return path.equals("/*");
     }
 }

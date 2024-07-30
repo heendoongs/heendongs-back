@@ -1,5 +1,6 @@
 package com.heendoongs.coordibattle.global.exception;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -15,42 +16,85 @@ import java.net.BindException;
 @Slf4j
 public class ExceptionAdvice {
 
-    // HttpMessageNotReadableException  => json 파싱 오류
+//    @ExceptionHandler(BaseException.class)
+//    public ResponseEntity handleBaseEx(BaseException exception){
+//        log.error("BaseException errorMessage(): {}", exception.getExceptionType().getErrorMessage());
+//        log.error("BaseException errorCode(): {}", exception.getExceptionType().getErrorCode());
+//
+//        return new ResponseEntity(new ExceptionDto(exception.getExceptionType().getErrorCode()),exception.getExceptionType().getHttpStatus());
+//    }
+//
+//    @ExceptionHandler(BaseException.class)
+//    public ResponseEntity<ExceptionDto> handleBaseEx(BaseException exception) {
+//        log.error("BaseException errorMessage(): {}", exception.getExceptionType().getErrorMessage());
+//        log.error("BaseException errorCode(): {}", exception.getExceptionType().getErrorCode());
+//
+//        return new ResponseEntity<>(new ExceptionDto(exception.getExceptionType().getErrorCode(), exception.getExceptionType().getErrorMessage()), exception.getExceptionType().getHttpStatus());
+//    }
+//
+//    // @Valid 에서 예외 발생
+//    @ExceptionHandler(BindException.class)
+//    public ResponseEntity handleValidEx(BindException exception){
+//
+//        log.error("@ValidException 발생! {}", exception.getMessage() );
+//        return new ResponseEntity(new ExceptionDto(2000),HttpStatus.BAD_REQUEST);
+//    }
+//
+//    // HttpMessageNotReadableException  => json 파싱 오류
+//    @ExceptionHandler(HttpMessageNotReadableException.class)
+//    public ResponseEntity httpMessageNotReadableExceptionEx(HttpMessageNotReadableException exception){
+//
+//        log.error("Json을 파싱하는 과정에서 예외 발생! {}", exception.getMessage() );
+//        return new ResponseEntity(new ExceptionDto(3000),HttpStatus.BAD_REQUEST);
+//    }
+//
+//
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity handleMemberEx(Exception exception) {
+//
+//        exception.printStackTrace();
+//        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+//    }
+//
+//    @Data
+//    @AllArgsConstructor
+//    static class ExceptionDto {
+//        private Integer errorCode;
+//    }
+
     @ExceptionHandler(BaseException.class)
-    public ResponseEntity handleBaseEx(BaseException exception){
+    public ResponseEntity<ExceptionDto> handleBaseEx(BaseException exception) {
         log.error("BaseException errorMessage(): {}", exception.getExceptionType().getErrorMessage());
         log.error("BaseException errorCode(): {}", exception.getExceptionType().getErrorCode());
 
-        return new ResponseEntity(new ExceptionDto(exception.getExceptionType().getErrorCode()),exception.getExceptionType().getHttpStatus());
+        return new ResponseEntity<>(new ExceptionDto(exception.getExceptionType().getErrorCode(), exception.getExceptionType().getErrorMessage()), exception.getExceptionType().getHttpStatus());
     }
 
-    // @Valid 에서 예외 발생
     @ExceptionHandler(BindException.class)
-    public ResponseEntity handleValidEx(BindException exception){
-
-        log.error("@ValidException 발생! {}", exception.getMessage() );
-        return new ResponseEntity(new ExceptionDto(2000),HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ExceptionDto> handleValidEx(BindException exception) {
+        log.error("@ValidException 발생! {}", exception.getMessage());
+        return new ResponseEntity<>(new ExceptionDto(2000, "유효성 검사 실패"), HttpStatus.BAD_REQUEST);
     }
 
-    // HttpMessageNotReadableException  => json 파싱 오류
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity httpMessageNotReadableExceptionEx(HttpMessageNotReadableException exception){
-
-        log.error("Json을 파싱하는 과정에서 예외 발생! {}", exception.getMessage() );
-        return new ResponseEntity(new ExceptionDto(3000),HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ExceptionDto> httpMessageNotReadableExceptionEx(HttpMessageNotReadableException exception) {
+        log.error("Json을 파싱하는 과정에서 예외 발생! {}", exception.getMessage());
+        return new ResponseEntity<>(new ExceptionDto(3000, "JSON 파싱 오류"), HttpStatus.BAD_REQUEST);
     }
-
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity handleMemberEx(Exception exception) {
-
+    public ResponseEntity<ExceptionDto> handleGenericException(Exception exception) {
         exception.printStackTrace();
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ExceptionDto(5000, "서버 오류"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 
     @Data
     @AllArgsConstructor
     static class ExceptionDto {
+        @JsonProperty("error_code")
         private Integer errorCode;
+        @JsonProperty("error_message")
+        private String errorMessage;
     }
 }

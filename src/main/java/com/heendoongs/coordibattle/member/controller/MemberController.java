@@ -6,6 +6,7 @@ import com.heendoongs.coordibattle.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * ----------  --------    ---------------------------
  * 2024.07.27  	조희정       최초 생성
  * 2024.07.27  	조희정       signUp 메소드 추가
+ * 2024.07.29  	조희정       updateAccount, deleteAccount 메소드 추가
  * </pre>
  */
 @RestController
@@ -40,7 +42,9 @@ public class MemberController {
     }
 
     /**
-     * 회원정보수정
+     * 회원 정보 수정
+     * @param memberUpdateDTO
+     * @throws Exception
      */
     @PutMapping("/updateAccount")
     @ResponseStatus(HttpStatus.OK)
@@ -49,7 +53,8 @@ public class MemberController {
     }
 
     /**
-     * 회원탈퇴
+     * 회원 탈퇴
+     * @throws Exception
      */
     @DeleteMapping("/deleteAccount")
     @ResponseStatus(HttpStatus.OK)

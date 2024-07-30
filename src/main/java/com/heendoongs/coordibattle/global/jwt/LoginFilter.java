@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.heendoongs.coordibattle.member.domain.CustomUserDetails;
 import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.domain.MemberLoginRequestDTO;
+import com.heendoongs.coordibattle.member.service.MemberService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.HttpServletRequest;
@@ -90,7 +91,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
      * @param authentication
      */
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
         // 사용자 로그인 ID
@@ -104,7 +105,14 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String role = grantedAuthority.getAuthority();
         String token = jwtUtil.createJwt(username, role, 1 * 60 * 60 * 1000L);
 
-        response.addHeader("Authorization", "Bearer " + token);
+//        response.addHeader("Authorization", "Bearer " + token);
+        // JSON 문자열 생성
+        String jsonResponse = String.format("{\"token\":\"%s\"}", token);
+
+        // 응답 설정
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonResponse);
     }
 
     /**
