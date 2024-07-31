@@ -54,4 +54,8 @@ public class Member {
         this.nickname = newNickname;
     }
 
+
+    public Member(Long memberId) {
+        this.id = memberId;
+    }
 }
