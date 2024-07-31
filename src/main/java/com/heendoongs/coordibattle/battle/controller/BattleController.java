@@ -22,7 +22,7 @@ import java.util.List;
  * 2024.07.27   남진수       getBattleCoordies 메소드 추가
  * 2024.07.28   남진수       postBattleResult 메소드 추가
  * 2024.07.29   남진수       getBattleCoordies 서비스에서 battleId 받아오도록 수정
- * 2024.07.30   임원정       getAllBattles 메소드 추가
+ * 2024.07.30   임원정       getCurrentBattles 메소드 추가
  * </pre>
  */
 
@@ -45,13 +45,13 @@ public class BattleController {
     }
 
     /**
-     * 배틀 배너 조회
+     * 배너 출력
      * @return
      */
     @GetMapping("/banner")
-    public ResponseEntity<List<BannerResponseDTO>> getAllBattles() {
-        List<BannerResponseDTO> bannerResponseDTOs = battleService.getAllBattles();
-        return ResponseEntity.ok(bannerResponseDTOs);
+    public ResponseEntity<List<BannerResponseDTO>> getCurrentBattles() {
+        List<BannerResponseDTO> banners = battleService.getCurrentBattles();
+        return ResponseEntity.ok(banners);
     }
 
 }
