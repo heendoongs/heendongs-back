@@ -67,8 +67,9 @@ public class SecurityConfig {
 
         // 경로별 인가 작업
         http.authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/", "/login", "/signup").permitAll()
-                        .anyRequest().authenticated());
+                        .anyRequest().permitAll());
+//                        .requestMatchers("/", "/login", "/signup").permitAll()
+//                        .anyRequest().authenticated());
 
         // 필터 추가
         http.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
