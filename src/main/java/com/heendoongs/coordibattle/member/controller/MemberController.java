@@ -1,11 +1,20 @@
 package com.heendoongs.coordibattle.member.controller;
 
+import com.heendoongs.coordibattle.global.jwt.JWTUtil;
+import com.heendoongs.coordibattle.member.domain.CustomUserDetails;
+import com.heendoongs.coordibattle.member.domain.Member;
+import com.heendoongs.coordibattle.member.dto.MemberMyClosetResponseDTO;
 import com.heendoongs.coordibattle.member.dto.MemberSignUpRequestDTO;
 import com.heendoongs.coordibattle.member.dto.MemberUpdateDTO;
+import com.heendoongs.coordibattle.member.service.CustomUserDetailsService;
 import com.heendoongs.coordibattle.member.service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,6 +69,20 @@ public class MemberController {
     public void deleteAccount() throws Exception {
         memberService.deleteAccount(SecurityContextHolder.getContext().getAuthentication().getName());
     }
+
+    @GetMapping("/mycloset")
+    public ResponseEntity<MemberMyClosetResponseDTO> getMyCloset(@RequestParam Long memberId) {
+        // 마이페이지 데이터 조회
+        MemberMyClosetResponseDTO memberMyClosetResponseDTO = memberService.getMyCloset(memberId);
+        return ResponseEntity.ok(memberMyClosetResponseDTO);
+    }
+
+    @GetMapping("/myInfo")
+    public ResponseEntity<Member> getMyInfo(@RequestParam Long memberId) {
+        Member member = memberService.getMyInfo(memberId);
+        return ResponseEntity.ok(member);
+    }
+
 
     @GetMapping("/test")
     @ResponseStatus(HttpStatus.OK)

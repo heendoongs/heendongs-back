@@ -1,6 +1,7 @@
 package com.heendoongs.coordibattle.member.service;
 
 import com.heendoongs.coordibattle.member.domain.Member;
+import com.heendoongs.coordibattle.member.dto.MemberMyClosetResponseDTO;
 import com.heendoongs.coordibattle.member.dto.MemberSignUpRequestDTO;
 import com.heendoongs.coordibattle.member.dto.MemberUpdateDTO;
 import com.heendoongs.coordibattle.member.exception.MemberException;
@@ -10,6 +11,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * 멤버 서비스 구현체
@@ -90,5 +93,26 @@ public class MemberServiceImpl implements MemberService {
         }
 
         memberRepository.delete(member);
+    }
+
+    @Override
+    public MemberMyClosetResponseDTO getMyCloset(Long memberId) {
+
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
+
+
+        return MemberMyClosetResponseDTO.builder()
+                .memberId(member.getId())
+                .nickname(member.getNickname())
+                .build();
+    }
+
+    @Override
+    public Member getMyInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
+
+        return member;
     }
 }

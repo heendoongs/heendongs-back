@@ -4,6 +4,8 @@ import com.heendoongs.coordibattle.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * 멤버 레포지토리
  * @author 조희정
@@ -43,4 +45,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      * @return
      */
     Member findByLoginId(String username);
+
 }

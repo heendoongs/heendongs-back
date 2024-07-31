@@ -40,9 +40,7 @@ public class JWTFilter extends OncePerRequestFilter {
         // Authorization 헤더 검증
         String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Unauthorized: No Token");
-            return;
+            throw new MemberException(MemberExceptionType.INVALID_TOKEN);
         }
 
         String token = authorizationHeader.substring(7);
@@ -62,7 +60,6 @@ public class JWTFilter extends OncePerRequestFilter {
 
             // 임시 세션에 사용자 등록
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
 
         } catch (ExpiredJwtException e) {
             // 토큰이 소멸된 경우

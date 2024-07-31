@@ -37,6 +37,10 @@ public class JWTUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("username", String.class);
     }
 
+    public Long getMemberId(String token) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("memberId", Long.class);
+    }
+
 //    public String getRole(String token) {
 //        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role", String.class);
 //    }
@@ -47,6 +51,7 @@ public class JWTUtil {
 
     // JWT 토큰 발급
     public String createJwt(String username, String role, Long expiredMs) {
+
         return Jwts.builder()
                 .claim("username", username)
                 .claim("role", role)
