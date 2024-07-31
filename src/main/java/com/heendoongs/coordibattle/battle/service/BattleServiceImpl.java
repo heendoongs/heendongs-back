@@ -124,8 +124,6 @@ public class BattleServiceImpl implements BattleService{
 
         return battleRepository.findAllBattles().stream()
                 .map(battle -> {
-                    boolean isVotePeriod = !now.isBefore(battle.getVoteStartDate()) && !now.isAfter(battle.getVoteEndDate());
-                    boolean isCordiPeriod = !now.isBefore(battle.getCoordiStartDate()) && !now.isAfter(battle.getCoordiEndDate());
 
                     return BannerResponseDTO.builder()
                             .id(battle.getId())
@@ -135,8 +133,6 @@ public class BattleServiceImpl implements BattleService{
                             .voteEndDate(battle.getVoteEndDate())
                             .coordiStartDate(battle.getCoordiStartDate())
                             .coordiEndDate(battle.getCoordiEndDate())
-                            .isVotePeriod(isVotePeriod)
-                            .isCordiPeriod(isCordiPeriod)
                             .build();
                 })
                 .collect(Collectors.toList());

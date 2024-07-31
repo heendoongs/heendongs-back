@@ -32,7 +32,4 @@ public class BannerResponseDTO {
     private LocalDate voteEndDate;
     private LocalDate coordiStartDate;
     private LocalDate coordiEndDate;
-
-    private boolean isCordiPeriod;
-    private boolean isVotePeriod;
 }

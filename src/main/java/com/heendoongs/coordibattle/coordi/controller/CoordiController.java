@@ -37,7 +37,6 @@ import java.util.List;
 public class CoordiController {
 
     private final CoordiService coordiService;
-    private final CoordiRepository coordiRepository;
 
     @GetMapping("/details")
     public ResponseEntity<CoordiDetailsResponseDTO> getCoordiDetails(@RequestParam Long coordiId) {
