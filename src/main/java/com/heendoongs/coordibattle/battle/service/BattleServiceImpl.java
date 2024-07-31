@@ -1,6 +1,5 @@
 package com.heendoongs.coordibattle.battle.service;
 
-import com.heendoongs.coordibattle.battle.domain.Battle;
 import com.heendoongs.coordibattle.battle.dto.BannerResponseDTO;
 import com.heendoongs.coordibattle.battle.dto.BattleResponseDTO;
 import com.heendoongs.coordibattle.battle.repository.BattleRepository;
@@ -8,8 +7,8 @@ import com.heendoongs.coordibattle.coordi.domain.Coordi;
 import com.heendoongs.coordibattle.coordi.repository.CoordiRepository;
 import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.domain.MemberCoordiVote;
-import com.heendoongs.coordibattle.member.domain.MemberCoordiVoteRequestDTO;
-import com.heendoongs.coordibattle.member.domain.MemberCoordiVoteResponseDTO;
+import com.heendoongs.coordibattle.member.dto.MemberCoordiVoteRequestDTO;
+import com.heendoongs.coordibattle.member.dto.MemberCoordiVoteResponseDTO;
 import com.heendoongs.coordibattle.member.repository.MemberCoordiVoteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

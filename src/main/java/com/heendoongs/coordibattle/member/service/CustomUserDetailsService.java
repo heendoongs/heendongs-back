@@ -2,15 +2,26 @@ package com.heendoongs.coordibattle.member.service;
 
 import com.heendoongs.coordibattle.member.domain.CustomUserDetails;
 import com.heendoongs.coordibattle.member.domain.Member;
-import com.heendoongs.coordibattle.member.domain.MemberLoginRequestDTO;
+import com.heendoongs.coordibattle.member.dto.MemberLoginRequestDTO;
 import com.heendoongs.coordibattle.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * UserDetailsService 커스텀
+ * @author 조희정
+ * @since 2024.07.28
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.28  	조희정       최초 생성
+ * </pre>
+ */
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {

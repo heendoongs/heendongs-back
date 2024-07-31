@@ -13,6 +13,19 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 멤버 VO
+ * @author 조희정
+ * @since 2024.07.27
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.26  	남진수       최초 생성
+ * 2024.07.28  	조희정       updatePassword, updateNickname 추가
+ * </pre>
+ */
 @Entity
 @Getter
 @NoArgsConstructor

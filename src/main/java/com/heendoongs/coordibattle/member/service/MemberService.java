@@ -1,7 +1,7 @@
 package com.heendoongs.coordibattle.member.service;
 
-import com.heendoongs.coordibattle.member.domain.MemberSignUpRequestDTO;
-import com.heendoongs.coordibattle.member.domain.MemberUpdateDTO;
+import com.heendoongs.coordibattle.member.dto.MemberSignUpRequestDTO;
+import com.heendoongs.coordibattle.member.dto.MemberUpdateDTO;
 
 /**
  * 멤버 서비스 인터페이스
@@ -14,6 +14,7 @@ import com.heendoongs.coordibattle.member.domain.MemberUpdateDTO;
  * ----------  --------    ---------------------------
  * 2024.07.27  	조희정       최초 생성
  * 2024.07.27  	조희정       signUp 메소드 추가
+ * 2024.07.29  	조희정       updateAccount, deleteAccount 메소드 추가
  * </pre>
  */
 

@@ -1,14 +1,13 @@
 package com.heendoongs.coordibattle.member.service;
 
 import com.heendoongs.coordibattle.member.domain.Member;
-import com.heendoongs.coordibattle.member.domain.MemberSignUpRequestDTO;
-import com.heendoongs.coordibattle.member.domain.MemberUpdateDTO;
+import com.heendoongs.coordibattle.member.dto.MemberSignUpRequestDTO;
+import com.heendoongs.coordibattle.member.dto.MemberUpdateDTO;
 import com.heendoongs.coordibattle.member.exception.MemberException;
 import com.heendoongs.coordibattle.member.exception.MemberExceptionType;
 import com.heendoongs.coordibattle.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +22,7 @@ import org.springframework.stereotype.Service;
  * ----------  --------    ---------------------------
  * 2024.07.27  	조희정       최초 생성
  * 2024.07.27  	조희정       signUp 메소드 추가
+ * 2024.07.29  	조희정       updateAccount, deleteAccount 메소드 추가
  * </pre>
  */
 @Service

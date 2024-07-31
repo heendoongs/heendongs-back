@@ -1,7 +1,7 @@
 package com.heendoongs.coordibattle.member.service;
 
 import com.heendoongs.coordibattle.member.domain.Member;
-import com.heendoongs.coordibattle.member.domain.MemberSignUpRequestDTO;
+import com.heendoongs.coordibattle.member.dto.MemberSignUpRequestDTO;
 import com.heendoongs.coordibattle.member.repository.MemberRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;

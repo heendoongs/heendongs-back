@@ -2,14 +2,11 @@ package com.heendoongs.coordibattle.global.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.heendoongs.coordibattle.member.domain.CustomUserDetails;
-import com.heendoongs.coordibattle.member.domain.Member;
-import com.heendoongs.coordibattle.member.domain.MemberLoginRequestDTO;
-import com.heendoongs.coordibattle.member.service.MemberService;
+import com.heendoongs.coordibattle.member.dto.MemberLoginRequestDTO;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,14 +23,13 @@ import java.util.Iterator;
 /**
  * UsernamePasswordAuthentication 커스텀 필터
  * @author 조희정
- * @since 2024.07.27
+ * @since 2024.07.28
  * @version 1.0
  *
  * <pre>
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.07.28  	조희정       최초 생성
- * 2024.07.28  	조희정       attemptAuthentication, successfulAuthentication, unsuccessfulAuthentication 메소드 추가
  * </pre>
  */
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {

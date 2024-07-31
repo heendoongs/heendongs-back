@@ -26,7 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * ----------  --------    ---------------------------
  * 2024.07.27  	조희정       최초 생성
  * 2024.07.27  	조희정       filterChain 메소드 생성
- * 2024.07.27  	조희정       filterChain 메소드에 JWTFilter 추가
+ * 2024.07.28  	조희정       filterChain 메소드에 JWTFilter 추가
  * </pre>
  */
 @Configuration
@@ -68,6 +68,7 @@ public class SecurityConfig {
         // 경로별 인가 작업
         http.authorizeHttpRequests((auth) -> auth
                         .anyRequest().permitAll());
+        // TODO member 구현 왼료되면 적용
 //                        .requestMatchers("/", "/login", "/signup").permitAll()
 //                        .anyRequest().authenticated());
 

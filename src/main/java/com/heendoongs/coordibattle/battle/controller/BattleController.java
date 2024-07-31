@@ -3,7 +3,7 @@ package com.heendoongs.coordibattle.battle.controller;
 import com.heendoongs.coordibattle.battle.dto.BannerResponseDTO;
 import com.heendoongs.coordibattle.battle.dto.BattleResponseDTO;
 import com.heendoongs.coordibattle.battle.service.BattleService;
-import com.heendoongs.coordibattle.member.domain.MemberCoordiVoteRequestDTO;
+import com.heendoongs.coordibattle.member.dto.MemberCoordiVoteRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

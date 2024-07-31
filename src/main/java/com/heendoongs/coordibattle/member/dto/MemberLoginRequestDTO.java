@@ -1,4 +1,4 @@
-package com.heendoongs.coordibattle.member.domain;
+package com.heendoongs.coordibattle.member.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 /**
  * 로그인 DTO
  * @author 조희정
- * @since 2024.07.27
+ * @since 2024.07.28
  * @version 1.0
  *
  * <pre>

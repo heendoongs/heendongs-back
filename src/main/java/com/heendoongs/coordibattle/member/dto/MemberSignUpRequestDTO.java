@@ -1,4 +1,4 @@
-package com.heendoongs.coordibattle.member.domain;
+package com.heendoongs.coordibattle.member.dto;
 
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -7,12 +7,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 
+/**
+ * 회원가입 DTO
+ * @author 조희정
+ * @since 2024.07.27
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.27  	조희정       최초 생성
+ * </pre>
+ */
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberUpdateDTO {
+public class MemberSignUpRequestDTO {
 
+    @NotBlank(message = "아이디를 입력해주세요.")
     private String loginId;
 
     @NotBlank(message = "비밀번호를 입력해주세요.")

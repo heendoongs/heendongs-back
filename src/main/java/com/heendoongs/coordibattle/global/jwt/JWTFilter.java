@@ -1,8 +1,7 @@
 package com.heendoongs.coordibattle.global.jwt;
 
 import com.heendoongs.coordibattle.member.domain.CustomUserDetails;
-import com.heendoongs.coordibattle.member.domain.Member;
-import com.heendoongs.coordibattle.member.domain.MemberLoginRequestDTO;
+import com.heendoongs.coordibattle.member.dto.MemberLoginRequestDTO;
 import com.heendoongs.coordibattle.member.exception.MemberException;
 import com.heendoongs.coordibattle.member.exception.MemberExceptionType;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -21,7 +20,7 @@ import java.io.IOException;
 /**
  * JWT 커스텀 필터
  * @author 조희정
- * @since 2024.07.27
+ * @since 2024.07.28
  * @version 1.0
  *
  * <pre>
@@ -85,6 +84,7 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
+        // TODO: member 기능 완료 시 return 변경
 //        return path.equals("/") || path.equals("/login") || path.equals("/signup");
         return true;
     }
