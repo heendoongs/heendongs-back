@@ -15,8 +15,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -112,29 +114,35 @@ public class BattleServiceImpl implements BattleService{
 
     public Long getVotingBattleId() {
         LocalDate now = LocalDate.now();
-        return battleRepository.findBattleIdByDate(now);
+        return battleRepository.findVotingBattleIdByDate(now);
     }
 
-    /**
-     * 
-     * @return
-     */
-    public List<BannerResponseDTO> getAllBattles() {
+    public Long getCoordingBattleId() {
         LocalDate now = LocalDate.now();
+        return battleRepository.findCoordingBattleIdByDate(now);
+    }
 
-        return battleRepository.findAllBattles().stream()
-                .map(battle -> {
+    @Override
+    public List<BannerResponseDTO> getCurrentBattles() {
+        List<BannerResponseDTO> banners = new ArrayList<>();
 
-                    return BannerResponseDTO.builder()
-                            .id(battle.getId())
-                            .bannerTitle(battle.getTitle())
-                            .bannerImageUrl(battle.getBannerImageURL())
-                            .voteStartDate(battle.getVoteStartDate())
-                            .voteEndDate(battle.getVoteEndDate())
-                            .coordiStartDate(battle.getCoordiStartDate())
-                            .coordiEndDate(battle.getCoordiEndDate())
-                            .build();
-                })
-                .collect(Collectors.toList());
+        Optional<Battle> votingBattle = battleRepository.findById(getVotingBattleId());
+        Optional<Battle> coordingBattle = battleRepository.findById(getCoordingBattleId());
+
+        votingBattle.ifPresent(battle -> banners.add(convertToBannerResponseDTO(battle, 'V', battle.getVoteStartDate(), battle.getVoteEndDate())));
+        coordingBattle.ifPresent(battle -> banners.add(convertToBannerResponseDTO(battle, 'C', battle.getCoordiStartDate(), battle.getCoordiEndDate())));
+
+        return banners;
+    }
+
+    private BannerResponseDTO convertToBannerResponseDTO(Battle battle, Character periodType, LocalDate startDate, LocalDate endDate) {
+        return BannerResponseDTO.builder()
+                .bannerId(battle.getId())
+                .battleTitle(battle.getTitle())
+                .bannerImageURL(battle.getBannerImageURL())
+                .startDate(startDate)
+                .endDate(endDate)
+                .periodType(periodType)
+                .build();
     }
 }

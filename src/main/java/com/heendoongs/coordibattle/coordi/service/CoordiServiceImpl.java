@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
  * 2024.07.28   남진수       deleteCoordi 메소드 추가
  * 2024.07.28   남진수       isCoordiPeriod 메소드 추가
  * 2024.07.30   임원정       getCoordiList 메소드 추가
+ * 2024.07.31   임원정       getCoordiList 이미지 처리 오류 수정
  * </pre>
  */
 

@@ -31,7 +31,7 @@ public interface CoordiRepository extends JpaRepository<Coordi, Long> {
     List<Coordi> findUnvotedCoordies(Long battleId, Long memberId);
 
     // 코디 리스트 조회(모든 배틀, 랭킹순)
-    @Query("SELECT c FROM Coordi c LEFT JOIN FETCH c.member m ORDER BY (SELECT COUNT(v) FROM MemberCoordiVote v WHERE v.coordi = c AND v.liked = 'Y') DESC")
+    @Query("SELECT c FROM Coordi c LEFT JOIN FETCH c.member m ORDER BY (SELECT COUNT(v) FROM MemberCoordiVote v WHERE v.coordi = c AND v.liked = 'Y') DESC, c.createDate DESC")
     Page<Coordi> findAllByLikesDesc(Pageable pageable);
 
 }
