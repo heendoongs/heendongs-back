@@ -161,7 +161,7 @@ public class CoordiServiceImpl implements CoordiService {
                 .map(coordi -> RankingOrderCoordiListResponseDTO.builder()
                         .coordiId(coordi.getId())
                         .coordiTitle(coordi.getTitle())
-                        .coordiImage(Base64.getEncoder().encodeToString(coordi.getCoordiImage()))
+                        .coordiImage(new String(coordi.getCoordiImage()))
                         .nickname(coordi.getMember().getNickname())
                         .voteCount(coordi.getMemberCoordiVotes() != null
                                 ? coordi.getMemberCoordiVotes().stream()
