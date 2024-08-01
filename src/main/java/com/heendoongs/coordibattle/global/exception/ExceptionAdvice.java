@@ -16,58 +16,13 @@ import java.net.BindException;
 @Slf4j
 public class ExceptionAdvice {
 
-//    @ExceptionHandler(BaseException.class)
-//    public ResponseEntity handleBaseEx(BaseException exception){
-//        log.error("BaseException errorMessage(): {}", exception.getExceptionType().getErrorMessage());
-//        log.error("BaseException errorCode(): {}", exception.getExceptionType().getErrorCode());
-//
-//        return new ResponseEntity(new ExceptionDto(exception.getExceptionType().getErrorCode()),exception.getExceptionType().getHttpStatus());
-//    }
-//
-//    @ExceptionHandler(BaseException.class)
-//    public ResponseEntity<ExceptionDto> handleBaseEx(BaseException exception) {
-//        log.error("BaseException errorMessage(): {}", exception.getExceptionType().getErrorMessage());
-//        log.error("BaseException errorCode(): {}", exception.getExceptionType().getErrorCode());
-//
-//        return new ResponseEntity<>(new ExceptionDto(exception.getExceptionType().getErrorCode(), exception.getExceptionType().getErrorMessage()), exception.getExceptionType().getHttpStatus());
-//    }
-//
-//    // @Valid 에서 예외 발생
-//    @ExceptionHandler(BindException.class)
-//    public ResponseEntity handleValidEx(BindException exception){
-//
-//        log.error("@ValidException 발생! {}", exception.getMessage() );
-//        return new ResponseEntity(new ExceptionDto(2000),HttpStatus.BAD_REQUEST);
-//    }
-//
-//    // HttpMessageNotReadableException  => json 파싱 오류
-//    @ExceptionHandler(HttpMessageNotReadableException.class)
-//    public ResponseEntity httpMessageNotReadableExceptionEx(HttpMessageNotReadableException exception){
-//
-//        log.error("Json을 파싱하는 과정에서 예외 발생! {}", exception.getMessage() );
-//        return new ResponseEntity(new ExceptionDto(3000),HttpStatus.BAD_REQUEST);
-//    }
-//
-//
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity handleMemberEx(Exception exception) {
-//
-//        exception.printStackTrace();
-//        return new ResponseEntity(HttpStatus.BAD_REQUEST);
-//    }
-//
-//    @Data
-//    @AllArgsConstructor
-//    static class ExceptionDto {
-//        private Integer errorCode;
-//    }
-
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<ExceptionDto> handleBaseEx(BaseException exception) {
         log.error("BaseException errorMessage(): {}", exception.getExceptionType().getErrorMessage());
         log.error("BaseException errorCode(): {}", exception.getExceptionType().getErrorCode());
 
         return new ResponseEntity<>(new ExceptionDto(exception.getExceptionType().getErrorCode(), exception.getExceptionType().getErrorMessage()), exception.getExceptionType().getHttpStatus());
+
     }
 
     @ExceptionHandler(BindException.class)
@@ -92,9 +47,9 @@ public class ExceptionAdvice {
     @Data
     @AllArgsConstructor
     static class ExceptionDto {
-        @JsonProperty("error_code")
+        @JsonProperty("code")
         private Integer errorCode;
-        @JsonProperty("error_message")
+        @JsonProperty("message")
         private String errorMessage;
     }
 }

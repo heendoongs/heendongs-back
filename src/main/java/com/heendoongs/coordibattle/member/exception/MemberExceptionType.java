@@ -19,12 +19,13 @@ import org.springframework.http.HttpStatus;
  * </pre>
  */
 public enum MemberExceptionType implements BaseExceptionType {
-    // 회원가입 에러
-    ALREADY_EXIST_LOGIN_ID(600, HttpStatus.CONFLICT, "이미 존재하는 아이디입니다."),
-    ALREADY_EXIST_NICKNAME(600, HttpStatus.CONFLICT, "이미 존재하는 닉네임입니다."),
 
-    // 로그인 에러
-    NOT_FOUND_MEMBER(602, HttpStatus.NOT_FOUND, "회원 정보가 없습니다."),
+    // 로그인 에러,
+    NOT_FOUND_MEMBER(600, HttpStatus.NOT_FOUND, "회원 정보가 없습니다."),
+
+    // 회원가입 에러
+    ALREADY_EXIST_LOGIN_ID(601, HttpStatus.CONFLICT, "이미 존재하는 아이디입니다."),
+    ALREADY_EXIST_NICKNAME(602, HttpStatus.CONFLICT, "이미 존재하는 닉네임입니다."),
 
     // 토큰 에러
     EXPIRED_TOKEN(700, HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),

@@ -3,6 +3,7 @@ package com.heendoongs.coordibattle.member.controller;
 import com.heendoongs.coordibattle.global.jwt.JWTUtil;
 import com.heendoongs.coordibattle.member.domain.CustomUserDetails;
 import com.heendoongs.coordibattle.member.domain.Member;
+import com.heendoongs.coordibattle.member.dto.MemberInfoResponseDTO;
 import com.heendoongs.coordibattle.member.dto.MemberMyClosetResponseDTO;
 import com.heendoongs.coordibattle.member.dto.MemberSignUpRequestDTO;
 import com.heendoongs.coordibattle.member.dto.MemberUpdateDTO;
@@ -57,7 +58,7 @@ public class MemberController {
     @PutMapping("/updateAccount")
     @ResponseStatus(HttpStatus.OK)
     public void updateAccount(@Valid @RequestBody MemberUpdateDTO memberUpdateDTO) throws Exception {
-        memberService.updateAccount(memberUpdateDTO, SecurityContextHolder.getContext().getAuthentication().getName());
+        memberService.updateAccount(memberUpdateDTO);
     }
 
     /**
@@ -66,8 +67,8 @@ public class MemberController {
      */
     @DeleteMapping("/deleteAccount")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteAccount() throws Exception {
-        memberService.deleteAccount(SecurityContextHolder.getContext().getAuthentication().getName());
+    public void deleteAccount(@RequestParam Long memberId) throws Exception {
+        memberService.deleteAccount(memberId);
     }
 
     @GetMapping("/mycloset")
@@ -77,10 +78,10 @@ public class MemberController {
         return ResponseEntity.ok(memberMyClosetResponseDTO);
     }
 
-    @GetMapping("/myInfo")
-    public ResponseEntity<Member> getMyInfo(@RequestParam Long memberId) {
-        Member member = memberService.getMyInfo(memberId);
-        return ResponseEntity.ok(member);
+    @GetMapping("/myinfo")
+    public ResponseEntity<MemberInfoResponseDTO> getMyInfo(@RequestParam Long memberId) {
+        MemberInfoResponseDTO memberInfoResponseDTO = memberService.getMyInfo(memberId);
+        return ResponseEntity.ok(memberInfoResponseDTO);
     }
 
 

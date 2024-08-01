@@ -41,9 +41,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     /**
      * 로그인 아이디로 검색
-     * @param username
+     * @param loginId
      * @return
      */
-    Member findByLoginId(String username);
+    Member findByLoginId(String loginId);
+
 
 }

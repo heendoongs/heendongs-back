@@ -71,7 +71,6 @@ public class SecurityConfig {
         // TODO member 구현 왼료되면 적용
 //                        .requestMatchers("/", "/login", "/signup").permitAll()
 //                        .anyRequest().authenticated());
-
         // 필터 추가
         http.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
         http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);

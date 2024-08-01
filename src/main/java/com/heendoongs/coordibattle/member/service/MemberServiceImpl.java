@@ -1,6 +1,7 @@
 package com.heendoongs.coordibattle.member.service;
 
 import com.heendoongs.coordibattle.member.domain.Member;
+import com.heendoongs.coordibattle.member.dto.MemberInfoResponseDTO;
 import com.heendoongs.coordibattle.member.dto.MemberMyClosetResponseDTO;
 import com.heendoongs.coordibattle.member.dto.MemberSignUpRequestDTO;
 import com.heendoongs.coordibattle.member.dto.MemberUpdateDTO;
@@ -67,30 +68,30 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void updateAccount(MemberUpdateDTO memberUpdateDTO, String loginId) throws Exception {
-        Member member = memberRepository.findByLoginId(loginId);
+    public void updateAccount(MemberUpdateDTO memberUpdateDTO) throws Exception {
+        Member member = memberRepository.findById(memberUpdateDTO.getMemberId())
+                .orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
 
-        if (member == null) {
-            throw new MemberException(MemberExceptionType.NOT_FOUND_MEMBER);
+        // 닉네임 수정
+        if (memberUpdateDTO.getNickname() != null && !member.getNickname().equals(memberUpdateDTO.getNickname())) {
+            if (memberRepository.existsByNickname(memberUpdateDTO.getNickname())) {
+                throw new MemberException(MemberExceptionType.ALREADY_EXIST_NICKNAME);
+            }
+            member.updateNickname(memberUpdateDTO.getNickname());
         }
 
+        // 비밀번호 수정
         if (memberUpdateDTO.getPassword() != null) {
             String encodedPassword = bCryptPasswordEncoder.encode(memberUpdateDTO.getPassword());
             member.updatePassword(encodedPassword);
         }
-        if (memberUpdateDTO.getNickname() != null) {
-            member.updateNickname(memberUpdateDTO.getNickname());
-        }
     }
 
     @Override
-    public void deleteAccount(String loginId) throws Exception {
+    public void deleteAccount(Long memberId) throws Exception {
 
-        Member member = memberRepository.findByLoginId(loginId);
-
-        if (member == null) {
-            throw new MemberException(MemberExceptionType.NOT_FOUND_MEMBER);
-        }
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
 
         memberRepository.delete(member);
     }
@@ -109,10 +110,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member getMyInfo(Long memberId) {
+    public MemberInfoResponseDTO getMyInfo(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
 
-        return member;
+        return MemberInfoResponseDTO.builder()
+                .loginId(member.getLoginId())
+                .nickname(member.getNickname())
+                .build();
     }
 }
