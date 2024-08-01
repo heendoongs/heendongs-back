@@ -29,6 +29,7 @@ import java.util.List;
  * 2024.07.28   남진수       updateCoordi 메소드 추가
  * 2024.07.28   남진수       deleteCoordi 메소드 추가
  * 2024.07.30   임원정       getCoordiList 메소드 추가
+ * 2024.08.01   남진수       getCoordiDetails 파라미터 추가
  * </pre>
  */
 
@@ -41,8 +42,8 @@ public class CoordiController {
     private final CoordiService coordiService;
 
     @GetMapping("/details")
-    public ResponseEntity<CoordiDetailsResponseDTO> getCoordiDetails(@RequestParam Long coordiId) {
-        CoordiDetailsResponseDTO coordiDetailsResponseDTO = coordiService.getCoordiDetails(coordiId);
+    public ResponseEntity<CoordiDetailsResponseDTO> getCoordiDetails(@RequestParam Long memberId, @RequestParam Long coordiId) {
+        CoordiDetailsResponseDTO coordiDetailsResponseDTO = coordiService.getCoordiDetails(memberId, coordiId);
         return ResponseEntity.ok(coordiDetailsResponseDTO);
     }
 

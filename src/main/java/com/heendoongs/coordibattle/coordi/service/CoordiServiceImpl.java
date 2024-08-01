@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
  * 2024.07.30   임원정       getCoordiList 메소드 추가
  * 2024.07.31   임원정       getCoordiList 이미지 처리 오류 수정
  * 2024.07.31   남진수       getCoordiDetails 메소드 수정(투표 유무, 기간 추가)
+ * 2024.08.01   남진수       getCoordiDetails 파라미터 추가
  * </pre>
  */
 
@@ -47,12 +48,11 @@ public class CoordiServiceImpl implements CoordiService {
     private final CoordiRepository coordiRepository;
     private final MemberCoordiVoteRepository memberCoordiVoteRepository;
 
-    public CoordiDetailsResponseDTO getCoordiDetails(Long coordiId) {
+    public CoordiDetailsResponseDTO getCoordiDetails(Long memberId, Long coordiId) {
 
         Coordi coordi = coordiRepository.findById(coordiId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid coordiId"));
 
-        Long memberId = coordi.getMember().getId();
         String nickname = coordi.getMember().getNickname();
         LocalDate createDate = coordi.getCreateDate();
         String coordiImage = new String(coordi.getCoordiImage());
@@ -72,7 +72,7 @@ public class CoordiServiceImpl implements CoordiService {
                 .filter(vote -> vote.getLiked() != null && vote.getLiked() == 'Y')
                 .count();
 
-        boolean isVotingPeriod = isCoordiPeriod(coordiId);
+        boolean isVotingPeriod = isVotingPeriod(coordiId);
         boolean isVoted = memberCoordiVoteRepository.findByMemberIdAndCoordiId(memberId, coordiId)
                 .map(vote -> vote.getLiked() == 'Y')
                 .orElse(false);
@@ -109,7 +109,7 @@ public class CoordiServiceImpl implements CoordiService {
         }
 
         memberCoordiVoteRepository.save(memberCoordiVote);
-        return getCoordiDetails(coordiId);
+        return getCoordiDetails(memberId, coordiId);
     }
 
     @Transactional
@@ -130,7 +130,7 @@ public class CoordiServiceImpl implements CoordiService {
         }
 
         coordiRepository.save(coordi);
-        return getCoordiDetails(coordiId);
+        return getCoordiDetails(memberId, coordiId);
     }
 
     @Transactional
@@ -150,12 +150,21 @@ public class CoordiServiceImpl implements CoordiService {
         coordiRepository.deleteById(coordiId);
     }
 
-    private boolean isCoordiPeriod(Long coordiId) {
+    public boolean isCoordiPeriod(Long coordiId) {
         LocalDate now = LocalDate.now();
         Coordi coordi = coordiRepository.findById(coordiId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid coordiId"));
         LocalDate startDate = coordi.getBattle().getCoordiStartDate();
         LocalDate endDate = coordi.getBattle().getCoordiEndDate();
+        return now.isAfter(startDate) && now.isBefore(endDate);
+    }
+
+    public boolean isVotingPeriod(Long coordiId) {
+        LocalDate now = LocalDate.now();
+        Coordi coordi = coordiRepository.findById(coordiId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid coordiId"));
+        LocalDate startDate = coordi.getBattle().getVoteStartDate();
+        LocalDate endDate = coordi.getBattle().getVoteEndDate();
         return now.isAfter(startDate) && now.isBefore(endDate);
     }
 
