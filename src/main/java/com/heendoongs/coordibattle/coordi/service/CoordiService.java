@@ -2,6 +2,7 @@ package com.heendoongs.coordibattle.coordi.service;
 
 import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsRequestDTO;
 import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsResponseDTO;
+import com.heendoongs.coordibattle.coordi.dto.CoordiFilterRequestDTO;
 import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
 import org.springframework.data.domain.Page;
 
@@ -28,5 +29,6 @@ public interface CoordiService {
     CoordiDetailsResponseDTO likeCoordi(Long memberId, Long coordiId);
     CoordiDetailsResponseDTO updateCoordi(Long memberId, Long coordiId, CoordiDetailsRequestDTO requestDTO);
     void deleteCoordi(Long memberId, Long coordiId);
-    Page<CoordiListResponseDTO> getCoordiListSortedByLikes(int page, int size);
+    Page<CoordiListResponseDTO> getCoordiList(int page, int size);
+    Page<CoordiListResponseDTO> getCoordiListWithFilter(CoordiFilterRequestDTO requestDTO);
 }

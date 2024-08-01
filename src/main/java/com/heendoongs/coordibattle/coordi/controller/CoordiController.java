@@ -2,11 +2,14 @@ package com.heendoongs.coordibattle.coordi.controller;
 
 import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsRequestDTO;
 import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsResponseDTO;
+import com.heendoongs.coordibattle.coordi.dto.CoordiFilterRequestDTO;
 import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
 import com.heendoongs.coordibattle.coordi.service.CoordiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -71,7 +74,18 @@ public class CoordiController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size
     ) {
-        Page<CoordiListResponseDTO> coordiList = coordiService.getCoordiListSortedByLikes(page, size);
+        Page<CoordiListResponseDTO> coordiList = coordiService.getCoordiList(page, size);
+        return ResponseEntity.ok(coordiList);
+    }
+
+    /**
+     * 코디 리스트 조회(필터 적용)
+     * @param requestDTO
+     * @return
+     */
+    @GetMapping("list/filter")
+    public ResponseEntity<Page<CoordiListResponseDTO>> getCoordiListWithFilter(@RequestBody CoordiFilterRequestDTO requestDTO) {
+        Page<CoordiListResponseDTO> coordiList = coordiService.getCoordiListWithFilter(requestDTO);
         return ResponseEntity.ok(coordiList);
     }
 }

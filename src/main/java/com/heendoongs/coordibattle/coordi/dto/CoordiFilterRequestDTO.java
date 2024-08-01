@@ -5,18 +5,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CoordiFilterRequestDTO {
-    private Long id;
-    private String title;
     private Long battleId;
-    private LocalDate createDate;
-    private Long voteCount;
+    @
+    private String order;
+    private int page = 0;
+    private int size = 6;
 }
 
 
