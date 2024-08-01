@@ -21,11 +21,12 @@ import org.springframework.data.domain.Page;
  * 2024.07.28   남진수       updateCoordi 메소드 추가
  * 2024.07.28   남진수       deleteCoordi 메소드 추가
  * 2024.07.30   임원정       getCoordiList 메소드 추가
+ * 2024.08.01   남진수       getCoordiDetails 파라미터 추가
  * </pre>
  */
 
 public interface CoordiService {
-    CoordiDetailsResponseDTO getCoordiDetails(Long coordiId);
+    CoordiDetailsResponseDTO getCoordiDetails(Long memberId, Long coordiId);
     CoordiDetailsResponseDTO likeCoordi(Long memberId, Long coordiId);
     CoordiDetailsResponseDTO updateCoordi(Long memberId, Long coordiId, CoordiDetailsRequestDTO requestDTO);
     void deleteCoordi(Long memberId, Long coordiId);
