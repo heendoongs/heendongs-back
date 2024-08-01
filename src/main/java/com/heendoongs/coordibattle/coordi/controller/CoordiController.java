@@ -1,18 +1,14 @@
 package com.heendoongs.coordibattle.coordi.controller;
 
-import com.heendoongs.coordibattle.coordi.domain.Coordi;
 import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsRequestDTO;
 import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsResponseDTO;
-import com.heendoongs.coordibattle.coordi.dto.RankingOrderCoordiListResponseDTO;
-import com.heendoongs.coordibattle.coordi.repository.CoordiRepository;
+import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
 import com.heendoongs.coordibattle.coordi.service.CoordiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 코디 컨트롤러
@@ -71,11 +67,11 @@ public class CoordiController {
      * @return
      */
     @GetMapping("/list")
-    public ResponseEntity<Page<RankingOrderCoordiListResponseDTO>> getCoordiList(
+    public ResponseEntity<Page<CoordiListResponseDTO>> getCoordiList(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size
     ) {
-        Page<RankingOrderCoordiListResponseDTO> coordiList = coordiService.getCoordiListSortedByLikes(page, size);
+        Page<CoordiListResponseDTO> coordiList = coordiService.getCoordiListSortedByLikes(page, size);
         return ResponseEntity.ok(coordiList);
     }
 }

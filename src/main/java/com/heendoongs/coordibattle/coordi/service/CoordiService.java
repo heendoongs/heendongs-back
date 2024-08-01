@@ -1,12 +1,9 @@
 package com.heendoongs.coordibattle.coordi.service;
 
-import com.heendoongs.coordibattle.coordi.domain.Coordi;
 import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsRequestDTO;
 import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsResponseDTO;
-import com.heendoongs.coordibattle.coordi.dto.RankingOrderCoordiListResponseDTO;
+import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
 
 /**
  * 코디 서비스
@@ -31,5 +28,5 @@ public interface CoordiService {
     CoordiDetailsResponseDTO likeCoordi(Long memberId, Long coordiId);
     CoordiDetailsResponseDTO updateCoordi(Long memberId, Long coordiId, CoordiDetailsRequestDTO requestDTO);
     void deleteCoordi(Long memberId, Long coordiId);
-    Page<RankingOrderCoordiListResponseDTO> getCoordiListSortedByLikes(int page, int size);
+    Page<CoordiListResponseDTO> getCoordiListSortedByLikes(int page, int size);
 }

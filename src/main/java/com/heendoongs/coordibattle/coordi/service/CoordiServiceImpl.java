@@ -4,7 +4,7 @@ import com.heendoongs.coordibattle.clothes.dto.ClothDetailsResponseDTO;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
 import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsRequestDTO;
 import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsResponseDTO;
-import com.heendoongs.coordibattle.coordi.dto.RankingOrderCoordiListResponseDTO;
+import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
 import com.heendoongs.coordibattle.coordi.repository.CoordiRepository;
 import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.domain.MemberCoordiVote;
@@ -12,11 +12,9 @@ import com.heendoongs.coordibattle.member.repository.MemberCoordiVoteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -157,9 +155,9 @@ public class CoordiServiceImpl implements CoordiService {
      * 코디 리스트 조회 (랭킹순)
      */
     @Transactional(readOnly = true)
-    public Page<RankingOrderCoordiListResponseDTO> getCoordiListSortedByLikes(int page, int size) {
+    public Page<CoordiListResponseDTO> getCoordiListSortedByLikes(int page, int size) {
         return coordiRepository.findAllByLikesDesc(PageRequest.of(page, size))
-                .map(coordi -> RankingOrderCoordiListResponseDTO.builder()
+                .map(coordi -> CoordiListResponseDTO.builder()
                         .coordiId(coordi.getId())
                         .coordiTitle(coordi.getTitle())
                         .coordiImage(new String(coordi.getCoordiImage()))

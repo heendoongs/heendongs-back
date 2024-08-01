@@ -1,7 +1,6 @@
 package com.heendoongs.coordibattle.coordi.repository;
 
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
-import com.heendoongs.coordibattle.coordi.dto.RankingOrderCoordiListResponseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,5 +32,7 @@ public interface CoordiRepository extends JpaRepository<Coordi, Long> {
     // 코디 리스트 조회(모든 배틀, 랭킹순)
     @Query("SELECT c FROM Coordi c LEFT JOIN FETCH c.member m ORDER BY (SELECT COUNT(v) FROM MemberCoordiVote v WHERE v.coordi = c AND v.liked = 'Y') DESC, c.createDate DESC")
     Page<Coordi> findAllByLikesDesc(Pageable pageable);
+
+    Page<Coordi> findAllOrderedByCreateDate(Pageable pageable);
 
 }

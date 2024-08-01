@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RankingOrderCoordiListResponseDTO {
+public class CoordiListResponseDTO {
     private Long coordiId;
     private String coordiTitle;
     private String coordiImage;
