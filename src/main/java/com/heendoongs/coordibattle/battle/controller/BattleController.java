@@ -1,6 +1,7 @@
 package com.heendoongs.coordibattle.battle.controller;
 
 import com.heendoongs.coordibattle.battle.dto.BannerResponseDTO;
+import com.heendoongs.coordibattle.battle.dto.BattleTitleResponseDTO;
 import com.heendoongs.coordibattle.battle.dto.BattleResponseDTO;
 import com.heendoongs.coordibattle.battle.service.BattleService;
 import com.heendoongs.coordibattle.member.domain.MemberCoordiVoteRequestDTO;
@@ -28,17 +29,18 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/battle")
 public class BattleController {
 
     private final BattleService battleService;
 
-    @GetMapping("/battle")
+    @GetMapping
     public ResponseEntity<List<BattleResponseDTO>> getBattleCoordies(@RequestParam Long memberId) {
         List<BattleResponseDTO> responseDTOs = battleService.getBattleCoordies(memberId);
         return ResponseEntity.ok(responseDTOs);
     }
 
-    @PostMapping("/battle")
+    @PostMapping
     public ResponseEntity<BattleResponseDTO> postBattleResult(@RequestBody MemberCoordiVoteRequestDTO memberCoordiVoteRequestDTO) {
         BattleResponseDTO battleResponseDTO = battleService.postBattleResult(memberCoordiVoteRequestDTO);
         return ResponseEntity.ok(battleResponseDTO);
@@ -54,4 +56,9 @@ public class BattleController {
         return ResponseEntity.ok(banners);
     }
 
+    @GetMapping("/title")
+    public ResponseEntity<List<BattleTitleResponseDTO>> getBattleTitle() {
+        List<BattleTitleResponseDTO> battleTitles = battleService.getBattleTitles();
+        return ResponseEntity.ok(battleTitles);
+    }
 }

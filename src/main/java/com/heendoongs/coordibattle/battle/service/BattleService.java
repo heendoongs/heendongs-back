@@ -1,6 +1,7 @@
 package com.heendoongs.coordibattle.battle.service;
 
 import com.heendoongs.coordibattle.battle.dto.BannerResponseDTO;
+import com.heendoongs.coordibattle.battle.dto.BattleTitleResponseDTO;
 import com.heendoongs.coordibattle.battle.dto.BattleResponseDTO;
 import com.heendoongs.coordibattle.member.domain.MemberCoordiVoteRequestDTO;
 
@@ -27,4 +28,5 @@ public interface BattleService {
     List<BattleResponseDTO> getBattleCoordies(Long memberId);
     BattleResponseDTO postBattleResult(MemberCoordiVoteRequestDTO memberCoordiVoteRequestDTO);
     List<BannerResponseDTO> getCurrentBattles();
+    List<BattleTitleResponseDTO> getBattleTitles();
 }

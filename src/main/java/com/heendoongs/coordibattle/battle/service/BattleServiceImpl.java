@@ -2,6 +2,7 @@ package com.heendoongs.coordibattle.battle.service;
 
 import com.heendoongs.coordibattle.battle.domain.Battle;
 import com.heendoongs.coordibattle.battle.dto.BannerResponseDTO;
+import com.heendoongs.coordibattle.battle.dto.BattleTitleResponseDTO;
 import com.heendoongs.coordibattle.battle.dto.BattleResponseDTO;
 import com.heendoongs.coordibattle.battle.repository.BattleRepository;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
@@ -36,7 +37,8 @@ import java.util.stream.Collectors;
  * 2024.07.28   남진수       postBattleResult 메소드 추가
  * 2024.07.28   남진수       saveMemberCoordiVote 메소드 추가
  * 2024.07.29   남진수       getVotingBattleId 메소드 추가, getBattleCoordies에서 battleId 받아오도록 수정
- * 2024.07.30   임원정       getAllBattles 메소드 추가
+ * 2024.07.30   임원정       getCurrentBattles 메소드 추가
+ * 2024.08.01   임원정       getBattleTitles 메소드 추가
  * </pre>
  */
 
@@ -112,16 +114,28 @@ public class BattleServiceImpl implements BattleService{
                 .build();
     }
 
+    /**
+     * 투표 기간 배틀 반환
+     * @return
+     */
     public Long getVotingBattleId() {
         LocalDate now = LocalDate.now();
         return battleRepository.findVotingBattleIdByDate(now);
     }
 
+    /**
+     * 옷입히기 기간 배틀 반환
+     * @return
+     */
     public Long getCoordingBattleId() {
         LocalDate now = LocalDate.now();
         return battleRepository.findCoordingBattleIdByDate(now);
     }
 
+    /**
+     * 현재 진행 중인 배틀 반환
+     * @return
+     */
     @Override
     public List<BannerResponseDTO> getCurrentBattles() {
         List<BannerResponseDTO> banners = new ArrayList<>();
@@ -135,14 +149,37 @@ public class BattleServiceImpl implements BattleService{
         return banners;
     }
 
+    /**
+     * BannerResponseDTO로 변환
+     * @param battle
+     * @param periodType
+     * @param startDate
+     * @param endDate
+     * @return
+     */
     private BannerResponseDTO convertToBannerResponseDTO(Battle battle, Character periodType, LocalDate startDate, LocalDate endDate) {
         return BannerResponseDTO.builder()
-                .bannerId(battle.getId())
+                .battleId(battle.getId())
                 .battleTitle(battle.getTitle())
                 .bannerImageURL(battle.getBannerImageURL())
                 .startDate(startDate)
                 .endDate(endDate)
                 .periodType(periodType)
                 .build();
+    }
+
+    /**
+     * 배틀 타이틀 반환
+     * @return
+     */
+    public List<BattleTitleResponseDTO> getBattleTitles() {
+        List<Battle> battles = battleRepository.findAll();
+
+        return battles.stream()
+                .map(battle -> BattleTitleResponseDTO.builder()
+                        .battleId(battle.getId())
+                        .title(battle.getTitle())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

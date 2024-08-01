@@ -26,7 +26,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class BannerResponseDTO {
-    private Long bannerId;
+    private Long battleId;
     private String battleTitle;
     private String bannerImageURL;
     private LocalDate startDate;

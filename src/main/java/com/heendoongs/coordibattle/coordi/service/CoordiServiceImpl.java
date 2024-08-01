@@ -40,6 +40,7 @@ import java.util.stream.Collectors;
  * 2024.07.31   임원정       getCoordiList 이미지 처리 오류 수정
  * 2024.07.31   남진수       getCoordiDetails 메소드 수정(투표 유무, 기간 추가)
  * 2024.08.01   남진수       getCoordiDetails 파라미터 추가
+ * 2024.08.01   임원정       코디 리스트 필터 적용 및 DTO 변환 메소드 추가
  * </pre>
  */
 
@@ -171,7 +172,10 @@ public class CoordiServiceImpl implements CoordiService {
     }
 
     /**
-     * 코디 리스트 조회 (기본-랭킹순)
+     * 코디 리스트 조회 (기본 - 랭킹순)
+     * @param page
+     * @param size
+     * @return
      */
     @Transactional(readOnly = true)
     public Page<CoordiListResponseDTO> getCoordiList(int page, int size) {
@@ -179,13 +183,23 @@ public class CoordiServiceImpl implements CoordiService {
                 .map(this::convertToCoordiListRespoonseDTO);
     }
 
-
+    /**
+     * 코디 리스트 조회 (필터 적용)
+     * @param requestDTO
+     * @return
+     */
+    @Transactional
     public Page<CoordiListResponseDTO> getCoordiListWithFilter(CoordiFilterRequestDTO requestDTO) {
         Pageable pageable = PageRequest.of(requestDTO.getPage(), requestDTO.getSize());
         return coordiRepository.findAllWithFilterAndOrder(requestDTO.getBattleId(), requestDTO.getOrder(), pageable)
                 .map(this::convertToCoordiListRespoonseDTO);
     }
 
+    /**
+     * DTO 변환 함수
+     * @param coordi
+     * @return
+     */
     private CoordiListResponseDTO convertToCoordiListRespoonseDTO(Coordi coordi) {
         return CoordiListResponseDTO.builder()
                 .coordiId(coordi.getId())
