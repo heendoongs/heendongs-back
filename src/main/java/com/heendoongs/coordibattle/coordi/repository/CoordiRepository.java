@@ -38,10 +38,7 @@ public interface CoordiRepository extends JpaRepository<Coordi, Long> {
     @Query("SELECT c FROM Coordi c " +
             "WHERE (:battleId IS NULL OR c.battle.id = :battleId)" +
             "ORDER BY " +
-            "CASE " +
-            "WHEN :order = 'RECENT' THEN c.createDate " +
-            "WHEN :order = 'RANKING' THEN (SELECT COUNT(v) FROM MemberCoordiVote v WHERE v.coordi = c AND v.liked = 'Y') END DESC")
+            "CASE WHEN :order = 'RECENT' THEN c.createDate END DESC, " +
+            "CASE WHEN :order = 'RANKING' THEN (SELECT COUNT(v) FROM MemberCoordiVote v WHERE v.coordi = c AND v.liked = 'Y') END DESC")
     Page<Coordi> findAllWithFilterAndOrder(Long battleId, String order, Pageable pageable);
-
-
 }

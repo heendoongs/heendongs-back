@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CoordiFilterRequestDTO {
     private Long battleId;
-    @
     private String order;
     private int page = 0;
     private int size = 6;
