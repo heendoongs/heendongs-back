@@ -1,8 +1,14 @@
 package com.heendoongs.coordibattle.coordi.service;
 
+import com.heendoongs.coordibattle.battle.domain.Battle;
+import com.heendoongs.coordibattle.battle.repository.BattleRepository;
+import com.heendoongs.coordibattle.battle.service.BattleService;
+import com.heendoongs.coordibattle.battle.service.BattleServiceImpl;
 import com.heendoongs.coordibattle.clothes.domain.Clothes;
 import com.heendoongs.coordibattle.clothes.dto.ClothDetailsResponseDTO;
+import com.heendoongs.coordibattle.clothes.repository.ClothesRepository;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
+import com.heendoongs.coordibattle.coordi.domain.CoordiClothes;
 import com.heendoongs.coordibattle.coordi.dto.*;
 import com.heendoongs.coordibattle.coordi.repository.CoordiClothesRepository;
 import com.heendoongs.coordibattle.coordi.repository.CoordiRepository;
@@ -10,12 +16,15 @@ import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.domain.MemberCoordiVote;
 import com.heendoongs.coordibattle.member.repository.MemberCoordiVoteRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -45,6 +54,7 @@ import java.util.stream.Collectors;
  * </pre>
  */
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class CoordiServiceImpl implements CoordiService {
@@ -52,6 +62,8 @@ public class CoordiServiceImpl implements CoordiService {
     private final CoordiRepository coordiRepository;
     private final MemberCoordiVoteRepository memberCoordiVoteRepository;
     private final CoordiClothesRepository coordiClothesRepository;
+    private final ClothesRepository clothesRepository;
+    private final BattleService battleService;
 
     public CoordiDetailsResponseDTO getCoordiDetails(Long memberId, Long coordiId) {
 
@@ -186,9 +198,10 @@ public class CoordiServiceImpl implements CoordiService {
      * @param page
      * @param size
      * @return
+     * @throws Exception
      */
     @Transactional(readOnly = true)
-    public Page<CoordiListResponseDTO> getCoordiList(int page, int size) {
+    public Page<CoordiListResponseDTO> getCoordiList(int page, int size) throws Exception {
         return coordiRepository.findAllByLikesDesc(PageRequest.of(page, size))
                 .map(this::convertToCoordiListRespoonseDTO);
     }
@@ -197,9 +210,10 @@ public class CoordiServiceImpl implements CoordiService {
      * 코디 리스트 조회 (필터 적용)
      * @param requestDTO
      * @return
+     * @throws Exception
      */
     @Transactional
-    public Page<CoordiListResponseDTO> getCoordiListWithFilter(CoordiFilterRequestDTO requestDTO) {
+    public Page<CoordiListResponseDTO> getCoordiListWithFilter(CoordiFilterRequestDTO requestDTO) throws Exception {
         Pageable pageable = PageRequest.of(requestDTO.getPage(), requestDTO.getSize());
         return coordiRepository.findAllWithFilterAndOrder(requestDTO.getBattleId(), requestDTO.getOrder(), pageable)
                 .map(this::convertToCoordiListRespoonseDTO);
@@ -209,11 +223,12 @@ public class CoordiServiceImpl implements CoordiService {
      * 타입별 옷 리스트 반환
      * @param type
      * @return
+     * @throws Exception
      */
     @Transactional
-    public List<ClothesResponseDTO> getClothesByType(String type) {
-        LocalDate now = LocalDate.now();
-        List<Clothes> clothes = coordiRepository.findClothesWithBattleAndType(type, now);
+    public List<ClothesResponseDTO> getClothesByType(String type) throws Exception {
+        Long battleId = battleService.getCoordingBattleId();
+        List<Clothes> clothes = coordiRepository.findClothesWithBattleAndType(type, battleId);
         return clothes.stream()
                 .map(cloth -> ClothesResponseDTO.builder()
                         .clothId(cloth.getId())
@@ -221,6 +236,43 @@ public class CoordiServiceImpl implements CoordiService {
                         .clothImageURL(cloth.getClothImageURL())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 코디 추가
+     * @param requestDTO
+     * @return
+     * @throws Exception
+     */
+    @Transactional
+    public boolean insertCoordi(CoordiCreateRequestDTO requestDTO) throws Exception {
+        // byte로 변환
+        byte[] decodedImage = requestDTO.getCoordiImage().getBytes();
+        System.out.println("decodedImage: "+decodedImage);
+
+        Long battleId = battleService.getCoordingBattleId();
+
+        Coordi coordi = Coordi.builder()
+                .member(new Member(requestDTO.getMemberId()))
+                .battle(new Battle(battleId))
+                .title(requestDTO.getTitle())
+                .coordiImage(decodedImage)
+                .createDate(LocalDate.now())
+                .build();
+
+        coordiRepository.save(coordi);
+
+        // 저장된 코디에 옷 정보 추가
+        List<CoordiClothes> coordiClothList = requestDTO.getClothIds().stream()
+                .map(clothId -> CoordiClothes.builder()
+                        .coordi(coordi)
+                        .clothes(new Clothes(clothId))
+                        .build())
+                .collect(Collectors.toList());
+
+        coordiClothesRepository.saveAll(coordiClothList);
+
+        return true;
     }
 
 

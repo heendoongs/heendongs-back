@@ -29,7 +29,13 @@ public interface CoordiService {
     CoordiDetailsResponseDTO likeCoordi(Long memberId, Long coordiId);
     CoordiDetailsResponseDTO updateCoordi(Long memberId, Long coordiId, CoordiDetailsRequestDTO requestDTO);
     void deleteCoordi(Long memberId, Long coordiId);
-    Page<CoordiListResponseDTO> getCoordiList(int page, int size);
-    Page<CoordiListResponseDTO> getCoordiListWithFilter(CoordiFilterRequestDTO requestDTO);
-    List<ClothesResponseDTO> getClothesByType(String type);
+
+    // 코디 리스트 (기본)
+    Page<CoordiListResponseDTO> getCoordiList(int page, int size) throws Exception;
+    // 코디 리스트 (필터)
+    Page<CoordiListResponseDTO> getCoordiListWithFilter(CoordiFilterRequestDTO requestDTO) throws Exception;
+    // 타입별 옷 리스트
+    List<ClothesResponseDTO> getClothesByType(String type) throws Exception;
+    // 코디 추가
+    boolean insertCoordi(CoordiCreateRequestDTO requestDTO) throws Exception;
 }

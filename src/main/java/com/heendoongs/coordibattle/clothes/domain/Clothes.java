@@ -46,4 +46,8 @@ public class Clothes {
 
     @OneToMany(mappedBy = "clothes")
     List<BattleClothes> battleClothes = new ArrayList<>();
+
+    public Clothes(Long clothesId) {
+        this.id = clothesId;
+    }
 }

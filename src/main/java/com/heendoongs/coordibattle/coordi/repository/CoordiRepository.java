@@ -52,8 +52,7 @@ public interface CoordiRepository extends JpaRepository<Coordi, Long> {
     // 옷 가져오기 (현재 옷 입히기 진행중인 배틀, 종류별)
     @Query("SELECT cl FROM Clothes cl " +
             "JOIN BattleClothes bcl ON cl.id = bcl.clothes.id " +
-            "WHERE bcl.battle.id IN " +
-            "(SELECT b.id FROM Battle b WHERE :now BETWEEN b.coordiStartDate AND b.coordiEndDate) " +
+            "WHERE bcl.battle.id = :battleId " +
             "AND cl.type = :type")
-    List<Clothes> findClothesWithBattleAndType(String type, LocalDate now);
+    List<Clothes> findClothesWithBattleAndType(String type, Long battleId);
 }
