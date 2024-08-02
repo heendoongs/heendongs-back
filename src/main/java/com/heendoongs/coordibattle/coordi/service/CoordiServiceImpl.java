@@ -56,6 +56,7 @@ public class CoordiServiceImpl implements CoordiService {
         Coordi coordi = coordiRepository.findById(coordiId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid coordiId"));
 
+        Long memberIdOfCoordi = coordi.getMember().getId();
         String nickname = coordi.getMember().getNickname();
         LocalDate createDate = coordi.getCreateDate();
         String coordiImage = new String(coordi.getCoordiImage());
@@ -76,12 +77,13 @@ public class CoordiServiceImpl implements CoordiService {
                 .count();
 
         boolean isVotingPeriod = isVotingPeriod(coordiId);
+        boolean isCoordiPeriod = isCoordiPeriod(coordiId);
         boolean isVoted = memberCoordiVoteRepository.findByMemberIdAndCoordiId(memberId, coordiId)
                 .map(vote -> vote.getLiked() == 'Y')
                 .orElse(false);
 
         return CoordiDetailsResponseDTO.builder()
-                .memberId(memberId)
+                .memberId(memberIdOfCoordi)
                 .nickname(nickname)
                 .createDate(createDate)
                 .coordiImage(coordiImage)
@@ -89,30 +91,35 @@ public class CoordiServiceImpl implements CoordiService {
                 .clothesList(clothesList)
                 .voteCount(voteCount)
                 .isVotingPeriod(isVotingPeriod)
+                .isCoordiPeriod(isCoordiPeriod)
                 .isVoted(isVoted)
                 .build();
     }
 
     @Transactional
     public CoordiDetailsResponseDTO likeCoordi(Long memberId, Long coordiId) {
-        Optional<MemberCoordiVote> existingVote = memberCoordiVoteRepository.findByMemberIdAndCoordiId(memberId, coordiId);
 
-        MemberCoordiVote memberCoordiVote;
-        if (existingVote.isPresent()) {
-            memberCoordiVote = existingVote.get();
-            memberCoordiVote = memberCoordiVote.toBuilder()
-                    .liked(memberCoordiVote.getLiked() == 'Y' ? 'N' : 'Y')
-                    .build();
+        if (!isVotingPeriod(coordiId)) {
+            throw new IllegalArgumentException("cannot vote after period");
         } else {
-            memberCoordiVote = MemberCoordiVote.builder()
-                    .member(new Member(memberId))
-                    .coordi(new Coordi(coordiId))
-                    .liked('Y')
-                    .build();
-        }
+            Optional<MemberCoordiVote> existingVote = memberCoordiVoteRepository.findByMemberIdAndCoordiId(memberId, coordiId);
 
-        memberCoordiVoteRepository.save(memberCoordiVote);
-        return getCoordiDetails(memberId, coordiId);
+            MemberCoordiVote memberCoordiVote;
+            if (existingVote.isPresent()) {
+                memberCoordiVote = existingVote.get();
+                memberCoordiVote = memberCoordiVote.toBuilder()
+                        .liked(memberCoordiVote.getLiked() == 'Y' ? 'N' : 'Y')
+                        .build();
+            } else {
+                memberCoordiVote = MemberCoordiVote.builder()
+                        .member(new Member(memberId))
+                        .coordi(new Coordi(coordiId))
+                        .liked('Y')
+                        .build();
+            }
+            memberCoordiVoteRepository.save(memberCoordiVote);
+            return getCoordiDetails(memberId, coordiId);
+        }
     }
 
     @Transactional
