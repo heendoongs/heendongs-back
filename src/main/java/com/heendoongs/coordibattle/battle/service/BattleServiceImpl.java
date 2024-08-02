@@ -1,5 +1,6 @@
 package com.heendoongs.coordibattle.battle.service;
 
+import com.heendoongs.coordibattle.battle.domain.Battle;
 import com.heendoongs.coordibattle.battle.dto.BannerResponseDTO;
 import com.heendoongs.coordibattle.battle.dto.BattleTitleResponseDTO;
 import com.heendoongs.coordibattle.battle.dto.BattleResponseDTO;

@@ -42,4 +42,6 @@ public interface MemberService {
     MemberMyClosetResponseDTO getMyCloset(Long memberId);
 
     MemberInfoResponseDTO getMyInfo(Long memberId);
+
+    Member getByLoginId(String loginId);
 }

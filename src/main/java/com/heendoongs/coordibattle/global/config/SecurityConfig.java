@@ -3,6 +3,7 @@ package com.heendoongs.coordibattle.global.config;
 import com.heendoongs.coordibattle.global.jwt.JWTFilter;
 import com.heendoongs.coordibattle.global.jwt.JWTUtil;
 import com.heendoongs.coordibattle.global.jwt.LoginFilter;
+import com.heendoongs.coordibattle.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -67,10 +68,10 @@ public class SecurityConfig {
 
         // 경로별 인가 작업
         http.authorizeHttpRequests((auth) -> auth
-                        .anyRequest().permitAll());
+//                        .anyRequest().permitAll());
         // TODO member 구현 왼료되면 적용
-//                        .requestMatchers("/", "/login", "/signup").permitAll()
-//                        .anyRequest().authenticated());
+                        .requestMatchers("/", "/login", "/signup", "/battle/banner", "/battle/title", "/coordi/details", "/coordi/like", "/coordi/list/*").permitAll()
+                        .anyRequest().authenticated());
         // 필터 추가
         http.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
         http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);

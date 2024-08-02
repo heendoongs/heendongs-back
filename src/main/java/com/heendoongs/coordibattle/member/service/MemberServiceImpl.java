@@ -119,4 +119,9 @@ public class MemberServiceImpl implements MemberService {
                 .nickname(member.getNickname())
                 .build();
     }
+
+    @Override
+    public Member getByLoginId(String loginId) {
+        return memberRepository.findByLoginId(loginId);
+    }
 }

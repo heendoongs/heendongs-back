@@ -1,5 +1,6 @@
 package com.heendoongs.coordibattle.global.jwt;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -37,10 +38,6 @@ public class JWTUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("username", String.class);
     }
 
-    public Long getMemberId(String token) {
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("memberId", Long.class);
-    }
-
 //    public String getRole(String token) {
 //        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role", String.class);
 //    }
@@ -49,10 +46,22 @@ public class JWTUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
-    // JWT 토큰 발급
-    public String createJwt(String username, String role, Long expiredMs) {
+    public String getCategory(String token) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("category", String.class);
+    }
+
+    /**
+     * JWT 토큰 발급
+     * @param category
+     * @param username
+     * @param role
+     * @param expiredMs
+     * @return
+     */
+    public String createJwt(String category, String username, String role, Long expiredMs) {
 
         return Jwts.builder()
+                .claim("category", category)
                 .claim("username", username)
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
@@ -60,4 +69,5 @@ public class JWTUtil {
                 .signWith(secretKey)
                 .compact();
     }
+
 }

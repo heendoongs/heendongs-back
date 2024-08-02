@@ -1,22 +1,16 @@
 package com.heendoongs.coordibattle.member.controller;
 
-import com.heendoongs.coordibattle.global.jwt.JWTUtil;
-import com.heendoongs.coordibattle.member.domain.CustomUserDetails;
 import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.dto.MemberInfoResponseDTO;
 import com.heendoongs.coordibattle.member.dto.MemberMyClosetResponseDTO;
 import com.heendoongs.coordibattle.member.dto.MemberSignUpRequestDTO;
 import com.heendoongs.coordibattle.member.dto.MemberUpdateDTO;
-import com.heendoongs.coordibattle.member.service.CustomUserDetailsService;
 import com.heendoongs.coordibattle.member.service.MemberService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -79,8 +73,13 @@ public class MemberController {
     }
 
     @GetMapping("/myinfo")
-    public ResponseEntity<MemberInfoResponseDTO> getMyInfo(@RequestParam Long memberId) {
-        MemberInfoResponseDTO memberInfoResponseDTO = memberService.getMyInfo(memberId);
+    public ResponseEntity<MemberInfoResponseDTO> getMyInfo(Authentication auth) {
+        Long loginUser = memberService.getByLoginId(auth.getName()).getId();
+//
+//        return String.format("loginId : %s\nnickname : %s\nrole : %s",
+//                loginUser.getLoginId(), loginUser.getNickname(), loginUser.getRole().name());
+
+        MemberInfoResponseDTO memberInfoResponseDTO = memberService.getMyInfo(loginUser);
         return ResponseEntity.ok(memberInfoResponseDTO);
     }
 
@@ -88,6 +87,7 @@ public class MemberController {
     @GetMapping("/test")
     @ResponseStatus(HttpStatus.OK)
     private String testPage () {
+
         return "test page입니다";
     }
 

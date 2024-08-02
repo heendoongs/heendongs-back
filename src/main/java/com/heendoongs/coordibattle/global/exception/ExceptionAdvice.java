@@ -22,7 +22,6 @@ public class ExceptionAdvice {
         log.error("BaseException errorCode(): {}", exception.getExceptionType().getErrorCode());
 
         return new ResponseEntity<>(new ExceptionDto(exception.getExceptionType().getErrorCode(), exception.getExceptionType().getErrorMessage()), exception.getExceptionType().getHttpStatus());
-
     }
 
     @ExceptionHandler(BindException.class)

@@ -4,6 +4,7 @@ import com.heendoongs.coordibattle.member.domain.CustomUserDetails;
 import com.heendoongs.coordibattle.member.dto.MemberLoginRequestDTO;
 import com.heendoongs.coordibattle.member.exception.MemberException;
 import com.heendoongs.coordibattle.member.exception.MemberExceptionType;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -37,17 +38,28 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // Authorization 헤더 검증
-        String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+        // access 토큰 확인
+        String accessToken = request.getHeader("Authorization");
+
+        if (accessToken == null || !accessToken.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // 토큰 만료 여부 확인
+        if (jwtUtil.isExpired(accessToken)) {
+            throw new MemberException(MemberExceptionType.EXPIRED_TOKEN);
+        }
+
+        // 토큰이 Authorization 확인
+        String category = jwtUtil.getCategory(accessToken);
+        if (!"access".equals(category)) {
             throw new MemberException(MemberExceptionType.INVALID_TOKEN);
         }
 
-        String token = authorizationHeader.substring(7);
-
         try {
             // 토큰에서 사용자 정보 추출 및 검증
-            String username = jwtUtil.getUsername(token);
+            String username = jwtUtil.getUsername(accessToken);
 
             MemberLoginRequestDTO memberLoginRequestDTO = MemberLoginRequestDTO.builder()
                     .loginId(username)
@@ -82,7 +94,9 @@ public class JWTFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
         // TODO: member 기능 완료 시 return 변경
-//        return path.equals("/") || path.equals("/login") || path.equals("/signup");
-        return true;
+        return path.equals("/") || path.equals("/login") || path.equals("/signup") ||
+
+        path.equals("/battle/banner") || path.equals("/battle/title") || path.equals("/coordi/details") || path.equals("/coordi/like") || path.equals("/coordi/list/*");
+//        return true;
     }
 }
