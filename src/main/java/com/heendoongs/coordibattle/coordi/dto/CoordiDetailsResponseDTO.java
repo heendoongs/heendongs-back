@@ -20,4 +20,6 @@ public class CoordiDetailsResponseDTO {
     private String coordiTitle;
     private List<ClothDetailsResponseDTO> clothesList;
     private Integer voteCount;
+    private Boolean isVotingPeriod;
+    private Boolean isVoted;
 }

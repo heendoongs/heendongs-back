@@ -4,7 +4,8 @@ import com.heendoongs.coordibattle.clothes.dto.ClothDetailsResponseDTO;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
 import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsRequestDTO;
 import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsResponseDTO;
-import com.heendoongs.coordibattle.coordi.dto.RankingOrderCoordiListResponseDTO;
+import com.heendoongs.coordibattle.coordi.dto.CoordiFilterRequestDTO;
+import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
 import com.heendoongs.coordibattle.coordi.repository.CoordiRepository;
 import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.domain.MemberCoordiVote;
@@ -16,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,6 +37,10 @@ import java.util.stream.Collectors;
  * 2024.07.28   남진수       deleteCoordi 메소드 추가
  * 2024.07.28   남진수       isCoordiPeriod 메소드 추가
  * 2024.07.30   임원정       getCoordiList 메소드 추가
+ * 2024.07.31   임원정       getCoordiList 이미지 처리 오류 수정
+ * 2024.07.31   남진수       getCoordiDetails 메소드 수정(투표 유무, 기간 추가)
+ * 2024.08.01   남진수       getCoordiDetails 파라미터 추가
+ * 2024.08.01   임원정       코디 리스트 필터 적용 및 DTO 변환 메소드 추가
  * </pre>
  */
 
@@ -47,12 +51,11 @@ public class CoordiServiceImpl implements CoordiService {
     private final CoordiRepository coordiRepository;
     private final MemberCoordiVoteRepository memberCoordiVoteRepository;
 
-    public CoordiDetailsResponseDTO getCoordiDetails(Long coordiId) {
+    public CoordiDetailsResponseDTO getCoordiDetails(Long memberId, Long coordiId) {
 
         Coordi coordi = coordiRepository.findById(coordiId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid coordiId"));
 
-        Long memberId = coordi.getMember().getId();
         String nickname = coordi.getMember().getNickname();
         LocalDate createDate = coordi.getCreateDate();
         String coordiImage = new String(coordi.getCoordiImage());
@@ -72,6 +75,11 @@ public class CoordiServiceImpl implements CoordiService {
                 .filter(vote -> vote.getLiked() != null && vote.getLiked() == 'Y')
                 .count();
 
+        boolean isVotingPeriod = isVotingPeriod(coordiId);
+        boolean isVoted = memberCoordiVoteRepository.findByMemberIdAndCoordiId(memberId, coordiId)
+                .map(vote -> vote.getLiked() == 'Y')
+                .orElse(false);
+
         return CoordiDetailsResponseDTO.builder()
                 .memberId(memberId)
                 .nickname(nickname)
@@ -80,6 +88,8 @@ public class CoordiServiceImpl implements CoordiService {
                 .coordiTitle(coordiTitle)
                 .clothesList(clothesList)
                 .voteCount(voteCount)
+                .isVotingPeriod(isVotingPeriod)
+                .isVoted(isVoted)
                 .build();
     }
 
@@ -102,7 +112,7 @@ public class CoordiServiceImpl implements CoordiService {
         }
 
         memberCoordiVoteRepository.save(memberCoordiVote);
-        return getCoordiDetails(coordiId);
+        return getCoordiDetails(memberId, coordiId);
     }
 
     @Transactional
@@ -123,7 +133,7 @@ public class CoordiServiceImpl implements CoordiService {
         }
 
         coordiRepository.save(coordi);
-        return getCoordiDetails(coordiId);
+        return getCoordiDetails(memberId, coordiId);
     }
 
     @Transactional
@@ -143,7 +153,7 @@ public class CoordiServiceImpl implements CoordiService {
         coordiRepository.deleteById(coordiId);
     }
 
-    private boolean isCoordiPeriod(Long coordiId) {
+    public boolean isCoordiPeriod(Long coordiId) {
         LocalDate now = LocalDate.now();
         Coordi coordi = coordiRepository.findById(coordiId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid coordiId"));
@@ -152,23 +162,55 @@ public class CoordiServiceImpl implements CoordiService {
         return now.isAfter(startDate) && now.isBefore(endDate);
     }
 
-    /**
-     * 코디 리스트 조회 (랭킹순)
-     */
-    @Transactional(readOnly = true)
-    public Page<RankingOrderCoordiListResponseDTO> getCoordiListSortedByLikes(int page, int size) {
-        return coordiRepository.findAllByLikesDesc(PageRequest.of(page, size))
-                .map(coordi -> RankingOrderCoordiListResponseDTO.builder()
-                        .coordiId(coordi.getId())
-                        .coordiTitle(coordi.getTitle())
-                        .coordiImage(Base64.getEncoder().encodeToString(coordi.getCoordiImage()))
-                        .nickname(coordi.getMember().getNickname())
-                        .voteCount(coordi.getMemberCoordiVotes() != null
-                                ? coordi.getMemberCoordiVotes().stream()
-                                .filter(v -> v.getLiked() == 'Y')
-                                .count()
-                                : 0L)
-                        .build());
+    public boolean isVotingPeriod(Long coordiId) {
+        LocalDate now = LocalDate.now();
+        Coordi coordi = coordiRepository.findById(coordiId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid coordiId"));
+        LocalDate startDate = coordi.getBattle().getVoteStartDate();
+        LocalDate endDate = coordi.getBattle().getVoteEndDate();
+        return now.isAfter(startDate) && now.isBefore(endDate);
     }
 
+    /**
+     * 코디 리스트 조회 (기본 - 랭킹순)
+     * @param page
+     * @param size
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Page<CoordiListResponseDTO> getCoordiList(int page, int size) {
+        return coordiRepository.findAllByLikesDesc(PageRequest.of(page, size))
+                .map(this::convertToCoordiListRespoonseDTO);
+    }
+
+    /**
+     * 코디 리스트 조회 (필터 적용)
+     * @param requestDTO
+     * @return
+     */
+    @Transactional
+    public Page<CoordiListResponseDTO> getCoordiListWithFilter(CoordiFilterRequestDTO requestDTO) {
+        Pageable pageable = PageRequest.of(requestDTO.getPage(), requestDTO.getSize());
+        return coordiRepository.findAllWithFilterAndOrder(requestDTO.getBattleId(), requestDTO.getOrder(), pageable)
+                .map(this::convertToCoordiListRespoonseDTO);
+    }
+
+    /**
+     * DTO 변환 함수
+     * @param coordi
+     * @return
+     */
+    private CoordiListResponseDTO convertToCoordiListRespoonseDTO(Coordi coordi) {
+        return CoordiListResponseDTO.builder()
+                .coordiId(coordi.getId())
+                .coordiTitle(coordi.getTitle())
+                .coordiImage(new String(coordi.getCoordiImage()))
+                .nickname(coordi.getMember().getNickname())
+                .voteCount(coordi.getMemberCoordiVotes() != null
+                        ? coordi.getMemberCoordiVotes().stream()
+                        .filter(v -> v.getLiked() == 'Y')
+                        .count()
+                        : 0L)
+                .build();
+    }
 }

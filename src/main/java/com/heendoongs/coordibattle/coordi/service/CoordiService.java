@@ -1,12 +1,10 @@
 package com.heendoongs.coordibattle.coordi.service;
 
-import com.heendoongs.coordibattle.coordi.domain.Coordi;
 import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsRequestDTO;
 import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsResponseDTO;
-import com.heendoongs.coordibattle.coordi.dto.RankingOrderCoordiListResponseDTO;
+import com.heendoongs.coordibattle.coordi.dto.CoordiFilterRequestDTO;
+import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
 
 /**
  * 코디 서비스
@@ -23,13 +21,15 @@ import java.util.List;
  * 2024.07.28   남진수       updateCoordi 메소드 추가
  * 2024.07.28   남진수       deleteCoordi 메소드 추가
  * 2024.07.30   임원정       getCoordiList 메소드 추가
+ * 2024.08.01   남진수       getCoordiDetails 파라미터 추가
  * </pre>
  */
 
 public interface CoordiService {
-    CoordiDetailsResponseDTO getCoordiDetails(Long coordiId);
+    CoordiDetailsResponseDTO getCoordiDetails(Long memberId, Long coordiId);
     CoordiDetailsResponseDTO likeCoordi(Long memberId, Long coordiId);
     CoordiDetailsResponseDTO updateCoordi(Long memberId, Long coordiId, CoordiDetailsRequestDTO requestDTO);
     void deleteCoordi(Long memberId, Long coordiId);
-    Page<RankingOrderCoordiListResponseDTO> getCoordiListSortedByLikes(int page, int size);
+    Page<CoordiListResponseDTO> getCoordiList(int page, int size);
+    Page<CoordiListResponseDTO> getCoordiListWithFilter(CoordiFilterRequestDTO requestDTO);
 }

@@ -17,6 +17,7 @@ import java.time.LocalDate;
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.07.30  	임원정       최초 생성
+ * 2024.07.31   임원정       필드 수정(periodType 추가)
  * </pre>
  */
 
@@ -25,14 +26,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class BannerResponseDTO {
-    private Long id;
-    private String bannerImageUrl;
-    private String bannerTitle;
-    private LocalDate voteStartDate;
-    private LocalDate voteEndDate;
-    private LocalDate coordiStartDate;
-    private LocalDate coordiEndDate;
-
-    private boolean isCordiPeriod;
-    private boolean isVotePeriod;
+    private Long battleId;
+    private String battleTitle;
+    private String bannerImageURL;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private Character periodType; // "C" : 옷입히기 또는 "V" : 투표하기
 }
