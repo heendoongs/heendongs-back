@@ -6,6 +6,7 @@ import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsRequestDTO;
 import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsResponseDTO;
 import com.heendoongs.coordibattle.coordi.dto.CoordiFilterRequestDTO;
 import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
+import com.heendoongs.coordibattle.coordi.repository.CoordiClothesRepository;
 import com.heendoongs.coordibattle.coordi.repository.CoordiRepository;
 import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.domain.MemberCoordiVote;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -50,6 +52,7 @@ public class CoordiServiceImpl implements CoordiService {
 
     private final CoordiRepository coordiRepository;
     private final MemberCoordiVoteRepository memberCoordiVoteRepository;
+    private final CoordiClothesRepository coordiClothesRepository;
 
     public CoordiDetailsResponseDTO getCoordiDetails(Long memberId, Long coordiId) {
 
@@ -127,7 +130,7 @@ public class CoordiServiceImpl implements CoordiService {
         Coordi coordi = coordiRepository.findById(coordiId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid coordiId"));
 
-        if (coordi.getMember().getId() != memberId) {
+        if (!Objects.equals(coordi.getMember().getId(), memberId)) {
             throw new IllegalArgumentException("Invalid memberId");
         }
 
@@ -149,14 +152,15 @@ public class CoordiServiceImpl implements CoordiService {
         Coordi coordi = coordiRepository.findById(coordiId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid coordiId"));
 
-        if (coordi.getMember().getId() != memberId) {
+        if (!Objects.equals(coordi.getMember().getId(), memberId)) {
             throw new IllegalArgumentException("Invalid memberId");
         }
 
         if (!isCoordiPeriod(coordiId)) {
             throw new IllegalArgumentException("cannot delete coordi after period");
         }
-
+        coordiClothesRepository.deleteAllByCoordiId(coordiId);
+        memberCoordiVoteRepository.deleteAllByCoordiId(coordiId);
         coordiRepository.deleteById(coordiId);
     }
 
