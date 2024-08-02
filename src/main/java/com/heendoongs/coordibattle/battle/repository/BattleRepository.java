@@ -38,6 +38,7 @@ public interface BattleRepository extends JpaRepository<Battle, Long> {
 
 //    @Query("SELECT b.id, b.title FROM Battle b ORDER BY b.coordiStartDate")
 //    List<Battle> findAllWithOrderByCoordiStartDate();
+    @Query("SELECT b FROM Battle b ORDER BY b.coordiStartDate")
     List<Battle> findAll();
 
 }

@@ -80,11 +80,11 @@ public class CoordiController {
     }
 
     /**
-     * 코디 리스트 조회(필터 적용)
+     * 코디 리스트 조회(필터)
      * @param requestDTO
      * @return
      */
-    @GetMapping("list/filter")
+    @PostMapping("list/filter")
     public ResponseEntity<Page<CoordiListResponseDTO>> getCoordiListWithFilter(@RequestBody CoordiFilterRequestDTO requestDTO) {
         Page<CoordiListResponseDTO> coordiList = coordiService.getCoordiListWithFilter(requestDTO);
         return ResponseEntity.ok(coordiList);
