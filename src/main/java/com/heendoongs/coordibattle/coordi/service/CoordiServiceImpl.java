@@ -1,11 +1,9 @@
 package com.heendoongs.coordibattle.coordi.service;
 
+import com.heendoongs.coordibattle.clothes.domain.Clothes;
 import com.heendoongs.coordibattle.clothes.dto.ClothDetailsResponseDTO;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
-import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsRequestDTO;
-import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsResponseDTO;
-import com.heendoongs.coordibattle.coordi.dto.CoordiFilterRequestDTO;
-import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
+import com.heendoongs.coordibattle.coordi.dto.*;
 import com.heendoongs.coordibattle.coordi.repository.CoordiClothesRepository;
 import com.heendoongs.coordibattle.coordi.repository.CoordiRepository;
 import com.heendoongs.coordibattle.member.domain.Member;
@@ -43,6 +41,7 @@ import java.util.stream.Collectors;
  * 2024.07.31   남진수       getCoordiDetails 메소드 수정(투표 유무, 기간 추가)
  * 2024.08.01   남진수       getCoordiDetails 파라미터 추가
  * 2024.08.01   임원정       코디 리스트 필터 적용 및 DTO 변환 메소드 추가
+ * 2024.08.02   임원정       getClothesByType 메소드 추가
  * </pre>
  */
 
@@ -207,7 +206,26 @@ public class CoordiServiceImpl implements CoordiService {
     }
 
     /**
-     * DTO 변환 함수
+     * 타입별 옷 리스트 반환
+     * @param type
+     * @return
+     */
+    @Transactional
+    public List<ClothesResponseDTO> getClothesByType(String type) {
+        LocalDate now = LocalDate.now();
+        List<Clothes> clothes = coordiRepository.findClothesWithBattleAndType(type, now);
+        return clothes.stream()
+                .map(cloth -> ClothesResponseDTO.builder()
+                        .clothId(cloth.getId())
+                        .type(cloth.getType())
+                        .clothImageURL(cloth.getClothImageURL())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+
+    /**
+     * 코디 리스트 Response DTO 변환 함수
      * @param coordi
      * @return
      */

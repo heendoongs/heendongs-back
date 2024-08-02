@@ -24,7 +24,7 @@ public class Clothes {
     private Long id;
 
     @Column(name = "type")
-    private String Type;
+    private String type;
 
     @Column(name = "product_name")
     private String productName;
@@ -46,6 +46,4 @@ public class Clothes {
 
     @OneToMany(mappedBy = "clothes")
     List<BattleClothes> battleClothes = new ArrayList<>();
-
-
 }

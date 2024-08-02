@@ -1,9 +1,6 @@
 package com.heendoongs.coordibattle.coordi.controller;
 
-import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsRequestDTO;
-import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsResponseDTO;
-import com.heendoongs.coordibattle.coordi.dto.CoordiFilterRequestDTO;
-import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
+import com.heendoongs.coordibattle.coordi.dto.*;
 import com.heendoongs.coordibattle.coordi.service.CoordiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -12,6 +9,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 코디 컨트롤러
@@ -80,13 +79,24 @@ public class CoordiController {
     }
 
     /**
-     * 코디 리스트 조회(필터 적용)
+     * 코디 리스트 조회(필터)
      * @param requestDTO
      * @return
      */
-    @GetMapping("list/filter")
+    @PostMapping("list/filter")
     public ResponseEntity<Page<CoordiListResponseDTO>> getCoordiListWithFilter(@RequestBody CoordiFilterRequestDTO requestDTO) {
         Page<CoordiListResponseDTO> coordiList = coordiService.getCoordiListWithFilter(requestDTO);
         return ResponseEntity.ok(coordiList);
+    }
+
+    /**
+     * 타입별 옷 리스트 가져오기
+     * @param type
+     * @return
+     */
+    @GetMapping("clothes")
+    public ResponseEntity<List<ClothesResponseDTO>> getClothesList (@RequestParam String type) {
+        List<ClothesResponseDTO> clothList = coordiService.getClothesByType(type);
+        return ResponseEntity.ok(clothList);
     }
 }
