@@ -1,10 +1,9 @@
 package com.heendoongs.coordibattle.coordi.service;
 
-import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsRequestDTO;
-import com.heendoongs.coordibattle.coordi.dto.CoordiDetailsResponseDTO;
-import com.heendoongs.coordibattle.coordi.dto.CoordiFilterRequestDTO;
-import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
+import com.heendoongs.coordibattle.coordi.dto.*;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * 코디 서비스
@@ -32,4 +31,5 @@ public interface CoordiService {
     void deleteCoordi(Long memberId, Long coordiId);
     Page<CoordiListResponseDTO> getCoordiList(int page, int size);
     Page<CoordiListResponseDTO> getCoordiListWithFilter(CoordiFilterRequestDTO requestDTO);
+    List<ClothesResponseDTO> getClothesByType(String type);
 }
