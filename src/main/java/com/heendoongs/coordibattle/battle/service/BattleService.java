@@ -29,4 +29,5 @@ public interface BattleService {
     BattleResponseDTO postBattleResult(MemberCoordiVoteRequestDTO memberCoordiVoteRequestDTO);
     List<BannerResponseDTO> getCurrentBattles();
     List<BattleTitleResponseDTO> getBattleTitles();
+    Long getCoordingBattleId();
 }

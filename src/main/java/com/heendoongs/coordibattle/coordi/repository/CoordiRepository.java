@@ -1,5 +1,6 @@
 package com.heendoongs.coordibattle.coordi.repository;
 
+import com.heendoongs.coordibattle.clothes.domain.Clothes;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
 import com.heendoongs.coordibattle.coordi.dto.CoordiFilterRequestDTO;
 import org.springframework.data.domain.Page;
@@ -8,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -22,6 +24,7 @@ import java.util.List;
  * 2024.07.26  	임원정       최초 생성
  * 2024.07.27   남진수       findUnvotedCoordies 메소드 추가
  * 2024.07.30   임원정       findAllByLikesDesc 메소드 추가
+ * 2024.08.01   임원정       findAllWithFilterAndOrder 메소드 추가
  * </pre>
  */
 
@@ -31,14 +34,25 @@ public interface CoordiRepository extends JpaRepository<Coordi, Long> {
     List<Coordi> findUnvotedCoordies(Long battleId, Long memberId);
 
     // 코디 리스트 조회(기본-랭킹순)
-    @Query("SELECT c FROM Coordi c LEFT JOIN FETCH c.member m ORDER BY (SELECT COUNT(v) FROM MemberCoordiVote v WHERE v.coordi = c AND v.liked = 'Y') DESC, c.createDate DESC")
+    @Query("SELECT c " +
+            "FROM Coordi c " +
+            "LEFT JOIN FETCH c.member m " +
+            "ORDER BY (SELECT COUNT(v) FROM MemberCoordiVote v WHERE v.coordi = c AND v.liked = 'Y') DESC, c.createDate DESC")
     Page<Coordi> findAllByLikesDesc(Pageable pageable);
 
     // 코디 리스트 필터 적용(배틀별, 최신순, 랭킹순)
-    @Query("SELECT c FROM Coordi c " +
+    @Query("SELECT c " +
+            "FROM Coordi c " +
             "WHERE (:battleId IS NULL OR c.battle.id = :battleId)" +
             "ORDER BY " +
             "CASE WHEN :order = 'RECENT' THEN c.createDate END DESC, " +
             "CASE WHEN :order = 'RANKING' THEN (SELECT COUNT(v) FROM MemberCoordiVote v WHERE v.coordi = c AND v.liked = 'Y') END DESC")
     Page<Coordi> findAllWithFilterAndOrder(Long battleId, String order, Pageable pageable);
+    
+    // 옷 가져오기 (현재 옷 입히기 진행중인 배틀, 종류별)
+    @Query("SELECT cl FROM Clothes cl " +
+            "JOIN BattleClothes bcl ON cl.id = bcl.clothes.id " +
+            "WHERE bcl.battle.id = :battleId " +
+            "AND cl.type = :type")
+    List<Clothes> findClothesWithBattleAndType(String type, Long battleId);
 }

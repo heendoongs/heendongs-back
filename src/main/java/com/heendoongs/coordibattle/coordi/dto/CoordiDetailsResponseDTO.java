@@ -21,5 +21,6 @@ public class CoordiDetailsResponseDTO {
     private List<ClothDetailsResponseDTO> clothesList;
     private Integer voteCount;
     private Boolean isVotingPeriod;
+    private Boolean isCoordiPeriod;
     private Boolean isVoted;
 }

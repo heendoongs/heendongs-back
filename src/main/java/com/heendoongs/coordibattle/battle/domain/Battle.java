@@ -42,4 +42,8 @@ public class Battle {
 
     @OneToMany(mappedBy = "battle")
     List<BattleClothes> battleClothes = new ArrayList<>();
+
+    public Battle(Long battleId) {
+        this.id = battleId;
+    }
 }
