@@ -1,5 +1,10 @@
 package com.heendoongs.coordibattle.coordi.dto;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,16 +22,20 @@ import java.util.List;
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.08.02  	임원정       최초 생성
+ * 2024.08.03   임원정       Validation 추가
  * </pre>
  */
 
+@Valid
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CoordiCreateRequestDTO {
-    private Long memberId;
-    private String title;
-    private String coordiImage; // Base64 encoded string
+    @Size(min = 1, max = 20, message = "제목은 1자 이상 20자 이하로 작성해주세요")
+    private String title;   // 1자 이상 20자 이하
+    @NotNull
+    private String coordiImage; // Base64 인코딩 된 String
+    @NotNull
     private List<Long> clothIds;
 }

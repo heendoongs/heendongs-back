@@ -2,6 +2,8 @@ package com.heendoongs.coordibattle.coordi.controller;
 
 import com.heendoongs.coordibattle.coordi.dto.*;
 import com.heendoongs.coordibattle.coordi.service.CoordiService;
+import com.heendoongs.coordibattle.global.annotation.MemberId;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import okhttp3.Response;
@@ -30,6 +32,8 @@ import java.util.List;
  * 2024.07.28   남진수       deleteCoordi 메소드 추가
  * 2024.07.30   임원정       getCoordiList 메소드 추가
  * 2024.08.01   남진수       getCoordiDetails 파라미터 추가
+ * 2024.08.01   임원정       getCoordiListWithFilter 메소드 추가
+ * 2024.08.02   임원정       getClothList, uploadCoordi 메소드 추가
  * </pre>
  */
 
@@ -101,7 +105,7 @@ public class CoordiController {
      * @throws Exception
      */
     @GetMapping("clothes")
-    public ResponseEntity<List<ClothesResponseDTO>> getClothesList (@RequestParam String type) throws Exception {
+    public ResponseEntity<List<ClothesResponseDTO>> getClothList (@RequestParam String type) throws Exception {
         List<ClothesResponseDTO> clothList = coordiService.getClothesByType(type);
         return ResponseEntity.ok(clothList);
     }
@@ -113,9 +117,10 @@ public class CoordiController {
      * @throws Exception
      */
     @PostMapping
-    public ResponseEntity<String> uploadCoordi (@RequestBody CoordiCreateRequestDTO requestDTO) throws Exception {
-        return coordiService.insertCoordi(requestDTO)
-                ? new ResponseEntity<String>("success", HttpStatus.OK)
-				: new ResponseEntity<String>("error", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> uploadCoordi (@Valid @RequestBody CoordiCreateRequestDTO requestDTO, @MemberId Long memberId) throws Exception {
+        System.out.println("컨트롤러에 왔니?");
+        return coordiService.insertCoordi(requestDTO, memberId)
+                ? new ResponseEntity<String>("코디 업로드 성공", HttpStatus.OK)
+				: new ResponseEntity<String>("코디 업로드 실패", HttpStatus.BAD_REQUEST);
     }
 }

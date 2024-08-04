@@ -37,5 +37,5 @@ public interface CoordiService {
     // 타입별 옷 리스트
     List<ClothesResponseDTO> getClothesByType(String type) throws Exception;
     // 코디 추가
-    boolean insertCoordi(CoordiCreateRequestDTO requestDTO) throws Exception;
+    boolean insertCoordi(CoordiCreateRequestDTO requestDTO, Long memberId) throws Exception;
 }
