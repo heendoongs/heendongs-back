@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -15,5 +15,5 @@ public class CoordiDetailsRequestDTO {
     private Long battleId;
     private String coordiTitle;
     private String coordiImage;
-    private LocalDate createDate;
+    private LocalDateTime createDate;
 }

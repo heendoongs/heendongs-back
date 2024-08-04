@@ -16,7 +16,6 @@ import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.domain.MemberCoordiVote;
 import com.heendoongs.coordibattle.member.repository.MemberCoordiVoteRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
@@ -72,7 +72,7 @@ public class CoordiServiceImpl implements CoordiService {
 
         Long memberIdOfCoordi = coordi.getMember().getId();
         String nickname = coordi.getMember().getNickname();
-        LocalDate createDate = coordi.getCreateDate();
+        LocalDateTime createDate = coordi.getCreateDate();
         String coordiImage = new String(coordi.getCoordiImage());
         String coordiTitle = coordi.getTitle();
 
@@ -258,7 +258,7 @@ public class CoordiServiceImpl implements CoordiService {
                 .battle(new Battle(battleId))
                 .title(requestDTO.getTitle())
                 .coordiImage(decodedImage)
-                .createDate(LocalDate.now())
+                .createDate(LocalDateTime.now())
                 .build();
 
         coordiRepository.save(coordi);

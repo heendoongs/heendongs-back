@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -15,7 +15,7 @@ import java.util.List;
 public class CoordiDetailsResponseDTO {
     private Long memberId;
     private String nickname;
-    private LocalDate createDate;
+    private LocalDateTime createDate;
     private String coordiImage;
     private String coordiTitle;
     private List<ClothDetailsResponseDTO> clothesList;
