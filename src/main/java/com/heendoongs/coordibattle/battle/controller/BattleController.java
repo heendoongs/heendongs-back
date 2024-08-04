@@ -53,6 +53,7 @@ public class BattleController {
     @GetMapping("/banner")
     public ResponseEntity<List<BannerResponseDTO>> getCurrentBattles() {
         List<BannerResponseDTO> banners = battleService.getCurrentBattles();
+        System.out.println(banners.toString());
         return ResponseEntity.ok(banners);
     }
 

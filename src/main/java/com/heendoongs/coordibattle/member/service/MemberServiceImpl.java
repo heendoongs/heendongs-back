@@ -3,10 +3,7 @@ package com.heendoongs.coordibattle.member.service;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
 import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
 import com.heendoongs.coordibattle.member.domain.Member;
-import com.heendoongs.coordibattle.member.dto.MemberInfoResponseDTO;
-import com.heendoongs.coordibattle.member.dto.MemberMyClosetResponseDTO;
-import com.heendoongs.coordibattle.member.dto.MemberSignUpRequestDTO;
-import com.heendoongs.coordibattle.member.dto.MemberUpdateDTO;
+import com.heendoongs.coordibattle.member.dto.*;
 import com.heendoongs.coordibattle.member.exception.MemberException;
 import com.heendoongs.coordibattle.member.exception.MemberExceptionType;
 import com.heendoongs.coordibattle.member.repository.MemberRepository;
@@ -117,10 +114,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public String getNickname(Long memberId) {
+    public MemberNicknameResponseDTO getNickname(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
-        return member.getNickname();
+        return MemberNicknameResponseDTO.builder()
+                .nickname(member.getNickname())
+                .build();
     }
 
     @Override

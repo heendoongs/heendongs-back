@@ -5,10 +5,7 @@ import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
 import com.heendoongs.coordibattle.global.annotation.MemberId;
 import com.heendoongs.coordibattle.member.domain.CustomUserDetails;
 
-import com.heendoongs.coordibattle.member.dto.MemberInfoResponseDTO;
-import com.heendoongs.coordibattle.member.dto.MemberMyClosetResponseDTO;
-import com.heendoongs.coordibattle.member.dto.MemberSignUpRequestDTO;
-import com.heendoongs.coordibattle.member.dto.MemberUpdateDTO;
+import com.heendoongs.coordibattle.member.dto.*;
 import com.heendoongs.coordibattle.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -81,8 +78,9 @@ public class MemberController {
     }
 
     @GetMapping("/mycloset/nickname")
-    public ResponseEntity<String> getNickname(@MemberId Long memberId) {
-        return ResponseEntity.ok(memberService.getNickname(memberId));
+    public ResponseEntity<MemberNicknameResponseDTO> getNickname(@MemberId Long memberId) {
+        MemberNicknameResponseDTO memberNicknameResponseDTO = memberService.getNickname(memberId);
+        return ResponseEntity.ok(memberNicknameResponseDTO);
     }
 
     @GetMapping("/myinfo")

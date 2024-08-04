@@ -2,10 +2,7 @@ package com.heendoongs.coordibattle.member.service;
 
 import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
 import com.heendoongs.coordibattle.member.domain.Member;
-import com.heendoongs.coordibattle.member.dto.MemberInfoResponseDTO;
-import com.heendoongs.coordibattle.member.dto.MemberMyClosetResponseDTO;
-import com.heendoongs.coordibattle.member.dto.MemberSignUpRequestDTO;
-import com.heendoongs.coordibattle.member.dto.MemberUpdateDTO;
+import com.heendoongs.coordibattle.member.dto.*;
 import org.springframework.data.domain.Page;
 
 /**
@@ -43,7 +40,7 @@ public interface MemberService {
 
     Page<CoordiListResponseDTO> getMyCoordiList(int page, int size, Long memberId);
 
-    String getNickname(Long memberId);
+    MemberNicknameResponseDTO getNickname(Long memberId);
 
     MemberInfoResponseDTO getMyInfo(Long memberId);
 
