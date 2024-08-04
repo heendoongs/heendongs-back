@@ -1,5 +1,6 @@
 package com.heendoongs.coordibattle.global.config;
 
+import com.heendoongs.coordibattle.global.jwt.ExcludePaths;
 import com.heendoongs.coordibattle.global.jwt.JWTFilter;
 import com.heendoongs.coordibattle.global.jwt.JWTUtil;
 import com.heendoongs.coordibattle.global.jwt.LoginFilter;
@@ -15,6 +16,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.List;
 
 /**
  * 스프링 시큐리티 설정
@@ -48,6 +51,21 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public List<String> excludeUrls() {
+        return List.of(
+                "/",
+                "/login",
+                "/signup",
+                "/battle/banner",
+                "/battle/title",
+                "/coordi/details",
+                "/coordi/like",
+                "/coordi/list/*",
+                "/token/**"
+        );
+    }
+
     /**
      * Security 필터
      * @param http
@@ -66,15 +84,21 @@ public class SecurityConfig {
         // http basic 인증 방식 disable
         http.httpBasic((auth) -> auth.disable());
 
+
         // 경로별 인가 작업
         http.authorizeHttpRequests((auth) -> auth
+                    .requestMatchers(ExcludePaths.EXCLUDED_PATHS.toArray(new String[0])).permitAll()
+                    .anyRequest().authenticated());
+//      TODO member 구현 왼료되면 적용
+//                        .requestMatchers("/", "/login", "/signup").permitAll()
+//                        .requestMatchers("/battle/banner", "/battle/title", "/coordi/details", "/coordi/like", "/coordi/list/**").permitAll()
+//                        .requestMatchers("/token/**").permitAll()
 //                        .anyRequest().permitAll());
-        // TODO member 구현 왼료되면 적용
-                        .requestMatchers("/", "/login", "/signup", "/battle/banner", "/battle/title", "/coordi/details", "/coordi/like", "/coordi/list/*").permitAll()
-                        .anyRequest().authenticated());
+//                        .anyRequest().authenticated());
         // 필터 추가
         http.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
         http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
+
 
         // 세션 설정
         http.sessionManagement((session) -> session

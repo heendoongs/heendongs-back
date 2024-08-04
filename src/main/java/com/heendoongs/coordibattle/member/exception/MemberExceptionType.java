@@ -29,7 +29,12 @@ public enum MemberExceptionType implements BaseExceptionType {
 
     // 토큰 에러
     EXPIRED_TOKEN(700, HttpStatus.UNAUTHORIZED, "토큰이 만료되었습니다."),
-    INVALID_TOKEN(701, HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.");
+    INVALID_TOKEN(701, HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다."),
+
+    // refresh 토큰 에러
+    NO_REFRESH_TOKEN(800, HttpStatus.BAD_REQUEST, "refresh 토큰이 없습니다."),
+    EXPIRED_REFRESH_TOKEN(800, HttpStatus.BAD_REQUEST, "refresh 토큰이 만료되었습니다."),
+    INVALID_REFRESH_TOKEN(800, HttpStatus.BAD_REQUEST, "유효하지 않은 refresh 토큰입니다.");
 
     private int errorCode;
     private HttpStatus httpStatus;

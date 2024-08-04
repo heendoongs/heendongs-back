@@ -1,9 +1,13 @@
 package com.heendoongs.coordibattle.member.dto;
 
+import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -11,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MemberMyClosetResponseDTO {
 
-    private Long memberId;
     private String nickname;
+    private Page<CoordiListResponseDTO> coordiList;
 
 }

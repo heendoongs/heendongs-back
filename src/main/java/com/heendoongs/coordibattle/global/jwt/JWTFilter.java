@@ -14,9 +14,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * JWT 커스텀 필터
@@ -31,6 +33,7 @@ import java.io.IOException;
  * 2024.07.28  	조희정       doFilterInternal, shouldNotFilter 메소드 추가
  * </pre>
  */
+@Component
 @RequiredArgsConstructor
 public class JWTFilter extends OncePerRequestFilter {
 
@@ -38,10 +41,9 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // access 토큰 확인
         String accessToken = request.getHeader("Authorization");
 
-        if (accessToken == null || !accessToken.startsWith("Bearer ")) {
+        if (accessToken == null) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -51,7 +53,7 @@ public class JWTFilter extends OncePerRequestFilter {
             throw new MemberException(MemberExceptionType.EXPIRED_TOKEN);
         }
 
-        // 토큰이 Authorization 확인
+        // 토큰이 Authorization인지 확인
         String category = jwtUtil.getCategory(accessToken);
         if (!"access".equals(category)) {
             throw new MemberException(MemberExceptionType.INVALID_TOKEN);
@@ -60,13 +62,14 @@ public class JWTFilter extends OncePerRequestFilter {
         try {
             // 토큰에서 사용자 정보 추출 및 검증
             String username = jwtUtil.getUsername(accessToken);
+            Long memberId = jwtUtil.getMemberId(accessToken);
 
             MemberLoginRequestDTO memberLoginRequestDTO = MemberLoginRequestDTO.builder()
                     .loginId(username)
                     .password(null)
                     .build();
 
-            CustomUserDetails customUserDetails = new CustomUserDetails(memberLoginRequestDTO);
+            CustomUserDetails customUserDetails = new CustomUserDetails(memberLoginRequestDTO, memberId);
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
 
@@ -93,10 +96,10 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
-        // TODO: member 기능 완료 시 return 변경
-        return path.equals("/") || path.equals("/login") || path.equals("/signup") ||
-
-        path.equals("/battle/banner") || path.equals("/battle/title") || path.equals("/coordi/details") || path.equals("/coordi/like") || path.equals("/coordi/list/*");
+        return ExcludePaths.EXCLUDED_PATHS.stream().anyMatch(path::matches);
+//   TODO: member 기능 완료 시 return 변경
+//        return path.equals("/") || path.equals("/login") || path.equals("/signup")
+//        || path.equals("/battle/banner") || path.equals("/battle/title") || path.equals("/coordi/details") || path.equals("/coordi/like") || path.equals("/coordi/list/*");
 //        return true;
     }
 }

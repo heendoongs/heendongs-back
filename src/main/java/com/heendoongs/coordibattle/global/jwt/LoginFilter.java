@@ -20,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Iterator;
@@ -94,8 +95,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException {
 
         //유저 정보
-        String username = authentication.getName();
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        String username = customUserDetails.getUsername();
+        Long memberId = customUserDetails.getMemberId();
 
         // 사용자 권한 정보
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -104,11 +106,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String role = auth.getAuthority();
 
         //토큰 생성
-        String access = jwtUtil.createJwt("access", username, role, 60 * 60 * 1000L);
-        String refresh = jwtUtil.createJwt("refresh", username, role, 86400000L);
+        String access = jwtUtil.createJwt("access", username, memberId, role, 60 * 60 * 1000L);
+        String refresh = jwtUtil.createJwt("refresh", username, memberId, role, 86400000L);
 
         //응답 설정
-        response.setHeader("Authorization", "Bearer " + access);
+        response.setHeader("Authorization", access);
         response.addCookie(createCookie("refresh", refresh));
         response.setStatus(HttpStatus.OK.value());
     }
@@ -121,7 +123,16 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
      */
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
+//        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
+        System.out.println("Authentication failed: {}" + failed.getMessage());
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json;charset=UTF-8");
+        try (PrintWriter writer = response.getWriter()) {
+            writer.write("{\"error\": \"Unauthorized\", \"message\": \"" + failed.getMessage() + "\"}");
+        } catch (IOException e) {
+            System.out.println("Error writing response: {}" + e.getMessage());
+        }
     }
 
     /**

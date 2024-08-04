@@ -34,11 +34,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         // DB에서 멤버 조회
         Member memberData = memberRepository.findByLoginId(loginId);
-
-        System.out.println("=========================");
-        System.out.println(memberData.getId());
         System.out.println(memberData.getLoginId());
         System.out.println(memberData.getPassword());
+        System.out.println(memberData.getId());
+        System.out.println(memberData.getNickname());
+
+
         // 멤버 정보를 찾을 수 없으면 UsernameNotFoundException 예외 발생
         if (memberData == null) {
             throw new UsernameNotFoundException("회원 정보가 없습니다: " + loginId);
@@ -48,8 +49,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .loginId(memberData.getLoginId())
                 .password(memberData.getPassword())
                 .build();
-
         // 멤버 정보 반환
-        return new CustomUserDetails(memberLoginRequestDTO);
+        return new CustomUserDetails(memberLoginRequestDTO, memberData.getId());
     }
 }

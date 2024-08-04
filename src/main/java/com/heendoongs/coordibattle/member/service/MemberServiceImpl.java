@@ -1,5 +1,7 @@
 package com.heendoongs.coordibattle.member.service;
 
+import com.heendoongs.coordibattle.coordi.domain.Coordi;
+import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
 import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.dto.MemberInfoResponseDTO;
 import com.heendoongs.coordibattle.member.dto.MemberMyClosetResponseDTO;
@@ -10,6 +12,8 @@ import com.heendoongs.coordibattle.member.exception.MemberExceptionType;
 import com.heendoongs.coordibattle.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -97,16 +101,26 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberMyClosetResponseDTO getMyCloset(Long memberId) {
+    public Page<CoordiListResponseDTO> getMyCoordiList(int page, int size, Long memberId) {
+        Page<Coordi> myCoordiList =  memberRepository.findMyCoordiByLikesDesc(PageRequest.of(page, size), memberId);
+        return myCoordiList.map(coordi -> CoordiListResponseDTO.builder()
+                .coordiId(coordi.getId())
+                .coordiTitle(coordi.getTitle())
+                .coordiImage(new String(coordi.getCoordiImage()))
+                .nickname(coordi.getMember().getNickname())
+                .voteCount(coordi.getMemberCoordiVotes() != null
+                        ? coordi.getMemberCoordiVotes().stream()
+                        .filter(v -> v.getLiked() == 'Y')
+                        .count()
+                        : 0L)
+                .build());
+    }
 
+    @Override
+    public String getNickname(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
-
-
-        return MemberMyClosetResponseDTO.builder()
-                .memberId(member.getId())
-                .nickname(member.getNickname())
-                .build();
+        return member.getNickname();
     }
 
     @Override
@@ -120,8 +134,4 @@ public class MemberServiceImpl implements MemberService {
                 .build();
     }
 
-    @Override
-    public Member getByLoginId(String loginId) {
-        return memberRepository.findByLoginId(loginId);
-    }
 }

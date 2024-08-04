@@ -1,10 +1,12 @@
 package com.heendoongs.coordibattle.member.service;
 
+import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
 import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.dto.MemberInfoResponseDTO;
 import com.heendoongs.coordibattle.member.dto.MemberMyClosetResponseDTO;
 import com.heendoongs.coordibattle.member.dto.MemberSignUpRequestDTO;
 import com.heendoongs.coordibattle.member.dto.MemberUpdateDTO;
+import org.springframework.data.domain.Page;
 
 /**
  * 멤버 서비스 인터페이스
@@ -39,9 +41,10 @@ public interface MemberService {
 
     void deleteAccount(Long memberId) throws Exception;
 
-    MemberMyClosetResponseDTO getMyCloset(Long memberId);
+    Page<CoordiListResponseDTO> getMyCoordiList(int page, int size, Long memberId);
+
+    String getNickname(Long memberId);
 
     MemberInfoResponseDTO getMyInfo(Long memberId);
 
-    Member getByLoginId(String loginId);
 }
