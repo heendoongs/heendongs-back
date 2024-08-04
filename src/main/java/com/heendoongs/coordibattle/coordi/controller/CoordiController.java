@@ -3,6 +3,7 @@ package com.heendoongs.coordibattle.coordi.controller;
 import com.heendoongs.coordibattle.coordi.dto.*;
 import com.heendoongs.coordibattle.coordi.service.CoordiService;
 import com.heendoongs.coordibattle.global.annotation.MemberId;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import okhttp3.Response;
@@ -116,10 +117,9 @@ public class CoordiController {
      * @throws Exception
      */
     @PostMapping
-    public ResponseEntity<String> uploadCoordi (@RequestBody CoordiCreateRequestDTO requestDTO, @MemberId Long memberId) throws Exception {
-        System.out.println("컨트롤러에 왔니?"+requestDTO.getTitle());
+    public ResponseEntity<String> uploadCoordi (@Valid @RequestBody CoordiCreateRequestDTO requestDTO, @MemberId Long memberId) throws Exception {
         return coordiService.insertCoordi(requestDTO, memberId)
-                ? new ResponseEntity<String>("코디 업로드 성공", HttpStatus.OK)
-				: new ResponseEntity<String>("코디 업로드 실패", HttpStatus.BAD_REQUEST);
+                ? new ResponseEntity<>("코디 업로드 성공", HttpStatus.OK)
+				: new ResponseEntity<>("코디 업로드 실패", HttpStatus.BAD_REQUEST);
     }
 }
