@@ -249,7 +249,7 @@ public class CoordiServiceImpl implements CoordiService {
         System.out.println("서비스에 왔니?");
         // byte로 변환
         byte[] decodedImage = requestDTO.getCoordiImage().getBytes();
-        System.out.println("decodedImage: "+decodedImage);
+//        System.out.println("decodedImage: "+decodedImage);
 
         Long battleId = battleService.getCoordingBattleId();
 

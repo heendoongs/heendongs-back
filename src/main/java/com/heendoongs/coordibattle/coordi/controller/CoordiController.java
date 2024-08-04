@@ -46,25 +46,25 @@ public class CoordiController {
     private final CoordiService coordiService;
 
     @GetMapping("/details")
-    public ResponseEntity<CoordiDetailsResponseDTO> getCoordiDetails(@RequestParam Long memberId, @RequestParam Long coordiId) {
+    public ResponseEntity<CoordiDetailsResponseDTO> getCoordiDetails(@MemberId Long memberId, @RequestParam Long coordiId) {
         CoordiDetailsResponseDTO coordiDetailsResponseDTO = coordiService.getCoordiDetails(memberId, coordiId);
         return ResponseEntity.ok(coordiDetailsResponseDTO);
     }
 
     @GetMapping("/like")
-    public ResponseEntity<CoordiDetailsResponseDTO> likeCoordi(@RequestParam Long memberId, @RequestParam Long coordiId) {
+    public ResponseEntity<CoordiDetailsResponseDTO> likeCoordi(@MemberId Long memberId, @RequestParam Long coordiId) {
         CoordiDetailsResponseDTO coordiDetailsResponseDTO = coordiService.likeCoordi(memberId, coordiId);
         return ResponseEntity.ok(coordiDetailsResponseDTO);
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<CoordiDetailsResponseDTO> updateCoordi(@RequestParam Long memberId, @RequestParam Long coordiId, @RequestBody CoordiDetailsRequestDTO requestDTO) {
+    public ResponseEntity<CoordiDetailsResponseDTO> updateCoordi(@MemberId Long memberId, @RequestParam Long coordiId, @RequestBody CoordiDetailsRequestDTO requestDTO) {
         CoordiDetailsResponseDTO coordiDetailsResponseDTO = coordiService.updateCoordi(memberId, coordiId, requestDTO);
         return ResponseEntity.ok(coordiDetailsResponseDTO);
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteCoordi(@RequestParam Long memberId, @RequestParam Long coordiId) {
+    public ResponseEntity<String> deleteCoordi(@MemberId Long memberId, @RequestParam Long coordiId) {
         coordiService.deleteCoordi(memberId, coordiId);
         return ResponseEntity.ok("코디가 삭제되었습니다.");
     }
@@ -117,8 +117,8 @@ public class CoordiController {
      * @throws Exception
      */
     @PostMapping
-    public ResponseEntity<String> uploadCoordi (@Valid @RequestBody CoordiCreateRequestDTO requestDTO, @MemberId Long memberId) throws Exception {
-        System.out.println("컨트롤러에 왔니?");
+    public ResponseEntity<String> uploadCoordi (@RequestBody CoordiCreateRequestDTO requestDTO, @MemberId Long memberId) throws Exception {
+        System.out.println("컨트롤러에 왔니?"+requestDTO.getTitle());
         return coordiService.insertCoordi(requestDTO, memberId)
                 ? new ResponseEntity<String>("코디 업로드 성공", HttpStatus.OK)
 				: new ResponseEntity<String>("코디 업로드 실패", HttpStatus.BAD_REQUEST);
