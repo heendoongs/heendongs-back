@@ -4,6 +4,7 @@ import com.heendoongs.coordibattle.battle.dto.BannerResponseDTO;
 import com.heendoongs.coordibattle.battle.dto.BattleTitleResponseDTO;
 import com.heendoongs.coordibattle.battle.dto.BattleResponseDTO;
 import com.heendoongs.coordibattle.battle.service.BattleService;
+import com.heendoongs.coordibattle.global.annotation.MemberId;
 import com.heendoongs.coordibattle.member.dto.MemberCoordiVoteRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,7 @@ public class BattleController {
     private final BattleService battleService;
 
     @GetMapping
-    public ResponseEntity<List<BattleResponseDTO>> getBattleCoordies(@RequestParam Long memberId) {
+    public ResponseEntity<List<BattleResponseDTO>> getBattleCoordies(@MemberId Long memberId) {
         List<BattleResponseDTO> responseDTOs = battleService.getBattleCoordies(memberId);
         return ResponseEntity.ok(responseDTOs);
     }

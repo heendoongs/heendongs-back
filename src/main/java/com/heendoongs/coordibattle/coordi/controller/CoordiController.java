@@ -2,6 +2,7 @@ package com.heendoongs.coordibattle.coordi.controller;
 
 import com.heendoongs.coordibattle.coordi.dto.*;
 import com.heendoongs.coordibattle.coordi.service.CoordiService;
+import com.heendoongs.coordibattle.global.annotation.MemberId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import okhttp3.Response;
@@ -42,25 +43,25 @@ public class CoordiController {
     private final CoordiService coordiService;
 
     @GetMapping("/details")
-    public ResponseEntity<CoordiDetailsResponseDTO> getCoordiDetails(@RequestParam Long memberId, @RequestParam Long coordiId) {
+    public ResponseEntity<CoordiDetailsResponseDTO> getCoordiDetails(@MemberId Long memberId, @RequestParam Long coordiId) {
         CoordiDetailsResponseDTO coordiDetailsResponseDTO = coordiService.getCoordiDetails(memberId, coordiId);
         return ResponseEntity.ok(coordiDetailsResponseDTO);
     }
 
     @GetMapping("/like")
-    public ResponseEntity<CoordiDetailsResponseDTO> likeCoordi(@RequestParam Long memberId, @RequestParam Long coordiId) {
+    public ResponseEntity<CoordiDetailsResponseDTO> likeCoordi(@MemberId Long memberId, @RequestParam Long coordiId) {
         CoordiDetailsResponseDTO coordiDetailsResponseDTO = coordiService.likeCoordi(memberId, coordiId);
         return ResponseEntity.ok(coordiDetailsResponseDTO);
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<CoordiDetailsResponseDTO> updateCoordi(@RequestParam Long memberId, @RequestParam Long coordiId, @RequestBody CoordiDetailsRequestDTO requestDTO) {
+    public ResponseEntity<CoordiDetailsResponseDTO> updateCoordi(@MemberId Long memberId, @RequestParam Long coordiId, @RequestBody CoordiDetailsRequestDTO requestDTO) {
         CoordiDetailsResponseDTO coordiDetailsResponseDTO = coordiService.updateCoordi(memberId, coordiId, requestDTO);
         return ResponseEntity.ok(coordiDetailsResponseDTO);
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteCoordi(@RequestParam Long memberId, @RequestParam Long coordiId) {
+    public ResponseEntity<String> deleteCoordi(@MemberId Long memberId, @RequestParam Long coordiId) {
         coordiService.deleteCoordi(memberId, coordiId);
         return ResponseEntity.ok("코디가 삭제되었습니다.");
     }
