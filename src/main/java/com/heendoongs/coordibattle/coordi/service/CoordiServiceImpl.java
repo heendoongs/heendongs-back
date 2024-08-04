@@ -245,15 +245,16 @@ public class CoordiServiceImpl implements CoordiService {
      * @throws Exception
      */
     @Transactional
-    public boolean insertCoordi(CoordiCreateRequestDTO requestDTO) throws Exception {
+    public boolean insertCoordi(CoordiCreateRequestDTO requestDTO, Long memberId) throws Exception {
+        System.out.println("서비스에 왔니?");
         // byte로 변환
         byte[] decodedImage = requestDTO.getCoordiImage().getBytes();
-        System.out.println("decodedImage: "+decodedImage);
+//        System.out.println("decodedImage: "+decodedImage);
 
         Long battleId = battleService.getCoordingBattleId();
 
         Coordi coordi = Coordi.builder()
-                .member(new Member(requestDTO.getMemberId()))
+                .member(new Member(memberId))
                 .battle(new Battle(battleId))
                 .title(requestDTO.getTitle())
                 .coordiImage(decodedImage)
