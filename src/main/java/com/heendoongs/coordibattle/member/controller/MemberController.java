@@ -54,8 +54,8 @@ public class MemberController {
      */
     @PutMapping("/updateAccount")
     @ResponseStatus(HttpStatus.OK)
-    public void updateAccount(@Valid @RequestBody MemberUpdateDTO memberUpdateDTO) throws Exception {
-        memberService.updateAccount(memberUpdateDTO);
+    public void updateAccount(@Valid @RequestBody MemberUpdateDTO memberUpdateDTO, @MemberId Long memberId) throws Exception {
+        memberService.updateAccount(memberUpdateDTO, memberId);
     }
 
     /**
@@ -64,7 +64,7 @@ public class MemberController {
      */
     @DeleteMapping("/deleteAccount")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteAccount(@RequestParam Long memberId) throws Exception {
+    public void deleteAccount(@MemberId Long memberId) throws Exception {
         memberService.deleteAccount(memberId);
     }
 

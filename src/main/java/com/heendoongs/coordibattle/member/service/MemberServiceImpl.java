@@ -69,8 +69,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void updateAccount(MemberUpdateDTO memberUpdateDTO) throws Exception {
-        Member member = memberRepository.findById(memberUpdateDTO.getMemberId())
+    public void updateAccount(MemberUpdateDTO memberUpdateDTO, Long memberId) throws Exception {
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
 
         // 닉네임 수정

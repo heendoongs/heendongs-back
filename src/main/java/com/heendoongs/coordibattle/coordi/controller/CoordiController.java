@@ -46,13 +46,13 @@ public class CoordiController {
     private final CoordiService coordiService;
 
     @GetMapping("/details")
-    public ResponseEntity<CoordiDetailsResponseDTO> getCoordiDetails(@MemberId Long memberId, @RequestParam Long coordiId) {
+    public ResponseEntity<CoordiDetailsResponseDTO> getCoordiDetails(@RequestParam Long coordiId, @MemberId Long memberId) {
         CoordiDetailsResponseDTO coordiDetailsResponseDTO = coordiService.getCoordiDetails(memberId, coordiId);
         return ResponseEntity.ok(coordiDetailsResponseDTO);
     }
 
     @GetMapping("/like")
-    public ResponseEntity<CoordiDetailsResponseDTO> likeCoordi(@MemberId Long memberId, @RequestParam Long coordiId) {
+    public ResponseEntity<CoordiDetailsResponseDTO> likeCoordi(@RequestParam Long coordiId, @MemberId Long memberId) {
         CoordiDetailsResponseDTO coordiDetailsResponseDTO = coordiService.likeCoordi(memberId, coordiId);
         return ResponseEntity.ok(coordiDetailsResponseDTO);
     }

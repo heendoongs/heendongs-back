@@ -3,6 +3,7 @@ package com.heendoongs.coordibattle.global.exception;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +46,7 @@ public class ExceptionAdvice {
         exception.printStackTrace();
         return new ResponseEntity<>(new ExceptionDto(5000, "서버 오류"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
+    
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -57,10 +58,12 @@ public class ExceptionAdvice {
 
     @Data
     @AllArgsConstructor
+    @NoArgsConstructor
     static class ExceptionDto {
         @JsonProperty("code")
         private Integer errorCode;
         @JsonProperty("message")
         private String errorMessage;
     }
+
 }

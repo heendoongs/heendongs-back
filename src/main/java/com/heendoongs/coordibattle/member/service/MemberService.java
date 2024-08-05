@@ -34,7 +34,7 @@ public interface MemberService {
      * @param memberUpdateDTO
      * @throws Exception
      */
-    void updateAccount(MemberUpdateDTO memberUpdateDTO) throws Exception;
+    void updateAccount(MemberUpdateDTO memberUpdateDTO, Long memberId) throws Exception;
 
     void deleteAccount(Long memberId) throws Exception;
 

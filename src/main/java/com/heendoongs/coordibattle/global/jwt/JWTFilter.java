@@ -41,7 +41,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String accessToken = request.getHeader("Authorization");
+        String accessToken = resolveToken(request);
 
         if (accessToken == null) {
             filterChain.doFilter(request, response);
@@ -88,6 +88,15 @@ public class JWTFilter extends OncePerRequestFilter {
     }
 
     /**
+     * 토큰 추출
+     * @param request
+     * @return
+     */
+    private String resolveToken(HttpServletRequest request) {
+        return request.getHeader("Authorization");
+    }
+
+    /**
      * 토큰 검증이 필요하지 않은 페이지
      * @param request
      * @return
@@ -96,10 +105,14 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
+        String accessToken = resolveToken(request);
+
+        // 토큰이 없으면 필터를 건너뜀
+        if (path.equals("/coordi/details") || path.equals("/coordi/like")) {
+            return accessToken == null;
+        }
+
         return ExcludePaths.EXCLUDED_PATHS.stream().anyMatch(path::matches);
-//   TODO: member 기능 완료 시 return 변경
-//        return path.equals("/") || path.equals("/login") || path.equals("/signup")
-//        || path.equals("/battle/banner") || path.equals("/battle/title") || path.equals("/coordi/details") || path.equals("/coordi/like") || path.equals("/coordi/list/*");
-//        return true;
+
     }
 }
