@@ -26,7 +26,7 @@ import java.util.List;
 
 public interface BattleService {
     List<BattleResponseDTO> getBattleCoordies(Long memberId);
-    BattleResponseDTO postBattleResult(MemberCoordiVoteRequestDTO memberCoordiVoteRequestDTO);
+    BattleResponseDTO postBattleResult(Long memberId, MemberCoordiVoteRequestDTO memberCoordiVoteRequestDTO);
     List<BannerResponseDTO> getCurrentBattles();
     List<BattleTitleResponseDTO> getBattleTitles();
     Long getCoordingBattleId();
