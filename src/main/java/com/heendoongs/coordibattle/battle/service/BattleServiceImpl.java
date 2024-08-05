@@ -65,9 +65,8 @@ public class BattleServiceImpl implements BattleService{
     }
 
     @Transactional
-    public BattleResponseDTO postBattleResult(MemberCoordiVoteRequestDTO memberCoordiVoteRequestDTO) {
+    public BattleResponseDTO postBattleResult(Long memberId, MemberCoordiVoteRequestDTO memberCoordiVoteRequestDTO) {
 
-        Long memberId = memberCoordiVoteRequestDTO.getMemberId();
         Long winnerCoordiId = memberCoordiVoteRequestDTO.getWinnerCoordiId();
         Long loserCoordiId = memberCoordiVoteRequestDTO.getLoserCoordiId();
 
