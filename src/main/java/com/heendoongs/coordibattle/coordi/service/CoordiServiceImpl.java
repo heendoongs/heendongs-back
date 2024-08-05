@@ -181,7 +181,7 @@ public class CoordiServiceImpl implements CoordiService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid coordiId"));
         LocalDate startDate = coordi.getBattle().getCoordiStartDate();
         LocalDate endDate = coordi.getBattle().getCoordiEndDate();
-        return now.isAfter(startDate) && now.isBefore(endDate);
+        return !now.isBefore(startDate) && !now.isAfter(endDate);
     }
 
     public boolean isVotingPeriod(Long coordiId) {
@@ -190,7 +190,7 @@ public class CoordiServiceImpl implements CoordiService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid coordiId"));
         LocalDate startDate = coordi.getBattle().getVoteStartDate();
         LocalDate endDate = coordi.getBattle().getVoteEndDate();
-        return now.isAfter(startDate) && now.isBefore(endDate);
+        return !now.isBefore(startDate) && !now.isAfter(endDate);
     }
 
     /**
