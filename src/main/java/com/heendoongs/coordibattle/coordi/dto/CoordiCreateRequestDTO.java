@@ -32,10 +32,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CoordiCreateRequestDTO {
-    @Size(min = 1, max = 20, message = "제목은 1자 이상 20자 이하로 작성해 주세요")
+    @Size(min = 1, max = 15, message = "제목은 1자 이상 15자 이하로 작성해 주세요")
     private String title;   // 1자 이상 20자 이하
     @NotNull
     private String coordiImage; // Base64 인코딩 된 String
-    @NotNull(message = "흰디의 옷을 입혀주세요!")
+    @Size(min = 1, message = "흰디의 옷을 입혀주세요!")
     private List<Long> clothIds;
 }
