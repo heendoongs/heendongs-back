@@ -52,7 +52,7 @@ public class JWTService {
         String role = jwtUtil.getRole(refresh);
         Long memberId = jwtUtil.getMemberId(refresh);
 
-        String newAccess = jwtUtil.createJwt("access", username, memberId, role, 600000L);
+        String newAccess = jwtUtil.createJwt("access", username, memberId, role, 7200000L);
         String newRefresh = jwtUtil.createJwt("refresh", username, null, role, 86400000L);
 
         // 헤더 설정

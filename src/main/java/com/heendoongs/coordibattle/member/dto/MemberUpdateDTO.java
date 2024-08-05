@@ -25,8 +25,6 @@ import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBl
 @Builder
 public class MemberUpdateDTO {
 
-    private Long memberId;
-
     @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password;
 
