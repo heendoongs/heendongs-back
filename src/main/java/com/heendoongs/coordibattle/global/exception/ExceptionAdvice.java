@@ -3,14 +3,19 @@ package com.heendoongs.coordibattle.global.exception;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.net.BindException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 @Slf4j
@@ -42,13 +47,14 @@ public class ExceptionAdvice {
         return new ResponseEntity<>(new ExceptionDto(5000, "서버 오류"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-
     @Data
     @AllArgsConstructor
+    @NoArgsConstructor
     static class ExceptionDto {
         @JsonProperty("code")
         private Integer errorCode;
         @JsonProperty("message")
         private String errorMessage;
     }
+
 }
