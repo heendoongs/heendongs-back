@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberCoordiVoteRequestDTO {
-    private Long memberId;
     private Long winnerCoordiId;
     private Long loserCoordiId;
 }

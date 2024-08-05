@@ -42,8 +42,8 @@ public class BattleController {
     }
 
     @PostMapping
-    public ResponseEntity<BattleResponseDTO> postBattleResult(@RequestBody MemberCoordiVoteRequestDTO memberCoordiVoteRequestDTO) {
-        BattleResponseDTO battleResponseDTO = battleService.postBattleResult(memberCoordiVoteRequestDTO);
+    public ResponseEntity<BattleResponseDTO> postBattleResult(@MemberId Long memberId, @RequestBody MemberCoordiVoteRequestDTO memberCoordiVoteRequestDTO) {
+        BattleResponseDTO battleResponseDTO = battleService.postBattleResult(memberId, memberCoordiVoteRequestDTO);
         return ResponseEntity.ok(battleResponseDTO);
     }
 
