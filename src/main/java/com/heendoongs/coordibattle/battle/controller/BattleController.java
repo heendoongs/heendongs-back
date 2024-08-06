@@ -18,13 +18,14 @@ import java.util.List;
  * @version 1.0
  *
  * <pre>
- * 수정일        	수정자        수정내용
+ * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.07.27  	남진수       최초 생성
  * 2024.07.27   남진수       getBattleCoordies 메소드 추가
  * 2024.07.28   남진수       postBattleResult 메소드 추가
  * 2024.07.29   남진수       getBattleCoordies 서비스에서 battleId 받아오도록 수정
  * 2024.07.30   임원정       getCurrentBattles 메소드 추가
+ * 2024.08.01   임원정       getBattleTitle 메소드 추가
  * </pre>
  */
 
@@ -58,6 +59,10 @@ public class BattleController {
         return ResponseEntity.ok(banners);
     }
 
+    /**
+     * 필터용 배틀 제목 리스트 반환
+     * @return
+     */
     @GetMapping("/title")
     public ResponseEntity<List<BattleTitleResponseDTO>> getBattleTitle() {
         List<BattleTitleResponseDTO> battleTitles = battleService.getBattleTitles();

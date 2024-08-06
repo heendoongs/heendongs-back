@@ -17,6 +17,21 @@ import java.net.BindException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * ExceptionAdvice
+ * @author 조희정
+ * @since 2024.07.28
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.07.28  	조희정       최초 생성
+ * 
+ * 2024.08.05   임원정       handleValidationExceptions 메소드 추가
+ * </pre>
+ */
+
 @RestControllerAdvice
 @Slf4j
 public class ExceptionAdvice {
@@ -46,7 +61,12 @@ public class ExceptionAdvice {
         exception.printStackTrace();
         return new ResponseEntity<>(new ExceptionDto(5000, "서버 오류"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    
+
+    /**
+     * MethodArgumentNotValidException 핸들 메소드
+     * @param ex
+     * @return
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();

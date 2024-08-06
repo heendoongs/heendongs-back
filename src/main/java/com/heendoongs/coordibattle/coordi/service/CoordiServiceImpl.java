@@ -248,7 +248,6 @@ public class CoordiServiceImpl implements CoordiService {
     public boolean insertCoordi(CoordiCreateRequestDTO requestDTO, Long memberId) throws Exception {
         // byte로 변환
         byte[] decodedImage = requestDTO.getCoordiImage().getBytes();
-
         Long battleId = battleService.getCoordingBattleId();
 
         Coordi coordi = Coordi.builder()

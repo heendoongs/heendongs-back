@@ -23,6 +23,8 @@ import java.util.List;
  * ----------  --------    ---------------------------
  * 2024.08.02  	임원정       최초 생성
  * 2024.08.03   임원정       Validation 추가
+ * 2024.08.04   임원정       memberId 필드 삭제 -> 어노테이션 사용
+ * 2024.08.05   임원정       Valid 수정
  * </pre>
  */
 
@@ -33,7 +35,7 @@ import java.util.List;
 @NoArgsConstructor
 public class CoordiCreateRequestDTO {
     @Size(min = 1, max = 15, message = "제목은 1자 이상 15자 이하로 작성해 주세요")
-    private String title;   // 1자 이상 20자 이하
+    private String title;   // 1자 이상 15자 이하
     @NotNull
     private String coordiImage; // Base64 인코딩 된 String
     @Size(min = 1, message = "흰디의 옷을 입혀주세요!")

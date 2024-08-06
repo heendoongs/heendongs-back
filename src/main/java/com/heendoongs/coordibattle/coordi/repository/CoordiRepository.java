@@ -19,12 +19,13 @@ import java.util.List;
  * @version 1.0
  *
  * <pre>
- * 수정일        	수정자        수정내용
+ * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.07.26  	임원정       최초 생성
  * 2024.07.27   남진수       findUnvotedCoordies 메소드 추가
  * 2024.07.30   임원정       findAllByLikesDesc 메소드 추가
  * 2024.08.01   임원정       findAllWithFilterAndOrder 메소드 추가
+ * 2024.08.02   임원정       findClothesWithBattleAndType 메소드 추가
  * </pre>
  */
 

@@ -34,6 +34,7 @@ import java.util.List;
  * 2024.08.01   남진수       getCoordiDetails 파라미터 추가
  * 2024.08.01   임원정       getCoordiListWithFilter 메소드 추가
  * 2024.08.02   임원정       getClothList, uploadCoordi 메소드 추가
+ * 2024.08.04   임원정       MemberId 어노테이션 사용하도록 변경
  * </pre>
  */
 
