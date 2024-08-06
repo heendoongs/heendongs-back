@@ -62,6 +62,7 @@ public class MemberServiceImpl implements MemberService {
                 .loginId(loginId)
                 .password(bCryptPasswordEncoder.encode(password))
                 .nickname(nickname)
+                .deleted('N')
                 .build();
 
         // DB에 저장
@@ -90,11 +91,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void deleteAccount(Long memberId) throws Exception {
-
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
 
-        memberRepository.delete(member);
+        member.updateDeleted();
+        member.updateNickname("탈퇴한 사용자");
     }
 
     @Override

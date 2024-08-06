@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -52,6 +53,10 @@ public class Member {
     @CreatedDate
     private LocalDate createDate;
 
+    @Column(name = "deleted")
+    @ColumnDefault("N")
+    private Character deleted;
+
     @OneToMany(mappedBy = "member")
     List<Coordi> coordies = new ArrayList<>();
 
@@ -67,6 +72,10 @@ public class Member {
         this.nickname = newNickname;
     }
 
+    // 회원 삭제
+    public void updateDeleted() {
+        this.deleted = 'Y';
+    }
 
     public Member(Long memberId) {
         this.id = memberId;
