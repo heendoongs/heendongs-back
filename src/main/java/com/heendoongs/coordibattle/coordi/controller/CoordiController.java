@@ -58,7 +58,7 @@ public class CoordiController {
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<CoordiDetailsResponseDTO> updateCoordi(@MemberId Long memberId, @RequestParam Long coordiId, @RequestBody CoordiDetailsRequestDTO requestDTO) {
+    public ResponseEntity<CoordiDetailsResponseDTO> updateCoordi(@MemberId Long memberId, @RequestParam Long coordiId, @Valid @RequestBody CoordiDetailsRequestDTO requestDTO) {
         CoordiDetailsResponseDTO coordiDetailsResponseDTO = coordiService.updateCoordi(memberId, coordiId, requestDTO);
         return ResponseEntity.ok(coordiDetailsResponseDTO);
     }
