@@ -88,6 +88,7 @@ public class SecurityConfig {
         // 경로별 인가 작업
         http.authorizeHttpRequests((auth) -> auth
                     .requestMatchers(ExcludePaths.EXCLUDED_PATHS.toArray(new String[0])).permitAll()
+                    .requestMatchers("/coordi/details", "/coordi/like").permitAll()
                     .anyRequest().authenticated());
 //      TODO member 구현 왼료되면 적용
 //                        .requestMatchers("/", "/login", "/signup").permitAll()
