@@ -62,7 +62,7 @@ public class MemberController {
      * 회원 탈퇴
      * @throws Exception
      */
-    @DeleteMapping("/deleteAccount")
+    @PostMapping("/deleteAccount")
     @ResponseStatus(HttpStatus.OK)
     public void deleteAccount(@MemberId Long memberId) throws Exception {
         memberService.deleteAccount(memberId);

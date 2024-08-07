@@ -3,6 +3,8 @@ package com.heendoongs.coordibattle.member.service;
 import com.heendoongs.coordibattle.member.domain.CustomUserDetails;
 import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.dto.MemberLoginRequestDTO;
+import com.heendoongs.coordibattle.member.exception.MemberException;
+import com.heendoongs.coordibattle.member.exception.MemberExceptionType;
 import com.heendoongs.coordibattle.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * UserDetailsService 커스텀
@@ -33,12 +37,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
 
         // DB에서 멤버 조회
-        Member memberData = memberRepository.findByLoginId(loginId);
-        System.out.println(memberData.getLoginId());
-        System.out.println(memberData.getPassword());
-        System.out.println(memberData.getId());
-        System.out.println(memberData.getNickname());
-
+        Member memberData = memberRepository.findByLoginIdAndDeleted(loginId, 'N');
 
         // 멤버 정보를 찾을 수 없으면 UsernameNotFoundException 예외 발생
         if (memberData == null) {

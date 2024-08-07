@@ -51,21 +51,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public List<String> excludeUrls() {
-        return List.of(
-                "/",
-                "/login",
-                "/signup",
-                "/battle/banner",
-                "/battle/title",
-                "/coordi/details",
-                "/coordi/like",
-                "/coordi/list/*",
-                "/token/**"
-        );
-    }
-
     /**
      * Security 필터
      * @param http

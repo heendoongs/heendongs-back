@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * 멤버 레포지토리
  * @author 조희정
@@ -32,6 +34,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      * @param loginId
      * @return
      */
+    @Query("SELECT COUNT(m) > 0 FROM Member m WHERE m.loginId = :loginId AND m.deleted = 'N'")
     Boolean existsByLoginId(String loginId);
 
     /**
@@ -39,6 +42,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      * @param nickname
      * @return
      */
+    @Query("SELECT COUNT(m) > 0 FROM Member m WHERE m.nickname = :nickname AND m.deleted = 'N'")
     Boolean existsByNickname(String nickname);
 
     /**
@@ -46,7 +50,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
      * @param loginId
      * @return
      */
-    Member findByLoginId(String loginId);
+    Member findByLoginIdAndDeleted(String loginId, Character deleted);
 
     /**
      * 내 코디 리스트 조회
