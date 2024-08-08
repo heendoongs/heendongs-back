@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 
 /**
- * 회원가입 DTO
+ * 회원가입 request DTO
  * @author 조희정
  * @since 2024.07.27
  * @version 1.0

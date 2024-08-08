@@ -43,6 +43,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .loginId(memberData.getLoginId())
                 .password(memberData.getPassword())
                 .build();
+
         // 멤버 정보 반환
         return new CustomUserDetails(memberLoginRequestDTO, memberData.getId());
     }

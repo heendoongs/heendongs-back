@@ -5,7 +5,7 @@ import com.heendoongs.coordibattle.global.annotation.MemberId;
 import com.heendoongs.coordibattle.member.dto.MemberInfoResponseDTO;
 import com.heendoongs.coordibattle.member.dto.MemberNicknameResponseDTO;
 import com.heendoongs.coordibattle.member.dto.MemberSignUpRequestDTO;
-import com.heendoongs.coordibattle.member.dto.MemberUpdateDTO;
+import com.heendoongs.coordibattle.member.dto.MemberUpdateRequestDTO;
 import com.heendoongs.coordibattle.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
  * 2024.07.27  	조희정       최초 생성
  * 2024.07.27  	조희정       signUp 메소드 추가
  * 2024.07.29  	조희정       updateAccount, deleteAccount 메소드 추가
+ * 2024.07.31  	조희정       getMyCloset, getNickname, getMyInfo 메소드 추가
  * </pre>
  */
 @RestController
@@ -47,17 +48,19 @@ public class MemberController {
 
     /**
      * 회원 정보 수정
-     * @param memberUpdateDTO
+     * @param memberUpdateRequestDTO
+     * @param memberId
      * @throws Exception
      */
     @PutMapping("/updateAccount")
     @ResponseStatus(HttpStatus.OK)
-    public void updateAccount(@Valid @RequestBody MemberUpdateDTO memberUpdateDTO, @MemberId Long memberId) throws Exception {
-        memberService.updateAccount(memberUpdateDTO, memberId);
+    public void updateAccount(@Valid @RequestBody MemberUpdateRequestDTO memberUpdateRequestDTO, @MemberId Long memberId) throws Exception {
+        memberService.updateAccount(memberUpdateRequestDTO, memberId);
     }
 
     /**
      * 회원 탈퇴
+     * @param memberId
      * @throws Exception
      */
     @PostMapping("/deleteAccount")
@@ -66,6 +69,13 @@ public class MemberController {
         memberService.deleteAccount(memberId);
     }
 
+    /**
+     * 내 옷장 리스트 조회
+     * @param page
+     * @param size
+     * @param memberId
+     * @return
+     */
     @GetMapping("/mycloset/list")
     public ResponseEntity<Page<CoordiListResponseDTO>> getMyCloset(
             @RequestParam(defaultValue = "0") int page,
@@ -75,29 +85,26 @@ public class MemberController {
         return ResponseEntity.ok(myCoordiList);
     }
 
+    /**
+     * 내 옷장 닉네임 조회
+     * @param memberId
+     * @return
+     */
     @GetMapping("/mycloset/nickname")
     public ResponseEntity<MemberNicknameResponseDTO> getNickname(@MemberId Long memberId) {
         MemberNicknameResponseDTO memberNicknameResponseDTO = memberService.getNickname(memberId);
         return ResponseEntity.ok(memberNicknameResponseDTO);
     }
 
+    /**
+     * 내 정보 조회
+     * @param memberId
+     * @return
+     * @throws Exception
+     */
     @GetMapping("/myinfo")
-    public ResponseEntity<MemberInfoResponseDTO> getMyInfo(@MemberId Long memberId) throws Exception {
+    public ResponseEntity<MemberInfoResponseDTO> getMyInfo(@MemberId Long memberId) {
         MemberInfoResponseDTO memberInfoResponseDTO = memberService.getMyInfo(memberId);
         return ResponseEntity.ok(memberInfoResponseDTO);
-    }
-
-
-    @GetMapping("/test")
-    @ResponseStatus(HttpStatus.OK)
-    private String testPage () {
-
-        return "test page입니다";
-    }
-
-    @GetMapping("/")
-    @ResponseStatus(HttpStatus.OK)
-    private String homePage () {
-        return "기본 페이지 입니다";
     }
 }

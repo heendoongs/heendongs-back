@@ -28,6 +28,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * 2024.07.27  	조희정       최초 생성
  * 2024.07.27  	조희정       filterChain 메소드 생성
  * 2024.07.28  	조희정       filterChain 메소드에 JWTFilter 추가
+ * 2024.08.04  	조희정      인가 작업 제외할 경로를 ExcludePaths 파일에서 받아오도록 수정
  * </pre>
  */
 @Configuration
@@ -72,12 +73,6 @@ public class SecurityConfig {
                     .requestMatchers(ExcludePaths.EXCLUDED_PATHS.toArray(new String[0])).permitAll()
                     .requestMatchers("/coordi/details", "/coordi/like").permitAll()
                     .anyRequest().authenticated());
-//      TODO member 구현 왼료되면 적용
-//                        .requestMatchers("/", "/login", "/signup").permitAll()
-//                        .requestMatchers("/battle/banner", "/battle/title", "/coordi/details", "/coordi/like", "/coordi/list/**").permitAll()
-//                        .requestMatchers("/token/**").permitAll()
-//                        .anyRequest().permitAll());
-//                        .anyRequest().authenticated());
         // 필터 추가
         http.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
         http.addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);

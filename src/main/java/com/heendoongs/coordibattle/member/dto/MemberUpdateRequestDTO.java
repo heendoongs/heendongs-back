@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBlank;
 
 /**
- * 회원 정보 수정 DTO
+ * 회원 정보 수정 request DTO
  * @author 조희정
  * @since 2024.07.29
  * @version 1.0
@@ -23,7 +23,7 @@ import org.apache.logging.log4j.core.config.plugins.validation.constraints.NotBl
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberUpdateDTO {
+public class MemberUpdateRequestDTO {
 
     @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password;

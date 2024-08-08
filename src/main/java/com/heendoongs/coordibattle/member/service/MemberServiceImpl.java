@@ -3,7 +3,10 @@ package com.heendoongs.coordibattle.member.service;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
 import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
 import com.heendoongs.coordibattle.member.domain.Member;
-import com.heendoongs.coordibattle.member.dto.*;
+import com.heendoongs.coordibattle.member.dto.MemberInfoResponseDTO;
+import com.heendoongs.coordibattle.member.dto.MemberNicknameResponseDTO;
+import com.heendoongs.coordibattle.member.dto.MemberSignUpRequestDTO;
+import com.heendoongs.coordibattle.member.dto.MemberUpdateRequestDTO;
 import com.heendoongs.coordibattle.member.exception.MemberException;
 import com.heendoongs.coordibattle.member.exception.MemberExceptionType;
 import com.heendoongs.coordibattle.member.repository.MemberRepository;
@@ -26,6 +29,7 @@ import org.springframework.stereotype.Service;
  * 2024.07.27  	조희정       최초 생성
  * 2024.07.27  	조희정       signUp 메소드 추가
  * 2024.07.29  	조희정       updateAccount, deleteAccount 메소드 추가
+ * 2024.07.31  	조희정       getMyCoordiList, getNickname, getMyInfo 메소드 추가
  * </pre>
  */
 @Service
@@ -67,35 +71,55 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
     }
 
+
+    /**
+     * 회원 정보 수정
+     * @param memberUpdateRequestDTO
+     * @param memberId
+     */
     @Override
-    public void updateAccount(MemberUpdateDTO memberUpdateDTO, Long memberId) throws Exception {
+    public void updateAccount(MemberUpdateRequestDTO memberUpdateRequestDTO, Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
 
         // 닉네임 수정
-        if (memberUpdateDTO.getNickname() != null && !member.getNickname().equals(memberUpdateDTO.getNickname())) {
-            if (memberRepository.existsByNickname(memberUpdateDTO.getNickname())) {
+        if (memberUpdateRequestDTO.getNickname() != null && !member.getNickname().equals(memberUpdateRequestDTO.getNickname())) {
+            if (memberRepository.existsByNickname(memberUpdateRequestDTO.getNickname())) {
                 throw new MemberException(MemberExceptionType.ALREADY_EXIST_NICKNAME);
             }
-            member.updateNickname(memberUpdateDTO.getNickname());
+            member.updateNickname(memberUpdateRequestDTO.getNickname());
         }
 
         // 비밀번호 수정
-        if (memberUpdateDTO.getPassword() != null) {
-            String encodedPassword = bCryptPasswordEncoder.encode(memberUpdateDTO.getPassword());
+        if (memberUpdateRequestDTO.getPassword() != null) {
+            String encodedPassword = bCryptPasswordEncoder.encode(memberUpdateRequestDTO.getPassword());
             member.updatePassword(encodedPassword);
         }
     }
 
+    /**
+     * 회원 삭제
+     * @param memberId
+     * @throws Exception
+     */
     @Override
     public void deleteAccount(Long memberId) throws Exception {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberExceptionType.NOT_FOUND_MEMBER));
 
+        // deleted 컬럼을 Y로 변경
         member.updateDeleted();
+        // 사용자병 변경
         member.updateNickname("탈퇴한 사용자");
     }
 
+    /**
+     * 내 코디 리스트 조회
+     * @param page
+     * @param size
+     * @param memberId
+     * @return
+     */
     @Override
     public Page<CoordiListResponseDTO> getMyCoordiList(int page, int size, Long memberId) {
         Page<Coordi> myCoordiList =  memberRepository.findMyCoordiByLikesDesc(PageRequest.of(page, size), memberId);
@@ -112,6 +136,11 @@ public class MemberServiceImpl implements MemberService {
                 .build());
     }
 
+    /**
+     * 회원 닉네임 조회
+     * @param memberId
+     * @return
+     */
     @Override
     public MemberNicknameResponseDTO getNickname(Long memberId) {
         Member member = memberRepository.findById(memberId)
@@ -121,6 +150,11 @@ public class MemberServiceImpl implements MemberService {
                 .build();
     }
 
+    /**
+     * 회원 정보 조회
+     * @param memberId
+     * @return
+     */
     @Override
     public MemberInfoResponseDTO getMyInfo(Long memberId) {
         Member member = memberRepository.findById(memberId)

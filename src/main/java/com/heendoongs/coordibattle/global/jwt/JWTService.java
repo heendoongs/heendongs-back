@@ -9,15 +9,32 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * JWT관련 Service 클래스
+ * @author 조희정
+ * @since 2024.08.04
+ * @version 1.0
+ *
+ * <pre>
+ * 수정일        	수정자        수정내용
+ * ----------  --------    ---------------------------
+ * 2024.08.04  	조희정       최초 생성
+ * </pre>
+ */
 @Service
 @RequiredArgsConstructor
 public class JWTService {
 
     private final JWTUtil jwtUtil;
 
+    /**
+     * Refresh 토큰을 이용해 Access 토큰 재발급
+     * @param request
+     * @param response
+     */
     public void reissueToken(HttpServletRequest request, HttpServletResponse response) {
 
-        // refresh token
+        // 쿠키에서 refresh token 받아오기
         String refresh = null;
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
@@ -28,6 +45,7 @@ public class JWTService {
             }
         }
 
+        // Refresh 토큰 존재 여부 확인
         if (refresh == null) {
             throw new MemberException(MemberExceptionType.NO_REFRESH_TOKEN);
         }

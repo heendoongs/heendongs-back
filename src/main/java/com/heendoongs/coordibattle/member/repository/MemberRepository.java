@@ -20,7 +20,7 @@ import org.springframework.stereotype.Repository;
  * 2024.07.27  	조희정       최초 생성
  * 2024.07.27  	조희정       existsByLoginId, existsByNickname 메소드 추가
  * 2024.07.28  	조희정       findByLoginId 메소드 추가
- *
+ * 2024.07.31   조희정       findMyCoordiByLikesDesc 메소드 추가
  * </pre>
  */
 
@@ -28,7 +28,7 @@ import org.springframework.stereotype.Repository;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
     /**
-     * 이미 존재하는 아이디인지 확인
+     * 삭제되지 않은 회원 중 이미 존재하는 아이디인지 확인
      * @param loginId
      * @return
      */
@@ -36,7 +36,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Boolean existsByLoginId(String loginId);
 
     /**
-     * 이미 존재하는 닉네임인지 확인
+     * 삭제되지 않은 회원 중 이미 존재하는 닉네임인지 확인
      * @param nickname
      * @return
      */
@@ -44,7 +44,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Boolean existsByNickname(String nickname);
 
     /**
-     * 로그인 아이디로 검색
+     * 삭제되지 않은 회원 중 로그인 아이디로 회원 검색
      * @param loginId
      * @return
      */
