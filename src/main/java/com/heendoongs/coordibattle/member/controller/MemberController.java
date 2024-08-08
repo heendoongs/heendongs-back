@@ -1,19 +1,17 @@
 package com.heendoongs.coordibattle.member.controller;
 
-import com.heendoongs.coordibattle.coordi.dto.CoordiFilterRequestDTO;
 import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
 import com.heendoongs.coordibattle.global.annotation.MemberId;
-import com.heendoongs.coordibattle.member.domain.CustomUserDetails;
-
-import com.heendoongs.coordibattle.member.dto.*;
+import com.heendoongs.coordibattle.member.dto.MemberInfoResponseDTO;
+import com.heendoongs.coordibattle.member.dto.MemberNicknameResponseDTO;
+import com.heendoongs.coordibattle.member.dto.MemberSignUpRequestDTO;
+import com.heendoongs.coordibattle.member.dto.MemberUpdateDTO;
 import com.heendoongs.coordibattle.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 /**

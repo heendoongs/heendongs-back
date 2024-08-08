@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 /**
  * 멤버 레포지토리
  * @author 조희정
@@ -63,6 +61,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             "WHERE m.id = :memberId " +
             "ORDER BY c.createDate DESC")
     Page<Coordi> findMyCoordiByLikesDesc(Pageable pageable, Long memberId);
-
 
 }

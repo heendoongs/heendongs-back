@@ -2,9 +2,7 @@ package com.heendoongs.coordibattle.global.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.heendoongs.coordibattle.member.domain.CustomUserDetails;
-import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.dto.MemberLoginRequestDTO;
-import com.heendoongs.coordibattle.member.service.MemberService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.Cookie;
@@ -18,7 +16,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.StreamUtils;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -72,8 +69,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
             throw new RuntimeException(e);
         }
 
-        System.out.println(memberLoginRequestDTO.getLoginId());
-
         String username = memberLoginRequestDTO.getLoginId();
         String password = memberLoginRequestDTO.getPassword();
 
@@ -123,7 +118,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
      */
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
-        System.out.println("Authentication failed: {}" + failed.getMessage());
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json;charset=UTF-8");
         try (PrintWriter writer = response.getWriter()) {

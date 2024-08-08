@@ -22,7 +22,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MemberLoginRequestDTO {
-
     private String loginId;
     private String password;
 }

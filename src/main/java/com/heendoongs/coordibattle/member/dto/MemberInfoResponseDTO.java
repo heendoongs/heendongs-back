@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MemberInfoResponseDTO {
-
     private String loginId;
-
     private String nickname;
 }

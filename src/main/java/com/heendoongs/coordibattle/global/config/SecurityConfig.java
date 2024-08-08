@@ -4,7 +4,6 @@ import com.heendoongs.coordibattle.global.jwt.ExcludePaths;
 import com.heendoongs.coordibattle.global.jwt.JWTFilter;
 import com.heendoongs.coordibattle.global.jwt.JWTUtil;
 import com.heendoongs.coordibattle.global.jwt.LoginFilter;
-import com.heendoongs.coordibattle.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +15,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.util.List;
 
 /**
  * 스프링 시큐리티 설정

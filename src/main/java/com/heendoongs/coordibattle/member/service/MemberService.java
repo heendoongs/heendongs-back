@@ -1,7 +1,6 @@
 package com.heendoongs.coordibattle.member.service;
 
 import com.heendoongs.coordibattle.coordi.dto.CoordiListResponseDTO;
-import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.dto.*;
 import org.springframework.data.domain.Page;
 

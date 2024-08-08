@@ -18,7 +18,6 @@ import com.heendoongs.coordibattle.global.exception.BaseExceptionType;
 public class MemberException extends BaseException {
     private BaseExceptionType exceptionType;
 
-
     public MemberException(BaseExceptionType exceptionType) {
         this.exceptionType = exceptionType;
     }

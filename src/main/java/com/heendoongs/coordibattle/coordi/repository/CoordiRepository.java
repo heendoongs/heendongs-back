@@ -2,7 +2,6 @@ package com.heendoongs.coordibattle.coordi.repository;
 
 import com.heendoongs.coordibattle.clothes.domain.Clothes;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
-import com.heendoongs.coordibattle.coordi.dto.CoordiFilterRequestDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

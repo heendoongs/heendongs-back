@@ -4,7 +4,6 @@ import com.heendoongs.coordibattle.battle.dto.BannerResponseDTO;
 import com.heendoongs.coordibattle.battle.dto.BattleTitleResponseDTO;
 import com.heendoongs.coordibattle.battle.dto.BattleResponseDTO;
 import com.heendoongs.coordibattle.member.dto.MemberCoordiVoteRequestDTO;
-
 import java.util.List;
 
 /**

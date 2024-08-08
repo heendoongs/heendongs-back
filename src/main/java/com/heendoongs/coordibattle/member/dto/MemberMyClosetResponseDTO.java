@@ -7,15 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class MemberMyClosetResponseDTO {
-
     private String nickname;
     private Page<CoordiListResponseDTO> coordiList;
-
 }

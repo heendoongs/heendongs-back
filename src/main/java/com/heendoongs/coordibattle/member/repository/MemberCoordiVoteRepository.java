@@ -3,7 +3,6 @@ package com.heendoongs.coordibattle.member.repository;
 import com.heendoongs.coordibattle.member.domain.MemberCoordiVote;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
 
 /**

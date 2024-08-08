@@ -50,10 +50,14 @@ public class BattleServiceImpl implements BattleService{
     private final MemberCoordiVoteRepository memberCoordiVoteRepository;
     private final BattleRepository battleRepository;
 
+    /**
+     * 투표할 코디 반환
+     * @param memberId
+     * @return List<BattleResponseDTO>
+     */
     public List<BattleResponseDTO> getBattleCoordies(Long memberId) {
 
         Long battleId = getVotingBattleId();
-        System.out.println(battleId);
 
         List<Coordi> unvotedCoordies = coordiRepository.findUnvotedCoordies(battleId, memberId);
         Collections.shuffle(unvotedCoordies);
@@ -64,6 +68,12 @@ public class BattleServiceImpl implements BattleService{
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 코디 투표 결과 저장
+     * @param memberId
+     * @param memberCoordiVoteRequestDTO
+     * @return BattleResponseDTO
+     */
     @Transactional
     public BattleResponseDTO postBattleResult(Long memberId, MemberCoordiVoteRequestDTO memberCoordiVoteRequestDTO) {
 
@@ -95,6 +105,10 @@ public class BattleServiceImpl implements BattleService{
                 .build();
     }
 
+    /**
+     * 투표 결과 저장
+     * @param memberCoordiVoteResponseDTO
+     */
     private void saveMemberCoordiVote(MemberCoordiVoteResponseDTO memberCoordiVoteResponseDTO) {
         MemberCoordiVote memberCoordiVote = MemberCoordiVote.builder()
                 .member(new Member(memberCoordiVoteResponseDTO.getMemberId()))
@@ -104,6 +118,11 @@ public class BattleServiceImpl implements BattleService{
         memberCoordiVoteRepository.save(memberCoordiVote);
     }
 
+    /**
+     * Coordi -> BattleResponseDTO 변환
+     * @param coordi
+     * @return
+     */
     private BattleResponseDTO convertToResponseDto(Coordi coordi) {
         return BattleResponseDTO.builder()
                 .coordiId(coordi.getId())
