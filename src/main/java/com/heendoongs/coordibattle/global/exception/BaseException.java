@@ -12,6 +12,10 @@ package com.heendoongs.coordibattle.global.exception;
  * 2024.07.28  	조희정       최초 생성
  * </pre>
  */
-public abstract class BaseException extends RuntimeException{
+public abstract class BaseException extends RuntimeException {
+    public BaseException(String message) {
+        super(message);
+    }
+
     public abstract BaseExceptionType getExceptionType();
 }

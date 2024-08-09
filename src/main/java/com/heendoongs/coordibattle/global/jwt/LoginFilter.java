@@ -3,6 +3,8 @@ package com.heendoongs.coordibattle.global.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.heendoongs.coordibattle.member.domain.CustomUserDetails;
 import com.heendoongs.coordibattle.member.dto.MemberLoginRequestDTO;
+import com.heendoongs.coordibattle.member.exception.MemberException;
+import com.heendoongs.coordibattle.member.exception.MemberExceptionType;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.Cookie;
@@ -117,14 +119,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
      * @param failed
      */
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.setContentType("application/json;charset=UTF-8");
-        try (PrintWriter writer = response.getWriter()) {
-            writer.write("{\"error\": \"Unauthorized\", \"message\": \"" + failed.getMessage() + "\"}");
-        } catch (IOException e) {
-            System.out.println("Error writing response: {}" + e.getMessage());
-        }
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
+        throw new MemberException(MemberExceptionType.AUTHENTICATION_FAILED);
+
     }
 
     /**
