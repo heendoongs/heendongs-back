@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
  * 수정일        	수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.07.30  	임원정       최초 생성
+ * 2024.08.01   임원정       DTO 이름 변경(RankingOrderCoordiListResponseDTO -> CoordiListResponseDTO)
  * </pre>
  */
 

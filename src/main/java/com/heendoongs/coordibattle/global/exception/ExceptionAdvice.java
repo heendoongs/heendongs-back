@@ -82,18 +82,14 @@ public class ExceptionAdvice {
     }
 
     /**
-<<<<<<< HEAD
-     * MethodArgumentNotValidException 핸들 메소드
-=======
      * MethodArgumentNotValidException 예외 처리
->>>>>>> dev
-     * @param ex
+     * @param exception
      * @return
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException exception) {
         Map<String, String> errors = new HashMap<>();
-        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+        for (FieldError error : exception.getBindingResult().getFieldErrors()) {
             errors.put(error.getField(), error.getDefaultMessage());
         }
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);

@@ -26,15 +26,34 @@ import java.util.Optional;
 
 @Repository
 public interface BattleRepository extends JpaRepository<Battle, Long> {
+
+    /**
+     * 투표 기간인 배틀 반환
+     * @param now
+     * @return
+     */
     @Query("SELECT b.id FROM Battle b WHERE :now between b.voteStartDate and b.voteEndDate")
     Long findVotingBattleIdByDate(LocalDate now);
 
+    /**
+     * 옷입히기 기간인 배틀 반환
+     * @param now
+     * @return
+     */
     @Query("SELECT b.id FROM Battle b WHERE :now between b.coordiStartDate and b.coordiEndDate")
     Long findCoordingBattleIdByDate(LocalDate now);
 
+    /**
+     * battle id로 배틀 반환
+     * @param id
+     * @return
+     */
     Optional<Battle> findById(Long id);
 
+    /**
+     * 모든 배틀 리스트 반환
+     * @return
+     */
     @Query("SELECT b FROM Battle b ORDER BY b.coordiStartDate")
     List<Battle> findAll();
-
 }

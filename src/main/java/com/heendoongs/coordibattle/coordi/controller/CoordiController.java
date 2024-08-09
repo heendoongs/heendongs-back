@@ -28,9 +28,11 @@ import java.util.List;
  * 2024.07.28   남진수       deleteCoordi 메소드 추가
  * 2024.07.30   임원정       getCoordiList 메소드 추가
  * 2024.08.01   남진수       getCoordiDetails 파라미터 추가
- * 2024.08.01   임원정       getCoordiListWithFilter 메소드 추가
- * 2024.08.02   임원정       getClothList, uploadCoordi 메소드 추가
+ * 2024.08.02   임원정       getCoordiListWithFilter 메소드 추가
+ * 2024.08.02   임원정       getClothList 메소드 추가
+ * 2024.08.03   임원정       uploadCoordi 메소드 추가
  * 2024.08.04   임원정       MemberId 어노테이션 사용하도록 변경
+ * 2024.08.05   임원정       uploadCoordi request valid 추가
  * </pre>
  */
 
@@ -90,7 +92,6 @@ public class CoordiController {
         coordiService.deleteCoordi(memberId, coordiId);
         return ResponseEntity.ok("코디가 삭제되었습니다.");
     }
-
 
     /**
      * 코디 리스트 조회(기본)
