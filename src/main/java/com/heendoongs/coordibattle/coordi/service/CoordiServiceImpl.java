@@ -70,7 +70,7 @@ public class CoordiServiceImpl implements CoordiService {
      */
     public CoordiDetailsResponseDTO getCoordiDetails(Long memberId, Long coordiId) {
 
-        Coordi coordi = coordiRepository.findById(coordiId)
+        Coordi coordi = coordiRepository.findByIdWithDetails(coordiId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid coordiId"));
 
         Long memberIdOfCoordi = coordi.getMember().getId();

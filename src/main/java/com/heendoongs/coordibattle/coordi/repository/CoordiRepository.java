@@ -6,8 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 코디 레포지토리
@@ -75,4 +77,12 @@ public interface CoordiRepository extends JpaRepository<Coordi, Long> {
             "WHERE bcl.battle.id = :battleId " +
             "AND cl.type = :type")
     List<Clothes> findClothesWithBattleAndType(String type, Long battleId);
+
+    /**
+     * 코디 상세 조회
+     * @param coordiId
+     * @return Optional<Coordi>
+     */
+    @Query("SELECT c FROM Coordi c JOIN FETCH c.member m JOIN FETCH c.coordiClothes cc JOIN FETCH cc.clothes WHERE c.id = :coordiId")
+    Optional<Coordi> findByIdWithDetails(@Param("coordiId") Long coordiId);
 }
