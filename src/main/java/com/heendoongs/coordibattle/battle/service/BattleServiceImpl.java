@@ -134,7 +134,7 @@ public class BattleServiceImpl implements BattleService{
 
     /**
      * 투표 기간 배틀 반환
-     * @return
+     * @return Long
      */
     public Long getVotingBattleId() {
         LocalDate now = LocalDate.now();
@@ -143,7 +143,7 @@ public class BattleServiceImpl implements BattleService{
 
     /**
      * 옷입히기 기간 배틀 반환
-     * @return
+     * @return Long
      */
     public Long getCoordingBattleId() {
         LocalDate now = LocalDate.now();

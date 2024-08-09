@@ -18,5 +18,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 
 public interface CoordiClothesRepository extends JpaRepository<CoordiClothes, Long> {
+
+    /**
+     * 코디 아이디에 대한 코디옷 전체 삭제
+     * @param coordiId
+     */
     void deleteAllByCoordiId(Long coordiId);
 }

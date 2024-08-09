@@ -30,6 +30,13 @@ import java.util.List;
 
 @Repository
 public interface CoordiRepository extends JpaRepository<Coordi, Long> {
+
+    /**
+     * 투표하지 않은 코디 리스트 조회
+     * @param battleId
+     * @param memberId
+     * @return List<Coordi>
+     */
     @Query("SELECT c FROM Coordi c WHERE c.battle.id = :battleId AND c.id NOT IN (SELECT v.coordi.id FROM MemberCoordiVote v WHERE v.member.id = :memberId)")
     List<Coordi> findUnvotedCoordies(Long battleId, Long memberId);
 

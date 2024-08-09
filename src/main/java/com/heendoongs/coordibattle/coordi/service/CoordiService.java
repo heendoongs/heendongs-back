@@ -28,9 +28,38 @@ import java.util.List;
  */
 
 public interface CoordiService {
+
+    /**
+     * 코디 상세 조회
+     * @param memberId
+     * @param coordiId
+     * @return CoordiDetailsResponseDTO
+     */
     CoordiDetailsResponseDTO getCoordiDetails(Long memberId, Long coordiId);
+
+    /**
+     * 코디 좋아요
+     * @param memberId
+     * @param coordiId
+     * @return CoordiDetailsResponseDTO
+     */
     CoordiDetailsResponseDTO likeCoordi(Long memberId, Long coordiId);
+
+    /**
+     * 코디 수정
+     * @param memberId
+     * @param coordiId
+     * @param requestDTO
+     * @return CoordiDetailsResponseDTO
+     */
     CoordiDetailsResponseDTO updateCoordi(Long memberId, Long coordiId, CoordiDetailsRequestDTO requestDTO);
+
+    /**
+     * 코디 삭제
+     * @param memberId
+     * @param coordiId
+     * @throws Exception
+     */
     void deleteCoordi(Long memberId, Long coordiId);
 
     /**
