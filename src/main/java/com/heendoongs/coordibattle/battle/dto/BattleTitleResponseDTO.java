@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 배틀 필터 Response DTO
+ * 배틀 필터용 제목 Response DTO
  * @author 임원정
  * @since 2024.08.01
  * @version 1.0

@@ -20,13 +20,35 @@ import java.util.List;
  * 2024.07.28   남진수       postBattleResult 메소드 추가
  * 2024.07.29   남진수       getBattleCoordies 서비스에서 battleId 받아오도록 수정
  * 2024.07.31   임원정       getCurrentBattles 메소드 추가
+ * 2024.08.01   임원정       getBattleTitles 메소드 추가
  * </pre>
  */
 
 public interface BattleService {
+    /**
+     * 투표할 코디 반환
+     * @param memberId
+     * @return List<BattleResponseDTO>
+     */
     List<BattleResponseDTO> getBattleCoordies(Long memberId);
+
+    /**
+     * 코디 투표 결과 저장
+     * @param memberId
+     * @param memberCoordiVoteRequestDTO
+     * @return BattleResponseDTO
+     */
     BattleResponseDTO postBattleResult(Long memberId, MemberCoordiVoteRequestDTO memberCoordiVoteRequestDTO);
+
+    /**
+     * 현재 진행 중인 배틀 반환
+     * @return
+     */
     List<BannerResponseDTO> getCurrentBattles();
+
+    /**
+     * 배틀 타이틀 반환
+     * @return
+     */
     List<BattleTitleResponseDTO> getBattleTitles();
-    Long getCoordingBattleId();
 }

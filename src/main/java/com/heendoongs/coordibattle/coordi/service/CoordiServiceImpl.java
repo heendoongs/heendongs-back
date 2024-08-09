@@ -1,10 +1,9 @@
 package com.heendoongs.coordibattle.coordi.service;
 
 import com.heendoongs.coordibattle.battle.domain.Battle;
-import com.heendoongs.coordibattle.battle.service.BattleService;
+import com.heendoongs.coordibattle.battle.repository.BattleRepository;
 import com.heendoongs.coordibattle.clothes.domain.Clothes;
 import com.heendoongs.coordibattle.clothes.dto.ClothDetailsResponseDTO;
-import com.heendoongs.coordibattle.clothes.repository.ClothesRepository;
 import com.heendoongs.coordibattle.coordi.domain.Coordi;
 import com.heendoongs.coordibattle.coordi.domain.CoordiClothes;
 import com.heendoongs.coordibattle.coordi.dto.*;
@@ -34,7 +33,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  *
  * <pre>
- * 수정일        	수정자        수정내용
+ * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.07.26  	임원정       최초 생성
  * 2024.07.28   남진수       getCoordiDetails 메소드 추가
@@ -48,6 +47,8 @@ import java.util.stream.Collectors;
  * 2024.08.01   남진수       getCoordiDetails 파라미터 추가
  * 2024.08.01   임원정       코디 리스트 필터 적용 및 DTO 변환 메소드 추가
  * 2024.08.02   임원정       getClothesByType 메소드 추가
+ * 2024.08.03   임원정       insertCoordi 메소드 추가
+ * 2024.08.04   임원정       insertCoordi 메소드 파라미터 변경
  * </pre>
  */
 
@@ -59,8 +60,7 @@ public class CoordiServiceImpl implements CoordiService {
     private final CoordiRepository coordiRepository;
     private final MemberCoordiVoteRepository memberCoordiVoteRepository;
     private final CoordiClothesRepository coordiClothesRepository;
-    private final ClothesRepository clothesRepository;
-    private final BattleService battleService;
+    private final BattleRepository battleRepository;
 
     /**
      * 코디 상세 조회
@@ -259,7 +259,7 @@ public class CoordiServiceImpl implements CoordiService {
      */
     @Transactional
     public List<ClothesResponseDTO> getClothesByType(String type) throws Exception {
-        Long battleId = battleService.getCoordingBattleId();
+        Long battleId = battleRepository.findCoordingBattleIdByDate(LocalDate.now());
         List<Clothes> clothes = coordiRepository.findClothesWithBattleAndType(type, battleId);
         return clothes.stream()
                 .map(cloth -> ClothesResponseDTO.builder()
@@ -280,8 +280,7 @@ public class CoordiServiceImpl implements CoordiService {
     public boolean insertCoordi(CoordiCreateRequestDTO requestDTO, Long memberId) throws Exception {
         // byte로 변환
         byte[] decodedImage = requestDTO.getCoordiImage().getBytes();
-
-        Long battleId = battleService.getCoordingBattleId();
+        Long battleId = battleRepository.findCoordingBattleIdByDate(LocalDate.now());
 
         Coordi coordi = Coordi.builder()
                 .member(new Member(memberId))

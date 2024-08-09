@@ -18,17 +18,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * ExceptionAdvice
  * 예외 처리를위한 ExceptionAdvice 클래스
  * @author 조희정
  * @since 2024.07.28
  * @version 1.0
  *
  * <pre>
- * 수정일        	수정자        수정내용
+ * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.07.28  	조희정       최초 생성
+ * 2024.08.05   임원정       handleValidationExceptions 메소드 추가
  * </pre>
  */
+
 @RestControllerAdvice
 @Slf4j
 public class ExceptionAdvice {
@@ -81,13 +84,13 @@ public class ExceptionAdvice {
 
     /**
      * MethodArgumentNotValidException 예외 처리
-     * @param ex
+     * @param exception
      * @return
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException exception) {
         Map<String, String> errors = new HashMap<>();
-        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+        for (FieldError error : exception.getBindingResult().getFieldErrors()) {
             errors.put(error.getField(), error.getDefaultMessage());
         }
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);

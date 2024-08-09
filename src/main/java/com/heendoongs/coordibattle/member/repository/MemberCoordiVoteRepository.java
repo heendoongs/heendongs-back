@@ -22,6 +22,18 @@ import java.util.Optional;
 
 @Repository
 public interface MemberCoordiVoteRepository extends JpaRepository<MemberCoordiVote, Long>{
+
+    /**
+     * 멤버 아이디와 코디 아이디로 조회
+     * @param memberId
+     * @param coordiId
+     * @return Optional<MemberCoordiVote>
+     */
     Optional<MemberCoordiVote> findByMemberIdAndCoordiId(Long memberId, Long coordiId);
+
+    /**
+     * 코디 아이디로 모두 삭제
+     * @param coordiId
+     */
     void deleteAllByCoordiId(Long coordiId);
 }
