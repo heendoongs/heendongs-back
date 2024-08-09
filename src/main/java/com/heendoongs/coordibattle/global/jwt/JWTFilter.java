@@ -41,27 +41,27 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        // accessToken 받아오기
-        String accessToken = resolveToken(request);
-
-        // 토큰 존재 여부 확인
-        if (accessToken == null) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        // 토큰 만료 여부 확인
-        if (jwtUtil.isExpired(accessToken)) {
-            throw new MemberException(MemberExceptionType.EXPIRED_TOKEN);
-        }
-
-        // 토큰이 Authorization인지 확인
-        String category = jwtUtil.getCategory(accessToken);
-        if (!"access".equals(category)) {
-            throw new MemberException(MemberExceptionType.INVALID_TOKEN);
-        }
-
         try {
+            // accessToken 받아오기
+            String accessToken = resolveToken(request);
+
+            // 토큰 존재 여부 확인
+            if (accessToken == null) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            // 토큰 만료 여부 확인
+            if (jwtUtil.isExpired(accessToken)) {
+                throw new MemberException(MemberExceptionType.EXPIRED_TOKEN);
+            }
+
+            // 토큰이 Authorization인지 확인
+            String category = jwtUtil.getCategory(accessToken);
+            if (!"access".equals(category)) {
+                throw new MemberException(MemberExceptionType.INVALID_TOKEN);
+            }
+
             // 토큰에서 사용자 정보 추출 및 검증
             String username = jwtUtil.getUsername(accessToken);
             Long memberId = jwtUtil.getMemberId(accessToken);

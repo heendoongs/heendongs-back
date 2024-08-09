@@ -1,6 +1,7 @@
 package com.heendoongs.coordibattle.global.exception;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.heendoongs.coordibattle.member.exception.MemberException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -93,6 +94,17 @@ public class ExceptionAdvice {
             errors.put(error.getField(), error.getDefaultMessage());
         }
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * MemberException 예외처리
+     * @param exception
+     * @return
+     */
+    @ExceptionHandler(MemberException.class)
+    public ResponseEntity<ExceptionDto> handleMemberExceptions(MemberException exception) {
+        log.error("@MemberException 발생! {}", exception.getMessage());
+        return new ResponseEntity<>(new ExceptionDto(exception.getErrorCode(), exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @Data

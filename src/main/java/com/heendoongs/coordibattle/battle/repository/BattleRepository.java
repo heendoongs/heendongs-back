@@ -30,7 +30,7 @@ public interface BattleRepository extends JpaRepository<Battle, Long> {
     /**
      * 투표 기간인 배틀 반환
      * @param now
-     * @return
+     * @return battle id
      */
     @Query("SELECT b.id FROM Battle b WHERE :now between b.voteStartDate and b.voteEndDate")
     Long findVotingBattleIdByDate(LocalDate now);
@@ -38,7 +38,7 @@ public interface BattleRepository extends JpaRepository<Battle, Long> {
     /**
      * 옷입히기 기간인 배틀 반환
      * @param now
-     * @return
+     * @return battle id
      */
     @Query("SELECT b.id FROM Battle b WHERE :now between b.coordiStartDate and b.coordiEndDate")
     Long findCoordingBattleIdByDate(LocalDate now);
