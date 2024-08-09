@@ -3,17 +3,12 @@ package com.heendoongs.coordibattle.member.service;
 import com.heendoongs.coordibattle.member.domain.CustomUserDetails;
 import com.heendoongs.coordibattle.member.domain.Member;
 import com.heendoongs.coordibattle.member.dto.MemberLoginRequestDTO;
-import com.heendoongs.coordibattle.member.exception.MemberException;
-import com.heendoongs.coordibattle.member.exception.MemberExceptionType;
 import com.heendoongs.coordibattle.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 /**
  * UserDetailsService 커스텀
@@ -48,6 +43,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .loginId(memberData.getLoginId())
                 .password(memberData.getPassword())
                 .build();
+
         // 멤버 정보 반환
         return new CustomUserDetails(memberLoginRequestDTO, memberData.getId());
     }

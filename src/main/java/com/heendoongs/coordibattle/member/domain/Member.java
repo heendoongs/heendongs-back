@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +24,7 @@ import java.util.List;
  * ----------  --------    ---------------------------
  * 2024.07.26  	남진수       최초 생성
  * 2024.07.28  	조희정       updatePassword, updateNickname 추가
+ * 2024.08.06  	조희정       deleted 필드 추가 (멤버 삭제 시 사용)
  * </pre>
  */
 @Entity
@@ -63,11 +63,12 @@ public class Member {
     @OneToMany(mappedBy = "member")
     List<MemberCoordiVote> memberCoordiVotes = new ArrayList<>();
 
-    // 회원 정보 수정
+    // 회원 비밀번호 수정
     public void updatePassword(String newPassword) {
         this.password = newPassword;
     }
 
+    // 회원 닉네임 수정
     public void updateNickname(String newNickname) {
         this.nickname = newNickname;
     }

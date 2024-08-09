@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
  * 2024.07.27  	조희정       최초 생성
  * 2024.07.27  	조희정       회원가입 에러 추가
  * 2024.07.27  	조희정       로그인, 토큰 에러 추가
+ * 2024.08.02  	조희정       Access Token, Refresh Token 에러 추가
  *
  * </pre>
  */

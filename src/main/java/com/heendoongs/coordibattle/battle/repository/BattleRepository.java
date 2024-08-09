@@ -1,8 +1,6 @@
 package com.heendoongs.coordibattle.battle.repository;
 
 import com.heendoongs.coordibattle.battle.domain.Battle;
-import com.heendoongs.coordibattle.battle.domain.BattleClothes;
-import com.heendoongs.coordibattle.battle.dto.BattleResponseDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

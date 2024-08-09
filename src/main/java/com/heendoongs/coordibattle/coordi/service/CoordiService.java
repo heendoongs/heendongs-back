@@ -2,7 +2,6 @@ package com.heendoongs.coordibattle.coordi.service;
 
 import com.heendoongs.coordibattle.coordi.dto.*;
 import org.springframework.data.domain.Page;
-
 import java.util.List;
 
 /**

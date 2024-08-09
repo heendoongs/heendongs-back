@@ -36,12 +36,23 @@ public class BattleController {
 
     private final BattleService battleService;
 
+    /**
+     * 배틀 코디 조회
+     * @param memberId
+     * @return ResponseEntity<List<BattleResponseDTO>>
+     */
     @GetMapping
     public ResponseEntity<List<BattleResponseDTO>> getBattleCoordies(@MemberId Long memberId) {
         List<BattleResponseDTO> responseDTOs = battleService.getBattleCoordies(memberId);
         return ResponseEntity.ok(responseDTOs);
     }
 
+    /**
+     * 배틀 결과 등록
+     * @param memberId
+     * @param memberCoordiVoteRequestDTO
+     * @return ResponseEntity<BattleResponseDTO>
+     */
     @PostMapping
     public ResponseEntity<BattleResponseDTO> postBattleResult(@MemberId Long memberId, @RequestBody MemberCoordiVoteRequestDTO memberCoordiVoteRequestDTO) {
         BattleResponseDTO battleResponseDTO = battleService.postBattleResult(memberId, memberCoordiVoteRequestDTO);
@@ -55,7 +66,6 @@ public class BattleController {
     @GetMapping("/banner")
     public ResponseEntity<List<BannerResponseDTO>> getCurrentBattles() {
         List<BannerResponseDTO> banners = battleService.getCurrentBattles();
-        System.out.println(banners.toString());
         return ResponseEntity.ok(banners);
     }
 

@@ -4,7 +4,6 @@ import com.heendoongs.coordibattle.member.domain.CustomUserDetails;
 import com.heendoongs.coordibattle.member.dto.MemberLoginRequestDTO;
 import com.heendoongs.coordibattle.member.exception.MemberException;
 import com.heendoongs.coordibattle.member.exception.MemberExceptionType;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -16,9 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
-import java.util.List;
 
 /**
  * JWT 커스텀 필터
@@ -31,6 +28,8 @@ import java.util.List;
  * ----------  --------    ---------------------------
  * 2024.07.28  	조희정       최초 생성
  * 2024.07.28  	조희정       doFilterInternal, shouldNotFilter 메소드 추가
+ * 2024.08.02  	조희정       Access Token, Refresh Token 발급 기능 추가
+ * 2024.08.05  	조희정       일부 URL은 토큰이 있으면 필터 검사를 수행, 없으면 생략
  * </pre>
  */
 @Component
@@ -41,8 +40,11 @@ public class JWTFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        // accessToken 받아오기
         String accessToken = resolveToken(request);
 
+        // 토큰 존재 여부 확인
         if (accessToken == null) {
             filterChain.doFilter(request, response);
             return;
@@ -69,8 +71,8 @@ public class JWTFilter extends OncePerRequestFilter {
                     .password(null)
                     .build();
 
+            // 유저 존재 여부 검사
             CustomUserDetails customUserDetails = new CustomUserDetails(memberLoginRequestDTO, memberId);
-
             Authentication authentication = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
 
             // 임시 세션에 사용자 등록
@@ -88,7 +90,7 @@ public class JWTFilter extends OncePerRequestFilter {
     }
 
     /**
-     * 토큰 추출
+     * access 토큰 추출
      * @param request
      * @return
      */

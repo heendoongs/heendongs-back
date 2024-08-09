@@ -1,9 +1,7 @@
 package com.heendoongs.coordibattle.coordi.service;
 
 import com.heendoongs.coordibattle.battle.domain.Battle;
-import com.heendoongs.coordibattle.battle.repository.BattleRepository;
 import com.heendoongs.coordibattle.battle.service.BattleService;
-import com.heendoongs.coordibattle.battle.service.BattleServiceImpl;
 import com.heendoongs.coordibattle.clothes.domain.Clothes;
 import com.heendoongs.coordibattle.clothes.dto.ClothDetailsResponseDTO;
 import com.heendoongs.coordibattle.clothes.repository.ClothesRepository;
@@ -24,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -65,6 +62,12 @@ public class CoordiServiceImpl implements CoordiService {
     private final ClothesRepository clothesRepository;
     private final BattleService battleService;
 
+    /**
+     * 코디 상세 조회
+     * @param memberId
+     * @param coordiId
+     * @return CoordiDetailsResponseDTO
+     */
     public CoordiDetailsResponseDTO getCoordiDetails(Long memberId, Long coordiId) {
 
         Coordi coordi = coordiRepository.findById(coordiId)
@@ -110,6 +113,12 @@ public class CoordiServiceImpl implements CoordiService {
                 .build();
     }
 
+    /**
+     * 코디 좋아요
+     * @param memberId
+     * @param coordiId
+     * @return CoordiDetailsResponseDTO
+     */
     @Transactional
     public CoordiDetailsResponseDTO likeCoordi(Long memberId, Long coordiId) {
 
@@ -136,6 +145,13 @@ public class CoordiServiceImpl implements CoordiService {
         }
     }
 
+    /**
+     * 코디 수정
+     * @param memberId
+     * @param coordiId
+     * @param requestDTO
+     * @return CoordiDetailsResponseDTO
+     */
     @Transactional
     public CoordiDetailsResponseDTO updateCoordi(Long memberId, Long coordiId, CoordiDetailsRequestDTO requestDTO) {
         Coordi coordi = coordiRepository.findById(coordiId)
@@ -157,6 +173,12 @@ public class CoordiServiceImpl implements CoordiService {
         return getCoordiDetails(memberId, coordiId);
     }
 
+    /**
+     * 코디 삭제
+     * @param memberId
+     * @param coordiId
+     * @throws Exception
+     */
     @Transactional
     public void deleteCoordi(Long memberId, Long coordiId) {
 
@@ -175,6 +197,11 @@ public class CoordiServiceImpl implements CoordiService {
         coordiRepository.deleteById(coordiId);
     }
 
+    /**
+     * 코디 기간인지 확인
+     * @param coordiId
+     * @return boolean
+     */
     public boolean isCoordiPeriod(Long coordiId) {
         LocalDate now = LocalDate.now();
         Coordi coordi = coordiRepository.findById(coordiId)
@@ -184,6 +211,11 @@ public class CoordiServiceImpl implements CoordiService {
         return !now.isBefore(startDate) && !now.isAfter(endDate);
     }
 
+    /**
+     * 투표 기간인지 확인
+     * @param coordiId
+     * @return boolean
+     */
     public boolean isVotingPeriod(Long coordiId) {
         LocalDate now = LocalDate.now();
         Coordi coordi = coordiRepository.findById(coordiId)

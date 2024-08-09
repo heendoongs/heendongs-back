@@ -6,14 +6,10 @@ import com.heendoongs.coordibattle.global.annotation.MemberId;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import okhttp3.Response;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 /**
@@ -46,24 +42,49 @@ public class CoordiController {
 
     private final CoordiService coordiService;
 
+    /**
+     * 코디 상세 조회
+     * @param coordiId
+     * @param memberId
+     * @return ResponseEntity<CoordiDetailsResponseDTO>
+     */
     @GetMapping("/details")
     public ResponseEntity<CoordiDetailsResponseDTO> getCoordiDetails(@RequestParam Long coordiId, @MemberId Long memberId) {
         CoordiDetailsResponseDTO coordiDetailsResponseDTO = coordiService.getCoordiDetails(memberId, coordiId);
         return ResponseEntity.ok(coordiDetailsResponseDTO);
     }
 
+    /**
+     * 코디 투표
+     * @param coordiId
+     * @param memberId
+     * @return ResponseEntity<CoordiDetailsResponseDTO>
+     */
     @GetMapping("/like")
     public ResponseEntity<CoordiDetailsResponseDTO> likeCoordi(@RequestParam Long coordiId, @MemberId Long memberId) {
         CoordiDetailsResponseDTO coordiDetailsResponseDTO = coordiService.likeCoordi(memberId, coordiId);
         return ResponseEntity.ok(coordiDetailsResponseDTO);
     }
 
+    /**
+     * 코디 수정
+     * @param memberId
+     * @param coordiId
+     * @param requestDTO
+     * @return ResponseEntity<CoordiDetailsResponseDTO>
+     */
     @PatchMapping("/update")
     public ResponseEntity<CoordiDetailsResponseDTO> updateCoordi(@MemberId Long memberId, @RequestParam Long coordiId, @Valid @RequestBody CoordiDetailsRequestDTO requestDTO) {
         CoordiDetailsResponseDTO coordiDetailsResponseDTO = coordiService.updateCoordi(memberId, coordiId, requestDTO);
         return ResponseEntity.ok(coordiDetailsResponseDTO);
     }
 
+    /**
+     * 코디 삭제
+     * @param memberId
+     * @param coordiId
+     * @return ResponseEntity<String>
+     */
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteCoordi(@MemberId Long memberId, @RequestParam Long coordiId) {
         coordiService.deleteCoordi(memberId, coordiId);

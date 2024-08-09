@@ -12,13 +12,13 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import java.net.BindException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * ExceptionAdvice
+ * 예외 처리를위한 ExceptionAdvice 클래스
  * @author 조희정
  * @since 2024.07.28
  * @version 1.0
@@ -27,7 +27,6 @@ import java.util.Map;
  * 수정일        수정자        수정내용
  * ----------  --------    ---------------------------
  * 2024.07.28  	조희정       최초 생성
- * 
  * 2024.08.05   임원정       handleValidationExceptions 메소드 추가
  * </pre>
  */
@@ -36,6 +35,11 @@ import java.util.Map;
 @Slf4j
 public class ExceptionAdvice {
 
+    /**
+     * BaseException 타입 예외 처리
+     * @param exception
+     * @return
+     */
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<ExceptionDto> handleBaseEx(BaseException exception) {
         log.error("BaseException errorMessage(): {}", exception.getExceptionType().getErrorMessage());
@@ -44,18 +48,33 @@ public class ExceptionAdvice {
         return new ResponseEntity<>(new ExceptionDto(exception.getExceptionType().getErrorCode(), exception.getExceptionType().getErrorMessage()), exception.getExceptionType().getHttpStatus());
     }
 
+    /**
+     * BindException  타입 예외 처리
+     * @param exception
+     * @return
+     */
     @ExceptionHandler(BindException.class)
     public ResponseEntity<ExceptionDto> handleValidEx(BindException exception) {
         log.error("@ValidException 발생! {}", exception.getMessage());
         return new ResponseEntity<>(new ExceptionDto(2000, "유효성 검사 실패"), HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * HttpMessageNotReadableException 타입 예외 처리
+     * @param exception
+     * @return
+     */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ExceptionDto> httpMessageNotReadableExceptionEx(HttpMessageNotReadableException exception) {
         log.error("Json을 파싱하는 과정에서 예외 발생! {}", exception.getMessage());
         return new ResponseEntity<>(new ExceptionDto(3000, "JSON 파싱 오류"), HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * 일반 예외 처리
+     * @param exception
+     * @return
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionDto> handleGenericException(Exception exception) {
         exception.printStackTrace();
@@ -63,7 +82,11 @@ public class ExceptionAdvice {
     }
 
     /**
+<<<<<<< HEAD
      * MethodArgumentNotValidException 핸들 메소드
+=======
+     * MethodArgumentNotValidException 예외 처리
+>>>>>>> dev
      * @param ex
      * @return
      */
